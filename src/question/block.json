@@ -6,6 +6,7 @@
 	"title": "Multiple Choice Question",
 	"icon": "forms",
 	"description": "Multiple choice question.",
+	"category": "quiz-blocks",
 	"supports": {
 		"html": false
 	},

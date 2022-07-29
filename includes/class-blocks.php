@@ -13,11 +13,28 @@ class Quiz_Blocks_Blocks {
 
 	public function __construct() {
 
-		add_filter( 'allowed_block_types_all', array( $this, 'quiz_allowed_blocks' ), 10, 2 );
+		add_filter( 'block_categories_all',  array( $this, 'custom_block_category' ), PHP_INT_MAX, 2 );
+
+		add_filter( 'allowed_block_types_all', array( $this, 'quiz_allowed_blocks' ), PHP_INT_MAX, 2 );
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'disable_blocks' ), PHP_INT_MAX );
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'quizblocks_blocks' ), PHP_INT_MAX );
+
+	}
+
+	public function custom_block_category( $block_categories, $editor_context ) {
+
+		array_push(
+			$block_categories,
+			array(
+				'slug'  => 'quiz-blocks',
+				'title' => __( 'Quiz Blocks', 'quiz-blocks' ),
+				'icon'  => 'forms',
+			)
+		);
+
+		return $block_categories;
 
 	}
 
