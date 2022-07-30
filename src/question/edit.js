@@ -32,27 +32,8 @@ import { useState } from '@wordpress/element';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, isSelected }) {
-	const [question, setQuestion] = useState('');
-	const [answer, setAnswer] = useState('');
-	const [correctAnswer, setCorrectAnswer] = useState(attributes.correctAnswer);
-	const blockProps = useBlockProps();
+	const answerCountArray = Array.apply(null, Array(attributes.answerCount));
 
-	const renderAnswers = () => {
-		const answers = [];
-		for (var i = 0; i < attributes.answerCount; i++) {
-			answers.push(
-				<RichText
-					tagName="p"
-					placeholder={sprintf(__('Answer %s', 'quiz-block'), i+1)}
-					value={answer}
-					onChange={(value) => setAnswer(value)}
-					className="answer"
-				/>
-			);
-		}
-		return answers;
-	};
-	
 	const correctAnswerValues = () => {
 		const correctAnswerValues = [];
 		for (var i = 0; i < attributes.answerCount; i++) {
@@ -66,8 +47,10 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 		return correctAnswerValues;
 	};
 
+	console.log(attributes);
+
 	return (
-		<>
+		<div {...useBlockProps()}>
 			<InspectorControls>
 				<PanelBody title={__( 'Question Settings', 'quiz-blocks' )} initialOpen={true}>
 					<NumberControl
@@ -75,7 +58,6 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						min={2}
 						max={25}
 						required
-						isShiftStepEnabled={true}
 						onChange={(answerCount) => {
 							if ( answerCount <= 2 ) {
 								answerCount = 2;
@@ -87,18 +69,17 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						} }
 						value={attributes.answerCount}
 					/>
+					<br />
 					<SelectControl
 						label={__('What is the correct answer?', 'quiz-blocks')}
-						value={correctAnswer}
+						value={attributes.correctAnswer}
 						options={correctAnswerValues()}
 						onChange={(correctAnswer) => setAttributes({ correctAnswer: parseInt(correctAnswer) })}
-						__nextHasNoMarginBottom
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<div>
 				<RichText
-					{...blockProps}
 					tagName="p"
 					placeholder={__('Type your question...')}
 					value={attributes.question}
@@ -106,9 +87,23 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 					className="quiz-block-question"
 				/>
 				<div className="quiz-block-answers">
-					{renderAnswers()}
+					{answerCountArray.map((emptyValue, i) => {
+						return (
+							<RichText
+								tagName="p"
+								placeholder={sprintf(__('Answer %s', 'quiz-block'), i + 1)}
+								value={!!attributes.answers[i] ? attributes.answers[i] : ''}
+								onChange={(newAnswer) => {
+									const newAnswers = [...attributes.answers];
+									newAnswers[i] = newAnswer;
+									setAttributes({ answers: newAnswers })
+								}}
+								className="answer"
+							/>
+						)
+					})}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

@@ -22,13 +22,22 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @return {WPElement} Element to render.
  */
-export default function save() {
+export default function save({ attributes }) {
+	const answerCountArray = Array.apply(null, Array(attributes.answerCount));
+
 	return (
-		<p { ...useBlockProps.save() }>
-			{ __(
-				'Quiz Blocks – hello from the saved content!',
-				'quiz-blocks'
-			) }
-		</p>
+		<>
+			<p className="question"><strong>{ attributes.question }</strong></p>
+			<div className="quiz-block-answers">
+				{answerCountArray.map((emptyValue, index) => {
+					return (
+						<div class="answer">
+							<input type="radio" id={`answer-${index}`} value={index} required />
+							<label for={`answer-${index}`}>{attributes.answers[index]}</label>
+						</div>
+					)
+				})}
+			</div>
+		</>
 	);
 }

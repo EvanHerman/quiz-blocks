@@ -2,15 +2,15 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/question/edit.js":
-/*!******************************!*\
-  !*** ./src/question/edit.js ***!
-  \******************************/
+/***/ "./src/quiz/edit.js":
+/*!**************************!*\
+  !*** ./src/quiz/edit.js ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -20,7 +20,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/question/editor.scss");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/quiz/editor.scss");
 
 
 /**
@@ -35,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
+
 
 
 
@@ -56,99 +59,106 @@ __webpack_require__.r(__webpack_exports__);
  * @return {WPElement} Element to render.
  */
 
-function Edit(_ref) {
+const Edit = _ref => {
   let {
     attributes,
-    setAttributes,
-    isSelected
+    setAttributes
   } = _ref;
-  const answerCountArray = Array.apply(null, Array(attributes.answerCount));
+  const quizzes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+    return select('core').getEntityRecords('postType', 'quiz');
+  }, []);
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
 
-  const correctAnswerValues = () => {
-    const correctAnswerValues = [];
-
-    for (var i = 0; i < attributes.answerCount; i++) {
-      correctAnswerValues.push({
-        label: sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-blocks'), i + 1),
-        value: i
-      });
+  const quizIDs = () => {
+    if (!quizzes) {
+      return;
     }
 
-    return correctAnswerValues;
+    if (!quizzes.length) {
+      return [];
+    }
+
+    const ids = [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No Quiz', 'quiz-blocks'),
+      value: 0
+    }];
+    quizzes.map(quiz => {
+      var _quiz$title$raw;
+
+      ids.push({
+        label: (_quiz$title$raw = quiz.title.raw) !== null && _quiz$title$raw !== void 0 ? _quiz$title$raw : '',
+        value: quiz.id
+      });
+    });
+    return ids;
   };
 
-  console.log(attributes);
+  const unescapeHTML = escapedHTML => {
+    return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  };
+
+  const quizFields = () => {
+    const quizFields = quizzes.find(x => x.id === attributes.quizID);
+
+    if (!quizFields) {
+      return;
+    }
+
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "quiz-block-quiz",
+      dangerouslySetInnerHTML: {
+        __html: unescapeHTML(quizFields.content.rendered)
+      }
+    });
+  };
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Question Settings', 'quiz-blocks'),
     initialOpen: true
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.__experimentalNumberControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('How many answers for this question?', 'quiz-blocks'),
-    min: 2,
-    max: 25,
-    required: true,
-    onChange: answerCount => {
-      if (answerCount <= 2) {
-        answerCount = 2;
-      }
-
-      if (answerCount >= 25) {
-        answerCount = 25;
-      }
-
-      setAttributes({
-        answerCount: parseInt(answerCount)
-      });
-    },
-    value: attributes.answerCount
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('What is the correct answer?', 'quiz-blocks'),
-    value: attributes.correctAnswer,
-    options: correctAnswerValues(),
-    onChange: correctAnswer => setAttributes({
-      correctAnswer: parseInt(correctAnswer)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select which quiz to display.', 'quiz-blocks'),
+    value: attributes.quizID,
+    options: quizIDs(),
+    onChange: quizID => setAttributes({
+      quizID: parseInt(quizID)
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-    tagName: "p",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type your question...'),
-    value: attributes.question,
-    onChange: question => setAttributes({
-      question: question
-    }),
-    className: "quiz-block-question"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    "data-wp-component": "Text"
+  }, "Use Rankings?"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "components-input-control__container"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FormToggle, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Use Rankings?', 'quiz-blocks'),
+    checked: attributes.useRankings,
+    onChange: useRankings => setAttributes({
+      useRankings: !attributes.useRankings
+    })
+  })))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Loading..."), quizzes && !quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "No Quizzes created."), quizzes && quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, attributes.useRankings && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Testing"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "quiz-block-answers"
-  }, answerCountArray.map((emptyValue, i) => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-      tagName: "p",
-      placeholder: sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-block'), i + 1),
-      value: !!attributes.answers[i] ? attributes.answers[i] : '',
-      onChange: newAnswer => {
-        const newAnswers = [...attributes.answers];
-        newAnswers[i] = newAnswer;
-        setAttributes({
-          answers: newAnswers
-        });
-      },
-      className: "answer"
-    });
+  }, quizFields(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "button_sliding_bg button",
+    type: "submit",
+    name: "submit",
+    id: "submit",
+    value: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit', 'quiz-blocks')
   }))));
-}
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
 /***/ }),
 
-/***/ "./src/question/index.js":
-/*!*******************************!*\
-  !*** ./src/question/index.js ***!
-  \*******************************/
+/***/ "./src/quiz/index.js":
+/*!***************************!*\
+  !*** ./src/quiz/index.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/question/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/question/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/question/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/question/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/quiz/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/quiz/edit.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/quiz/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -170,14 +180,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__, {
   /**
   * @see ./edit.js
   */
@@ -186,82 +195,17 @@ __webpack_require__.r(__webpack_exports__);
   /**
   * @see ./save.js
   */
-  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+  save: function (props) {
+    return null; // See PHP side. This block is rendered on PHP.
+  }
 });
 
 /***/ }),
 
-/***/ "./src/question/save.js":
+/***/ "./src/quiz/editor.scss":
 /*!******************************!*\
-  !*** ./src/question/save.js ***!
+  !*** ./src/quiz/editor.scss ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ save)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-
-
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
-
-
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
- *
- * @return {WPElement} Element to render.
- */
-
-function save(_ref) {
-  let {
-    attributes
-  } = _ref;
-  const answerCountArray = Array.apply(null, Array(attributes.answerCount));
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "question"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, attributes.question)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "quiz-block-answers"
-  }, answerCountArray.map((emptyValue, index) => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "answer"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-      type: "radio",
-      id: `answer-${index}`,
-      value: index,
-      required: true
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-      for: `answer-${index}`
-    }, attributes.answers[index]));
-  })));
-}
-
-/***/ }),
-
-/***/ "./src/question/editor.scss":
-/*!**********************************!*\
-  !*** ./src/question/editor.scss ***!
-  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -270,10 +214,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/question/style.scss":
-/*!*********************************!*\
-  !*** ./src/question/style.scss ***!
-  \*********************************/
+/***/ "./src/quiz/style.scss":
+/*!*****************************!*\
+  !*** ./src/quiz/style.scss ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -312,6 +256,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -332,13 +286,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./src/question/block.json":
-/*!*********************************!*\
-  !*** ./src/question/block.json ***!
-  \*********************************/
+/***/ "./src/quiz/block.json":
+/*!*****************************!*\
+  !*** ./src/quiz/block.json ***!
+  \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/multiple-choice-question","version":"0.1.0","title":"Multiple Choice Question","icon":"forms","description":"Multiple choice question.","category":"quiz-blocks","supports":{"html":false},"attributes":{"question":{"type":"string","default":""},"answerCount":{"type":"integer","default":4},"answers":{"type":"array","default":[]},"correctAnswer":{"type":"integer","default":0}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz block.","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
@@ -452,8 +406,8 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"question/index": 0,
-/******/ 			"question/style-index": 0
+/******/ 			"quiz/index": 0,
+/******/ 			"quiz/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -503,7 +457,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["question/style-index"], () => (__webpack_require__("./src/question/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["quiz/style-index"], () => (__webpack_require__("./src/quiz/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

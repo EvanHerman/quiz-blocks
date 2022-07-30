@@ -1,31 +1,23 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "quizblocks/multiple-choice-question",
+  "name": "quizblocks/quiz",
   "version": "0.1.0",
-  "title": "Multiple Choice Question",
+  "title": "Quiz block.",
   "icon": "forms",
-  "description": "Multiple choice question.",
+  "description": "Display a quiz on your website.",
   "category": "quiz-blocks",
   "supports": {
     "html": false
   },
   "attributes": {
-    "question": {
-      "type": "string",
-      "default": ""
-    },
-    "answerCount": {
-      "type": "integer",
-      "default": 4
-    },
-    "answers": {
-      "type": "array",
-      "default": []
-    },
-    "correctAnswer": {
+    "quizID": {
       "type": "integer",
       "default": 0
+    },
+    "useRankings": {
+      "type": "boolean",
+      "default": true
     }
   },
   "textdomain": "quiz-blocks",

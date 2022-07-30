@@ -31,6 +31,7 @@ class Quiz_Blocks {
 
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-blocks.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-cpt.php';
+		// require_once plugin_dir_path( __FILE__ ) . 'src/quiz/quiz.php';
 		// require_once plugin_dir_path( __FILE__ ) . 'includes/class-validate-answers.php';
 		// require_once plugin_dir_path( __FILE__ ) . 'includes/class-rankings.php';
 

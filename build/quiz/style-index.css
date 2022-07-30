@@ -1,0 +1,40 @@
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/quiz/style.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+button.show-rankings,
+form.quiz-blocks-quiz input[type=submit] {
+  display: block;
+  width: 100%;
+}
+
+.quiz-block-answers {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.quiz-block-answers .answer {
+  border-radius: 10px;
+  flex: 1 0 50%;
+  white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid skyblue;
+  border-radius: 10px;
+  padding: 1em;
+  margin: 1em 0;
+}
+.quiz-block-answers .answer:nth-child(odd) {
+  padding-right: 15px;
+}
+.quiz-block-answers .answer:nth-child(3), .quiz-block-answers .answer:nth-child(4) {
+  padding-top: 15px;
+}
+
+/*# sourceMappingURL=style-index.css.map*/

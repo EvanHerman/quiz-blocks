@@ -6,7 +6,7 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.edit-post-visual-editor__post-title-wrapper {
+body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
   text-align: center;
 }
 

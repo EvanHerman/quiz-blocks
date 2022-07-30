@@ -11,7 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Quiz_Blocks_Blocks {
 
+	private $blocks_dir;
+
 	public function __construct() {
+
+		$this->blocks_dir = basename( __DIR__ ) . '/../build/';
 
 		add_filter( 'block_categories_all',  array( $this, 'custom_block_category' ), PHP_INT_MAX, 2 );
 
@@ -20,6 +24,8 @@ class Quiz_Blocks_Blocks {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'disable_blocks' ), PHP_INT_MAX );
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'quizblocks_blocks' ), PHP_INT_MAX );
+
+		add_action( 'init', array( $this, 'register_serverside_render_blocks' ) );
 
 	}
 
@@ -86,23 +92,101 @@ class Quiz_Blocks_Blocks {
 
 		}
 
-		$blocks_dir = basename( __DIR__ ) . '/../build/';
-
-		$question_asset_file = include plugin_dir_path( dirname( __FILE__ ) ) . $blocks_dir . 'question/index.asset.php';
+		$quiz_asset_file = include plugin_dir_path( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/index.asset.php';
 
 		wp_enqueue_script(
-			'quizblocks-question',
-			plugin_dir_url( dirname( __FILE__ ) ) . $blocks_dir . 'question/index.js',
+			'quiz-blocks-quiz',
+			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/index.js',
+			$quiz_asset_file['dependencies'],
+			$quiz_asset_file['version']
+		);
+
+		wp_enqueue_style(
+			'quiz-blocks-quiz',
+			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/index.css',
+			array(),
+			true,
+			'all'
+		);
+
+		$question_asset_file = include plugin_dir_path( dirname( __FILE__ ) ) . $this->blocks_dir . 'question/index.asset.php';
+
+		wp_enqueue_script(
+			'quiz-blocks-question',
+			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'question/index.js',
 			$question_asset_file['dependencies'],
 			$question_asset_file['version']
 		);
 
 		wp_enqueue_style(
-			'quizblocks-question',
-			plugin_dir_url( dirname( __FILE__ ) ) . $blocks_dir . 'question/index.css',
+			'quiz-blocks-question',
+			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'question/index.css',
 			array(),
 			true,
 			'all'
+		);
+
+	}
+
+	public function register_serverside_render_blocks() {
+
+		wp_register_style(
+			'quiz-blocks-styles',
+			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/style-index.css',
+			array(),
+			true,
+			'all'
+		);
+
+		register_block_type(
+			dirname( __FILE__ ) . '/../src/quiz/',
+			array(
+				'attributes'      => array(
+					'quizID' => array(
+						'type'    => 'integer',
+						'default' => 0,
+					),
+					'useRankings' => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+				),
+				'style'           => 'quiz-blocks-styles',
+				// 'script'       => 'wpquiz',
+				'render_callback' => function( $atts ) {
+					$quiz_content = get_post( $atts['quizID'] );
+					// Strip HTML comments from the content.
+					$quiz = ! is_null( $quiz_content ) ? html_entity_decode( preg_replace( '/<!--(.|\s)*?-->/', '', $quiz_content->post_content ) ) : false;
+
+					if ( ! $quiz ) {
+						
+						return;
+					
+					}
+
+					ob_start();
+
+					if ( $atts['useRankings'] ) {
+
+						printf(
+							'<button class="show-rankings button button_sliding_bg">%s</button>',
+							esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
+						);
+
+					}
+
+					?>
+
+					<form class="quiz-blocks-quiz">
+						<?php echo $quiz; ?>
+						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
+					</form>
+
+					<?php
+	
+					return ob_get_clean();
+				},
+			)
 		);
 
 	}

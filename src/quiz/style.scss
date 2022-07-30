@@ -1,15 +1,18 @@
 /**
- * The following styles get applied inside the editor only.
+ * The following styles get applied both on the front of your site
+ * and in the editor.
  *
  * Replace them with your own styles or remove the file completely.
  */
 
-body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
-	text-align: center;
+button.show-rankings,
+form.quiz-blocks-quiz input[type="submit"] {
+	display: block;
+	width: 100%;
 }
 
 .quiz-block-answers {
-	display: inline-flex;
+	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
 
@@ -23,18 +26,15 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 		border: 1px solid skyblue;
 		border-radius: 10px;
 		padding: 1em;
+		margin: 1em 0;
 
 		&:nth-child(odd) {
 			padding-right: 15px;
 		}
-	
+
 		&:nth-child(3),
 		&:nth-child(4) {
 			padding-top: 15px;
 		}
 	}
-}
-
-.components-panel__body.block-editor-block-inspector__advanced {
-	display: none;
 }
