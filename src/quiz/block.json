@@ -3,7 +3,7 @@
 	"apiVersion": 2,
 	"name": "quizblocks/quiz",
 	"version": "0.1.0",
-	"title": "Quiz block.",
+	"title": "Quiz.",
 	"icon": "forms",
 	"description": "Display a quiz on your website.",
 	"category": "quiz-blocks",
