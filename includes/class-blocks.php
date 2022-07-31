@@ -27,6 +27,8 @@ class Quiz_Blocks_Blocks {
 
 		add_action( 'init', array( $this, 'register_serverside_render_blocks' ) );
 
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_quiz_script' ) );
+
 	}
 
 	public function custom_block_category( $block_categories, $editor_context ) {
@@ -59,7 +61,7 @@ class Quiz_Blocks_Blocks {
 			'quizblocks/multiple-choice-question',
 		);
 
-		unset( $allowed_blocks['quizblocks/multiple-choice-question'] );
+		unset( $allowed_block_types['quizblocks/multiple-choice-question'] );
 
 		return 'quiz' !== $editor_context->post->post_type ? $allowed_block_types : $quiz_blocks;
 
@@ -98,7 +100,8 @@ class Quiz_Blocks_Blocks {
 			'quiz-blocks-quiz',
 			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/index.js',
 			$quiz_asset_file['dependencies'],
-			$quiz_asset_file['version']
+			$quiz_asset_file['version'],
+			true
 		);
 
 		wp_enqueue_style(
@@ -115,7 +118,8 @@ class Quiz_Blocks_Blocks {
 			'quiz-blocks-question',
 			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'question/index.js',
 			$question_asset_file['dependencies'],
-			$question_asset_file['version']
+			$question_asset_file['version'],
+			true
 		);
 
 		wp_enqueue_style(
@@ -139,8 +143,10 @@ class Quiz_Blocks_Blocks {
 		);
 
 		register_block_type(
-			dirname( __FILE__ ) . '/../src/quiz/',
+			'quizblocks/quiz',
 			array(
+				'title'           => __( 'Quiz', 'quiz-blocks' ),
+				'style'           => 'quiz-blocks-styles',
 				'attributes'      => array(
 					'quizID' => array(
 						'type'    => 'integer',
@@ -151,8 +157,6 @@ class Quiz_Blocks_Blocks {
 						'default' => true,
 					),
 				),
-				'style'           => 'quiz-blocks-styles',
-				// 'script'       => 'wpquiz',
 				'render_callback' => function( $atts ) {
 					$quiz_content = get_post( $atts['quizID'] );
 					// Strip HTML comments from the content.
@@ -166,35 +170,63 @@ class Quiz_Blocks_Blocks {
 
 					ob_start();
 
+					print( '<div id="quiz-blocks">' );
+
 					printf(
 						'<h2>%s</h2>',
 						esc_html( $quiz_content->post_title )
 					);
 
+					if ( $atts['useRankings'] ) {
+
+						printf(
+							'<button class="show-rankings button button_sliding_bg">%s</button>',
+							esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
+						);
+
+					}
+
 					?>
 
-					<form id="quiz-blocks-quiz">
-						<?php
-						if ( $atts['useRankings'] ) {
-
-							printf(
-								'<button class="show-rankings button button_sliding_bg">%s</button>',
-								esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
-							);
-
-						}
-
-						echo $quiz;
-
-						?>
-
+					<form id="quiz-blocks-quiz" data-quizID="<?php echo esc_attr( $atts['quizID'] ); ?>">
+						<?php echo $quiz; ?>
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
 
 					<?php
 
+					print( '</div>' );
+
 					return ob_get_clean();
 				},
+			)
+		);
+
+	}
+
+	public function enqueue_quiz_script() {
+
+		if ( ! has_block( 'quizblocks/quiz' ) ) {
+
+			return;
+
+		}
+
+		wp_enqueue_script(
+			'quiz-blocks-quiz',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/submit-quiz.js',
+			array( 'jquery' ),
+			QUIZ_BLOCKS_VERSION,
+			true,
+		);
+
+		wp_localize_script(
+			'quiz-blocks-quiz',
+			'quizBlocks',
+			array(
+				'ajaxURL'     => admin_url( 'admin-ajax.php' ),
+				'successText' => __( 'Success!', 'quiz-blocks' ),
+				'errorText'   => __( 'Error!', 'quiz-blocks' ),
 			)
 		);
 

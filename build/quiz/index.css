@@ -64,6 +64,29 @@
   vertical-align: bottom;
 }
 
+.quiz-blocks-alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.quiz-blocks-alert.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.quiz-blocks-alert.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.quiz-blocks-alert.info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
 #confetti-canvas {
   position: fixed;
   top: 0;
@@ -122,10 +145,14 @@
 #quiz-blocks-quiz .question .answers .answer {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   width: 48%;
 }
 #quiz-blocks-quiz .question .answers .answer:nth-child(odd) {
-  margin-right: 4%;
+  margin-right: 2%;
+}
+#quiz-blocks-quiz .question .answers .answer:nth-child(even) {
+  margin-left: 2%;
 }
 #quiz-blocks-quiz .question .answers .answer:nth-child(3), #quiz-blocks-quiz .question .answers .answer:nth-child(4) {
   padding-top: 15px;
@@ -181,8 +208,8 @@
   margin: 0 auto;
 }
 
-#wpquiz-container input[type=submit],
-#wpquiz-container button.button,
+#quiz-blocks input[type=submit],
+#quiz-blocks button.button,
 #quiz-blocks-quiz input[type=submit],
 #quiz-blocks-quiz button.button {
   background-color: #21759b;
@@ -196,9 +223,9 @@
   text-transform: uppercase;
   width: 100%;
 }
-#wpquiz-container input[type=submit]:disabled, #wpquiz-container input[type=submit]:disabled:hover,
-#wpquiz-container button.button:disabled,
-#wpquiz-container button.button:disabled:hover,
+#quiz-blocks input[type=submit]:disabled, #quiz-blocks input[type=submit]:disabled:hover,
+#quiz-blocks button.button:disabled,
+#quiz-blocks button.button:disabled:hover,
 #quiz-blocks-quiz input[type=submit]:disabled,
 #quiz-blocks-quiz input[type=submit]:disabled:hover,
 #quiz-blocks-quiz button.button:disabled,
@@ -207,15 +234,15 @@
   opacity: 0.55;
   transition: none;
 }
-#wpquiz-container button.button,
+#quiz-blocks button.button,
 #quiz-blocks-quiz button.button {
   margin-bottom: 1em;
 }
-#wpquiz-container button.button:not(:nth-child(2)),
+#quiz-blocks button.button:not(:nth-child(2)),
 #quiz-blocks-quiz button.button:not(:nth-child(2)) {
   margin-top: 0;
 }
-#wpquiz-container .button_sliding_bg,
+#quiz-blocks .button_sliding_bg,
 #quiz-blocks-quiz .button_sliding_bg {
   color: #27759a;
   background: #ffffff;
@@ -237,7 +264,7 @@
   background-repeat: no-repeat;
   transition: all ease 0.45s;
 }
-#wpquiz-container .button_sliding_bg:hover,
+#quiz-blocks .button_sliding_bg:hover,
 #quiz-blocks-quiz .button_sliding_bg:hover {
   background-size: 200% 200%;
   background-position: 0px 0px;

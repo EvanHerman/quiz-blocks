@@ -179,23 +179,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__, {
-  /**
-  * @see ./edit.js
-  */
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
-
-  /**
-  * @see ./save.js
-  */
   save: function (props) {
-    return null; // See PHP side. This block is rendered on PHP.
+    return null; // See register_serverside_render_blocks(). This block is rendered via PHP.
   }
 });
 
@@ -291,7 +278,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz.","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

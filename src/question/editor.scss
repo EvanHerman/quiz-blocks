@@ -28,7 +28,11 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 		padding: 1em;
 
 		&:nth-child(odd) {
-			margin-right: 4%;
+			margin-right: 2%;
+		}
+
+		&:nth-child(even) {
+			margin-left: 2%;
 		}
 	}
 }

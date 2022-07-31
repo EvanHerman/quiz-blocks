@@ -30,7 +30,10 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
   padding: 1em;
 }
 .quiz-block-answers .answer:nth-child(odd) {
-  margin-right: 4%;
+  margin-right: 2%;
+}
+.quiz-block-answers .answer:nth-child(even) {
+  margin-left: 2%;
 }
 
 .components-panel__body.block-editor-block-inspector__advanced {

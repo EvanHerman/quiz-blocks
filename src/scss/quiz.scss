@@ -1,5 +1,6 @@
 @import './animations';
 @import './table';
+@import './alerts';
 
 #confetti-canvas {
 	position: fixed;
@@ -80,7 +81,7 @@
 
 }
 
-#wpquiz-container,
+#quiz-blocks,
 #quiz-blocks-quiz {
 
 	input[type="submit"],

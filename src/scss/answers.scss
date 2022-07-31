@@ -24,10 +24,15 @@
 	.answer {
 		display: flex;
 		flex-wrap: wrap;
+		position: relative;
 		width: 48%;
 
 		&:nth-child(odd) {
-			margin-right: 4%;
+			margin-right: 2%;
+		}
+
+		&:nth-child(even) {
+			margin-left: 2%;
 		}
 
 		&:nth-child(3),
