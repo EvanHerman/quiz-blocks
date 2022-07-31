@@ -47,8 +47,6 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 		return correctAnswerValues;
 	};
 
-	console.log(attributes);
-
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
@@ -79,13 +77,15 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				</PanelBody>
 			</InspectorControls>
 			<div>
-				<RichText
-					tagName="p"
-					placeholder={__('Type your question...')}
-					value={attributes.question}
-					onChange={(question) => setAttributes({ question: question })}
-					className="quiz-block-question"
-				/>
+				<strong>
+					<RichText
+						tagName="p"
+						placeholder={__('Type your question...')}
+						value={attributes.question}
+						onChange={(question) => setAttributes({ question: question })}
+						className="quiz-block-question"
+					/>
+				</strong>
 				<div className="quiz-block-answers">
 					{answerCountArray.map((emptyValue, i) => {
 						return (

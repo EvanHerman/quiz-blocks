@@ -3,12 +3,5 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.quiz-block-quiz {
-	.answer {
-		margin: 1em 0;
-
-		input[type="radio"] {
-			display: none;
-		}
-	}
-}
+@import '../scss/quiz';
+@import '../scss/animations';

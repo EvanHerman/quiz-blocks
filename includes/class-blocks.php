@@ -159,31 +159,40 @@ class Quiz_Blocks_Blocks {
 					$quiz = ! is_null( $quiz_content ) ? html_entity_decode( preg_replace( '/<!--(.|\s)*?-->/', '', $quiz_content->post_content ) ) : false;
 
 					if ( ! $quiz ) {
-						
+
 						return;
-					
+
 					}
 
 					ob_start();
 
-					if ( $atts['useRankings'] ) {
-
-						printf(
-							'<button class="show-rankings button button_sliding_bg">%s</button>',
-							esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
-						);
-
-					}
+					printf(
+						'<h2>%s</h2>',
+						esc_html( $quiz_content->post_title )
+					);
 
 					?>
 
-					<form class="quiz-blocks-quiz">
-						<?php echo $quiz; ?>
+					<form id="quiz-blocks-quiz">
+						<?php
+						if ( $atts['useRankings'] ) {
+
+							printf(
+								'<button class="show-rankings button button_sliding_bg">%s</button>',
+								esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
+							);
+
+						}
+
+						echo $quiz;
+
+						?>
+
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
 
 					<?php
-	
+
 					return ob_get_clean();
 				},
 			)

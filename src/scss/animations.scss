@@ -1,0 +1,26 @@
+.answer label[data-animation="pop"] {
+	-webkit-animation-name: answer_pop;
+	animation-name: answer_pop;
+	-webkit-animation-duration: 100ms;
+	animation-duration: 100ms;
+}
+
+@-webkit-keyframes answer_pop {
+	from {
+		transform: scale(0.8);
+	}
+
+	40% {
+		transform: scale(1.1);
+	}
+}
+
+@keyframes answer_pop {
+	from {
+		transform: scale(0.8);
+	}
+
+	40% {
+		transform: scale(1.1);
+	}
+}

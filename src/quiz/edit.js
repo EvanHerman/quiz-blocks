@@ -67,7 +67,7 @@ const Edit = ({ attributes, setAttributes }) => {
 		if ( ! quizFields ) {
 			return;
 		}
-		return <div className="quiz-block-quiz" dangerouslySetInnerHTML={{ __html: unescapeHTML( quizFields.content.rendered ) }}></div>
+		return <div dangerouslySetInnerHTML={{ __html: unescapeHTML( quizFields.content.rendered ) }}></div>
 	}
 
 	return (
@@ -93,14 +93,12 @@ const Edit = ({ attributes, setAttributes }) => {
 			{ ! quizzes && <h2>Loading...</h2> }
 			{ ( quizzes && ! quizzes.length ) && <h2>No Quizzes created.</h2> }
 			{ ( quizzes && quizzes.length) &&
-				<div>
+				<div id="quiz-blocks-quiz">
 					{ attributes.useRankings &&
 						<h2>Testing</h2>
 					}
-					<div className="quiz-block-answers">
-						{quizFields()}
-						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value={__( 'Submit', 'quiz-blocks' )} />
-					</div>
+					{quizFields()}
+					<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value={__('Submit', 'quiz-blocks')} />
 				</div>
 			}
 		</div>

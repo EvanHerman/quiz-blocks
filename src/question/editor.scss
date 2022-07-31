@@ -15,7 +15,10 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 
 	.answer {
 		border-radius: 10px;
-		flex: 1 0 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 48%;
 		white-space: nowrap;
 		text-align: center;
 		box-sizing: border-box;
@@ -25,12 +28,7 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 		padding: 1em;
 
 		&:nth-child(odd) {
-			padding-right: 15px;
-		}
-	
-		&:nth-child(3),
-		&:nth-child(4) {
-			padding-top: 15px;
+			margin-right: 4%;
 		}
 	}
 }

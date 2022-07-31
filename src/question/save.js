@@ -26,9 +26,9 @@ export default function save({ attributes }) {
 	const answerCountArray = Array.apply(null, Array(attributes.answerCount));
 
 	return (
-		<>
-			<p className="question"><strong>{ attributes.question }</strong></p>
-			<div className="quiz-block-answers">
+		<div class="question">
+			<p><strong>{ attributes.question }</strong></p>
+			<div className="answers">
 				{answerCountArray.map((emptyValue, index) => {
 					return (
 						<div class="answer">
@@ -38,6 +38,6 @@ export default function save({ attributes }) {
 					)
 				})}
 			</div>
-		</>
+		</div>
 	);
 }

@@ -1,0 +1,41 @@
+.styled-table {
+	border-collapse: collapse;
+	margin: 25px 0;
+	font-size: 0.9em;
+	font-family: sans-serif;
+	min-width: 400px;
+	width: 100%;
+	text-align: center;
+	
+	thead tr {
+		background-color: #21759b;
+		color: #ffffff;
+	}
+
+	th,
+	td {
+		padding: 12px 15px;
+	}
+
+	tbody tr {
+		border-bottom: thing solid #dddddd;
+
+		&.active-row {
+			font-weight: bold;
+			color: #21759b;
+		}
+	
+		&:nth-of-type(even) {
+			background-color: #f3f3f3;
+		}
+
+		&:last-of-type {
+			border-bottom: 2px solid #21759b;
+		}
+	}
+
+	.medal {
+		width: 35px;
+		vertical-align: bottom;
+	}
+}

@@ -105,7 +105,6 @@ const Edit = _ref => {
     }
 
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "quiz-block-quiz",
       dangerouslySetInnerHTML: {
         __html: unescapeHTML(quizFields.content.rendered)
       }
@@ -132,15 +131,15 @@ const Edit = _ref => {
     onChange: useRankings => setAttributes({
       useRankings: !attributes.useRankings
     })
-  })))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Loading..."), quizzes && !quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "No Quizzes created."), quizzes && quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, attributes.useRankings && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Testing"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "quiz-block-answers"
-  }, quizFields(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  })))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Loading..."), quizzes && !quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "No Quizzes created."), quizzes && quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    id: "quiz-blocks-quiz"
+  }, attributes.useRankings && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Testing"), quizFields(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     class: "button_sliding_bg button",
     type: "submit",
     name: "submit",
     id: "submit",
     value: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit', 'quiz-blocks')
-  }))));
+  })));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
@@ -292,7 +291,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz block.","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz.","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

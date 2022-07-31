@@ -5,36 +5,5 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-button.show-rankings,
-form.quiz-blocks-quiz input[type="submit"] {
-	display: block;
-	width: 100%;
-}
-
-.quiz-block-answers {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-
-	.answer {
-		border-radius: 10px;
-		flex: 1 0 50%;
-		white-space: nowrap;
-		text-align: center;
-		box-sizing: border-box;
-		position: relative;
-		border: 1px solid skyblue;
-		border-radius: 10px;
-		padding: 1em;
-		margin: 1em 0;
-
-		&:nth-child(odd) {
-			padding-right: 15px;
-		}
-
-		&:nth-child(3),
-		&:nth-child(4) {
-			padding-top: 15px;
-		}
-	}
-}
+@import '../scss/quiz';
+@import '../scss/animations';

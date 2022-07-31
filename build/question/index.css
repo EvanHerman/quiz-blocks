@@ -17,7 +17,10 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 }
 .quiz-block-answers .answer {
   border-radius: 10px;
-  flex: 1 0 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48%;
   white-space: nowrap;
   text-align: center;
   box-sizing: border-box;
@@ -27,10 +30,7 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
   padding: 1em;
 }
 .quiz-block-answers .answer:nth-child(odd) {
-  padding-right: 15px;
-}
-.quiz-block-answers .answer:nth-child(3), .quiz-block-answers .answer:nth-child(4) {
-  padding-top: 15px;
+  margin-right: 4%;
 }
 
 .components-panel__body.block-editor-block-inspector__advanced {
