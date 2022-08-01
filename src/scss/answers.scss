@@ -26,6 +26,7 @@
 		flex-wrap: wrap;
 		position: relative;
 		width: 48%;
+		margin-top: 15px;
 
 		&:nth-child(odd) {
 			margin-right: 2%;
@@ -35,9 +36,9 @@
 			margin-left: 2%;
 		}
 
-		&:nth-child(3),
-		&:nth-child(4) {
-			padding-top: 15px;
+		&:nth-child(1),
+		&:nth-child(2) {
+			margin-top: 0;
 		}
 
 		input {

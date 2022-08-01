@@ -28,12 +28,16 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
   border: 1px solid skyblue;
   border-radius: 10px;
   padding: 1em;
+  margin: 7.5px 0;
 }
 .quiz-block-answers .answer:nth-child(odd) {
   margin-right: 2%;
 }
 .quiz-block-answers .answer:nth-child(even) {
   margin-left: 2%;
+}
+.quiz-block-answers .answer:nth-child(1), .quiz-block-answers .answer:nth-child(2) {
+  margin-top: 0;
 }
 
 .components-panel__body.block-editor-block-inspector__advanced {

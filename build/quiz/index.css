@@ -153,6 +153,7 @@
   flex-wrap: wrap;
   position: relative;
   width: 48%;
+  margin-top: 15px;
 }
 #quiz-blocks-quiz .question .answers .answer:nth-child(odd) {
   margin-right: 2%;
@@ -160,8 +161,8 @@
 #quiz-blocks-quiz .question .answers .answer:nth-child(even) {
   margin-left: 2%;
 }
-#quiz-blocks-quiz .question .answers .answer:nth-child(3), #quiz-blocks-quiz .question .answers .answer:nth-child(4) {
-  padding-top: 15px;
+#quiz-blocks-quiz .question .answers .answer:nth-child(1), #quiz-blocks-quiz .question .answers .answer:nth-child(2) {
+  margin-top: 0;
 }
 #quiz-blocks-quiz .question .answers .answer input {
   margin: 0;
