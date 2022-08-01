@@ -1,5 +1,10 @@
 (function( $ ) {
 
+	/**
+	 * Quiz Specific Functionality
+	 *
+	 * @var {object}
+	 */
 	var quiz = {
 
 		addNames: function() {
@@ -39,7 +44,6 @@
 
 			quiz.disableForm( form );
 
-			// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 			jQuery.post(
 				quizBlocks.ajaxURL,
 				{
@@ -48,10 +52,11 @@
 					'answers': answers
 				},
 				function ( response ) {
-					console.log( response );
-					quiz.enableForm(form);
+					console.log( response.data.response );
 
 					if ( response.success ) {
+
+						quiz.markCorrectAnswers( form, response.data.response.results );
 
 						form.before( `<div class="quiz-blocks-alert success">${quizBlocks.successText}</div>` );
 
@@ -59,11 +64,97 @@
 
 					}
 
-					quiz.enableForm( form );
 					form.before(`<div class="quiz-blocks-alert error">${quizBlocks.errorText}</div>`);
 
 				}
 			);
+		},
+
+		markCorrectAnswers: function( form, results ) {
+
+			for (var i = 0; i < results.length; i++) {
+				let nthChild = i+1;
+	
+				console.log('.question:nth-child(' + nthChild + ') .answers');
+
+				form.find('.question:nth-child(' + nthChild + ') .answers').addClass( results[i] );
+
+			}
+
+		},
+
+	};
+
+	/**
+	 * Rankings Modal
+	 *
+	 * @var {object}
+	 */
+	var rankings = {
+
+		show: function( event ) {
+			const button = $( event.target );
+			const quizID = button.data( 'quizid' );
+
+			jQuery.get(
+				quizBlocks.ajaxURL,
+				{
+					'action': 'get_rankings',
+					'quizID': quizID
+				},
+				function (response) {
+					console.log(response.data);
+
+					if (response.success) {
+
+						$( `.quiz-${quizID}-rankings` ).html( response.data.rankings );
+
+						return;
+
+					}
+
+					console.error( ':(' );
+
+				}
+			);
+
+			$( `.quiz-${quizID}-rankings` ).modal({
+				fadeDuration: 150
+			});
+			confetti.start();
+			return false;
+		},
+
+	};
+
+	var confetti = {
+
+		start: function() {
+
+			var end = Date.now() + (2 * 1000);
+
+			(function frame() {
+				window.confetti({
+					particleCount: 5,
+					angle: 60,
+					spread: 100,
+					origin: { x: 0 },
+					disableForReducedMotion: true
+				});
+
+				window.confetti({
+					particleCount: 5,
+					angle: 120,
+					spread: 100,
+					origin: { x: 1 },
+					disableForReducedMotion: true
+				});
+
+				if (Date.now() < end) {
+					requestAnimationFrame(frame);
+				}
+			}());
+
 		},
 
 	};
@@ -73,5 +164,7 @@
 	$( 'form#quiz-blocks-quiz label' ).on( 'click', quiz.addPopAnimation );
 
 	$( 'form#quiz-blocks-quiz' ).on( 'submit', quiz.submitQuiz );
+
+	$( 'button.show-rankings' ).on( 'click', rankings.show );
 
 } )( jQuery );

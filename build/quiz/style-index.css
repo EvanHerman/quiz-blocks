@@ -209,6 +209,15 @@
   margin: 0 auto;
 }
 
+.rankings.modal {
+  min-width: 55%;
+}
+.rankings.modal .preloader {
+  max-width: 75px;
+  display: block;
+  margin: 1em auto;
+}
+
 #quiz-blocks input[type=submit],
 #quiz-blocks button.button,
 #quiz-blocks-quiz input[type=submit],
@@ -234,6 +243,10 @@
   background-image: none;
   opacity: 0.55;
   transition: none;
+}
+#quiz-blocks input[type=submit],
+#quiz-blocks-quiz input[type=submit] {
+  margin-bottom: 0;
 }
 #quiz-blocks button.button,
 #quiz-blocks-quiz button.button {
@@ -270,6 +283,10 @@
   background-size: 200% 200%;
   background-position: 0px 0px;
   color: #ffffff;
+}
+#quiz-blocks .rankings,
+#quiz-blocks-quiz .rankings {
+  display: none;
 }
 
 .ReactModal__Content[aria-modalname] h2 {

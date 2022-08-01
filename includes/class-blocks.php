@@ -104,6 +104,14 @@ class Quiz_Blocks_Blocks {
 			true
 		);
 
+		wp_localize_script(
+			'quiz-blocks-quiz',
+			'quizBlocksQuiz',
+			array(
+				'createQuizURL' => admin_url( 'post-new.php?post_type=quiz' ),
+			)
+		);
+
 		wp_enqueue_style(
 			'quiz-blocks-quiz',
 			plugin_dir_url( dirname( __FILE__ ) ) . $this->blocks_dir . 'quiz/index.css',
@@ -158,7 +166,20 @@ class Quiz_Blocks_Blocks {
 					),
 				),
 				'render_callback' => function( $atts ) {
+					if ( 0 === $atts['quizID'] ) {
+
+						return;
+
+					}
+
 					$quiz_content = get_post( $atts['quizID'] );
+					
+					if ( 'publish' !== $quiz_content->post_status ) {
+
+						return;
+
+					}
+
 					// Strip HTML comments from the content.
 					$quiz = ! is_null( $quiz_content ) ? html_entity_decode( preg_replace( '/<!--(.|\s)*?-->/', '', $quiz_content->post_content ) ) : false;
 
@@ -180,15 +201,18 @@ class Quiz_Blocks_Blocks {
 					if ( $atts['useRankings'] ) {
 
 						printf(
-							'<button class="show-rankings button button_sliding_bg">%s</button>',
-							esc_html__( 'View Quiz Rankings', 'quiz-blocks' )
+							'<button class="show-rankings button button_sliding_bg" data-quizid="%1$s">%2$s</button>
+							<div class="quiz-%1$s-rankings rankings"><img src="%3$s" class="preloader" /></div>',
+							esc_attr( $atts['quizID'] ),
+							esc_html__( 'View Quiz Rankings', 'quiz-blocks' ),
+							plugin_dir_url( dirname( __FILE__ ) ) . 'src/img/preloader.svg'
 						);
 
 					}
 
 					?>
 
-					<form id="quiz-blocks-quiz" data-quizID="<?php echo esc_attr( $atts['quizID'] ); ?>">
+					<form id="quiz-blocks-quiz" data-quizid="<?php echo esc_attr( $atts['quizID'] ); ?>">
 						<?php echo $quiz; ?>
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
@@ -213,21 +237,45 @@ class Quiz_Blocks_Blocks {
 		}
 
 		wp_enqueue_script(
-			'quiz-blocks-quiz',
-			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/submit-quiz.js',
+			'jquerymodal',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/thirdparty/jquery.modal/jquery.modal.min.js',
 			array( 'jquery' ),
+			JQUERY_MODAL_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'canvas-confetti',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/thirdparty/canvas-confetti/confetti.browser.min.js',
+			array(),
+			'1.5.1',
+			true
+		);
+
+		wp_enqueue_script(
+			'quiz-blocks-frontend',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/quiz-blocks-frontend.js',
+			array( 'jquerymodal', 'canvas-confetti' ),
 			QUIZ_BLOCKS_VERSION,
-			true,
+			true
 		);
 
 		wp_localize_script(
-			'quiz-blocks-quiz',
+			'quiz-blocks-frontend',
 			'quizBlocks',
 			array(
 				'ajaxURL'     => admin_url( 'admin-ajax.php' ),
 				'successText' => __( 'Success!', 'quiz-blocks' ),
 				'errorText'   => __( 'Error!', 'quiz-blocks' ),
 			)
+		);
+
+		wp_enqueue_style(
+			'jquerymodal',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/thirdparty/jquery.modal/jquery.modal.min.css',
+			array(),
+			JQUERY_MODAL_VERSION,
+			'all'
 		);
 
 	}

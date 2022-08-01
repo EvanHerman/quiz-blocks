@@ -23,6 +23,8 @@ import { useSelect } from '@wordpress/data';
  */
 import './editor.scss';
 
+import preloader from '../img/preloader.svg';
+
 import { useState } from '@wordpress/element';
 
 /**
@@ -33,7 +35,7 @@ import { useState } from '@wordpress/element';
  *
  * @return {WPElement} Element to render.
  */
-const Edit = ({ attributes, setAttributes }) => {
+const Edit = ({ attributes, setAttributes, isSelected }) => {
 	const quizzes = useSelect((select) => {
 		return select('core').getEntityRecords('postType', 'quiz');
 	}, []);
@@ -70,18 +72,20 @@ const Edit = ({ attributes, setAttributes }) => {
 		return <div dangerouslySetInnerHTML={{ __html: unescapeHTML( quizFields.content.rendered ) }}></div>
 	}
 
+	const selectQuizText = isSelected ? __('Choose a quiz to display.', 'quiz-blocks') : __('Select this block, and choose a quiz to display.', 'quiz-blocks');
+
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
-				<PanelBody title={__('Question Settings', 'quiz-blocks')} initialOpen={true}>
+				<PanelBody title={__('Quiz Settings', 'quiz-blocks')} initialOpen={true}>
 					<SelectControl
 						label={__('Select which quiz to display.', 'quiz-blocks')}
 						value={attributes.quizID}
 						options={quizIDs()}
 						onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
 					/>
-					<label data-wp-component="Text">Use Rankings?</label>
-						<div class="components-input-control__container">
+					<label data-wp-component="Text">{__('Use Rankings?', 'quiz-blocks')}</label>
+						<div className="components-input-control__container">
 							<FormToggle
 							label={__('Use Rankings?', 'quiz-blocks')}
 							checked={attributes.useRankings}
@@ -90,19 +94,37 @@ const Edit = ({ attributes, setAttributes }) => {
 						</div>
 				</PanelBody>
 			</InspectorControls>
-			{ ! quizzes && <h2>Loading...</h2> }
-			{ ( quizzes && ! quizzes.length ) && <h2>No Quizzes created.</h2> }
-			{ ( quizzes && quizzes.length) &&
+			{! quizzes && <img src={preloader} className="preloader" /> }
+			{ ( quizzes && ! quizzes.length ) &&
+				<div id="quiz-blocks-quiz" className="create-quiz">
+					<strong>{__( 'No Quizzes Found', 'quiz-block' )}</strong>
+					<p>Please <a href={quizBlocksQuiz.createQuizURL}>create a quiz</a>.</p>
+				</div>
+			}
+			{ ( 0 === attributes.quizID ) &&
+				<div id="quiz-blocks-quiz" className="select-quiz">
+					<strong>{__('Select a Quiz', 'quiz-block')}</strong>
+					<p>{selectQuizText}</p>
+					{ isSelected &&
+						<SelectControl
+							value={attributes.quizID}
+							options={quizIDs()}
+							onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
+						/>
+					}
+				</div>
+			}
+			{ ( 0 !== attributes.quizID && quizzes && 0 < quizzes.length ) &&
 				<div id="quiz-blocks-quiz">
 					{ attributes.useRankings &&
-						<h2>Testing</h2>
+						<button className="show-rankings button button_sliding_bg">{__( 'View Quiz Rankings', 'quiz-blocks' )}</button>
 					}
 					{quizFields()}
-					<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value={__('Submit', 'quiz-blocks')} />
+					<input className="button_sliding_bg button" type="submit" name="submit" id="submit" value={__('Submit', 'quiz-blocks')} />
 				</div>
 			}
 		</div>
 	);
 }
 
-export default Edit;
+export default Edit

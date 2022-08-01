@@ -1,6 +1,6 @@
 <?php
 /**
- * WPQuiz Custom Post Type Registration
+ * Quiz Blocks Custom Post Type Registration
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,8 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Quiz_Blocks_CPT {
 
 	public function __construct() {
-
-		// require_once plugin_dir_path( __FILE__ ) . '/class-cmb2-fields.php';
 
 		add_action( 'init', array( $this, 'register_cpt' ), PHP_INT_MAX );
 

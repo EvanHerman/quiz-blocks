@@ -13,24 +13,6 @@ class Quiz_Blocks_Submission_Handler {
 
 	public function __construct() {
 
-		// $post = get_post( 62 );
-
-		// if ( has_blocks( $post->post_content ) ) {
-
-		// 	// Filter out empty blocks on the page.
-		// 	$blocks = array_filter(
-		// 		parse_blocks( $post->post_content ),
-		// 		function( $value ) {
-		// 			return ! empty( $value['attrs'] );
-		// 		}
-		// 	);
-
-		// 	$block_attributes = wp_list_pluck( $blocks, 'attrs' );
-		// 	$answers = wp_list_pluck( $block_attributes, 'correctAnswer' );
-		// 	wp_die( print_r( $answers ) );
-
-		// }
-
 		add_action( 'wp_ajax_validate_answers', array( $this, 'validate_answers' ), PHP_INT_MAX );
 
 	}

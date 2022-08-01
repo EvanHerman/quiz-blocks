@@ -81,6 +81,16 @@
 
 }
 
+.rankings.modal {
+	min-width: 55%;
+
+	.preloader {
+		max-width: 75px;
+		display: block;
+		margin: 1em auto;
+	}
+}
+
 #quiz-blocks,
 #quiz-blocks-quiz {
 
@@ -103,6 +113,10 @@
 			opacity: 0.55;
 			transition: none;
 		}
+	}
+
+	input[type="submit"] {
+		margin-bottom: 0;
 	}
 
 	button.button {
@@ -139,6 +153,10 @@
 			background-position: 0px 0px;
 			color: #ffffff;
 		}
+	}
+
+	.rankings {
+		display: none;
 	}
 }
 
