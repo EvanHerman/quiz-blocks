@@ -164,6 +164,10 @@ class Quiz_Blocks_Blocks {
 						'type'    => 'boolean',
 						'default' => true,
 					),
+					'showTitle'   => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
 				),
 				'render_callback' => function( $atts ) {
 					if ( 0 === $atts['quizID'] ) {

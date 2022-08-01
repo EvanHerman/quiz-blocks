@@ -207,27 +207,37 @@ const Edit = _ref => {
   };
 
   const selectQuizText = isSelected ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Choose a quiz to display.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select this block, and choose a quiz to display.', 'quiz-blocks');
+  const quizIDOptions = quizIDs();
+  let quizTitle = '';
+
+  if (quizIDOptions && quizIDOptions.length) {
+    const quizIDOptionsIndex = quizIDOptions.map(object => object.value).indexOf(attributes.quizID);
+    quizTitle = quizIDOptions[quizIDOptionsIndex].label;
+  }
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Quiz Settings', 'quiz-blocks'),
     initialOpen: true
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select which quiz to display.', 'quiz-blocks'),
     value: attributes.quizID,
-    options: quizIDs(),
+    options: quizIDOptions,
     onChange: quizID => setAttributes({
       quizID: parseInt(quizID)
     })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    "data-wp-component": "Text"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Rankings?', 'quiz-blocks')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "components-input-control__container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FormToggle, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Quiz Title?', 'quiz-blocks'),
+    checked: attributes.showTitle,
+    onChange: showTitle => setAttributes({
+      showTitle: !attributes.showTitle
+    })
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Rankings?', 'quiz-blocks'),
     checked: attributes.useRankings,
     onChange: useRankings => setAttributes({
       useRankings: !attributes.useRankings
     })
-  })))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+  }))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: _img_preloader_svg__WEBPACK_IMPORTED_MODULE_6__["default"],
     className: "preloader"
   }), quizzes && !quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -240,13 +250,15 @@ const Edit = _ref => {
     className: "select-quiz"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select a Quiz', 'quiz-block')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, selectQuizText), isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     value: attributes.quizID,
-    options: quizIDs(),
+    options: quizIDOptions,
     onChange: quizID => setAttributes({
       quizID: parseInt(quizID)
     })
   })), 0 !== attributes.quizID && quizzes && 0 < quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: "quiz-blocks-quiz"
-  }, attributes.useRankings && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, attributes.showTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "quiz-title"
+  }, quizTitle), attributes.useRankings && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "show-rankings button button_sliding_bg"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('View Quiz Rankings', 'quiz-blocks')), quizFields(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "button_sliding_bg button",
@@ -403,7 +415,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true},"showTitle":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

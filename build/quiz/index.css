@@ -334,6 +334,10 @@ div[data-type="quizblocks/quiz"] .preloader {
   max-width: 50px;
   margin: 2em auto;
 }
+div[data-type="quizblocks/quiz"] #quiz-blocks-quiz h2.quiz-title {
+  margin-bottom: 0.5em;
+  text-align: center;
+}
 div[data-type="quizblocks/quiz"] #quiz-blocks-quiz.create-quiz, div[data-type="quizblocks/quiz"] #quiz-blocks-quiz.select-quiz {
   background-color: #FEF8EE;
   border: 1px dashed #21759b;

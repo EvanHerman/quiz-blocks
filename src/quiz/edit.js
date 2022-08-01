@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 import { useBlockProps, RichText, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, FormToggle } from "@wordpress/components";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -74,6 +74,14 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 
 	const selectQuizText = isSelected ? __('Choose a quiz to display.', 'quiz-blocks') : __('Select this block, and choose a quiz to display.', 'quiz-blocks');
 
+	const quizIDOptions = quizIDs();
+	let quizTitle = '';
+
+	if ( quizIDOptions && quizIDOptions.length ) {
+		const quizIDOptionsIndex = quizIDOptions.map(object => object.value).indexOf(attributes.quizID);
+		quizTitle = quizIDOptions[quizIDOptionsIndex].label;
+	}
+
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
@@ -81,17 +89,19 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 					<SelectControl
 						label={__('Select which quiz to display.', 'quiz-blocks')}
 						value={attributes.quizID}
-						options={quizIDs()}
+						options={quizIDOptions}
 						onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
 					/>
-					<label data-wp-component="Text">{__('Show Rankings?', 'quiz-blocks')}</label>
-						<div className="components-input-control__container">
-							<FormToggle
-							label={__('Show Rankings?', 'quiz-blocks')}
-							checked={attributes.useRankings}
-							onChange={(useRankings) => setAttributes({ useRankings: !attributes.useRankings })}
-							/>
-						</div>
+					<ToggleControl
+						label={__('Show Quiz Title?', 'quiz-blocks')}
+						checked={attributes.showTitle}
+						onChange={(showTitle) => setAttributes({ showTitle: !attributes.showTitle })}
+					/>
+					<ToggleControl
+						label={__('Show Rankings?', 'quiz-blocks')}
+						checked={attributes.useRankings}
+						onChange={(useRankings) => setAttributes({ useRankings: !attributes.useRankings })}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			{! quizzes && <img src={preloader} className="preloader" /> }
@@ -108,7 +118,7 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 					{ isSelected &&
 						<SelectControl
 							value={attributes.quizID}
-							options={quizIDs()}
+							options={quizIDOptions}
 							onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
 						/>
 					}
@@ -116,6 +126,9 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 			}
 			{ ( 0 !== attributes.quizID && quizzes && 0 < quizzes.length ) &&
 				<div id="quiz-blocks-quiz">
+					{attributes.showTitle &&
+						<h2 className="quiz-title">{quizTitle}</h2>
+					}
 					{ attributes.useRankings &&
 						<button className="show-rankings button button_sliding_bg">{__( 'View Quiz Rankings', 'quiz-blocks' )}</button>
 					}

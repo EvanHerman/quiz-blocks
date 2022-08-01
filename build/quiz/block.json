@@ -18,6 +18,10 @@
     "useRankings": {
       "type": "boolean",
       "default": true
+    },
+    "showTitle": {
+      "type": "boolean",
+      "default": true
     }
   },
   "textdomain": "quiz-blocks",

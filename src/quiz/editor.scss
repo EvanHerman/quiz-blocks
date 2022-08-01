@@ -25,6 +25,11 @@ div[data-type="quizblocks/quiz"] {
 
 	#quiz-blocks-quiz {
 
+		h2.quiz-title {
+			margin-bottom: 0.5em;
+			text-align: center;
+		}
+
 		&.create-quiz,
 		&.select-quiz {
 			background-color: #FEF8EE;
