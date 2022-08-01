@@ -1,5 +1,6 @@
 /**
- * Exclude the quiz blocks.
+ * - Exclude the quiz blocks.
+ * - Remove click functionality from the quiz questions.
  *
  * Note: This runs on all posts excpet for the quiz post type.
  */
