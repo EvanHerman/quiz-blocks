@@ -84,10 +84,10 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 						options={quizIDs()}
 						onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
 					/>
-					<label data-wp-component="Text">{__('Use Rankings?', 'quiz-blocks')}</label>
+					<label data-wp-component="Text">{__('Show Rankings?', 'quiz-blocks')}</label>
 						<div className="components-input-control__container">
 							<FormToggle
-							label={__('Use Rankings?', 'quiz-blocks')}
+							label={__('Show Rankings?', 'quiz-blocks')}
 							checked={attributes.useRankings}
 							onChange={(useRankings) => setAttributes({ useRankings: !attributes.useRankings })}
 							/>

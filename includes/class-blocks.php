@@ -80,7 +80,7 @@ class Quiz_Blocks_Blocks {
 
 		}
 
-		wp_enqueue_script( 'wpquiz', plugin_dir_url( __FILE__ ) . '../src/js/remove-question-blocks.js', array(), QUIZ_BLOCKS_VERSION, true );
+		wp_enqueue_script( 'quiz-blocks-editor', plugin_dir_url( __FILE__ ) . '../src/js/quiz-blocks-editor.js', array( 'jquery' ), QUIZ_BLOCKS_VERSION, true );
 
 	}
 
