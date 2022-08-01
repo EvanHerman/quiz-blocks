@@ -41,6 +41,7 @@
 			event.preventDefault();
 			const form = $( event.target );
 			const answers = form.serialize();
+			const quizID = form.data( 'quizid' );
 
 			quiz.disableForm( form );
 
@@ -48,17 +49,21 @@
 				quizBlocks.ajaxURL,
 				{
 					'action': 'validate_answers',
-					'quizID': form.attr('data-quizID'),
+					'quizID': quizID,
 					'answers': answers
 				},
 				function ( response ) {
-					console.log( response.data.response );
-
 					if ( response.success ) {
 
-						quiz.markCorrectAnswers( form, response.data.response.results );
+						const quizResults = response.data.response.results;
+						const quizResponse = response.data.response;
+
+						quiz.markCorrectAnswers( form, quizResults );
+						results.show( quizID, quizResponse );
 
 						form.before( `<div class="quiz-blocks-alert success">${quizBlocks.successText}</div>` );
+
+						form.find( '.show-results' ).show();
 
 						return;
 
@@ -74,11 +79,7 @@
 
 			for (var i = 0; i < results.length; i++) {
 				let nthChild = i+1;
-	
-				console.log('.question:nth-child(' + nthChild + ') .answers');
-
 				form.find('.question:nth-child(' + nthChild + ') .answers').addClass( results[i] );
-
 			}
 
 		},
@@ -103,8 +104,6 @@
 					'quizID': quizID
 				},
 				function (response) {
-					console.log(response.data);
-
 					if (response.success) {
 
 						$( `.quiz-${quizID}-rankings` ).html( response.data.rankings );
@@ -114,19 +113,47 @@
 					}
 
 					console.error( ':(' );
-
 				}
 			);
 
 			$( `.quiz-${quizID}-rankings` ).modal({
 				fadeDuration: 150
 			});
-			confetti.start();
 			return false;
 		},
 
 	};
 
+	/**
+	 * Quiz Results.
+	 *
+	 * @var {object}
+	 */
+	var results = {
+
+		show: function( quizID, response ) {
+			const numberCorrect = response.counts.correct ?? 0;
+			const percentCorrect = ( ( numberCorrect / response.results.length ) * 100 ) + '%';
+
+			$( `.quiz-${quizID}-results` ).find( '.percent-correct' ).text( percentCorrect );
+			$( `.quiz-${quizID}-results` ).find( '.number-correct' ).text( response.counts.correct ?? 0 );
+
+			$(`.quiz-${quizID}-results`).modal({
+				fadeDuration: 150
+			});
+
+			$( `button[data-quizid="${quizID}"].show-results` ).show();
+
+			confetti.start();
+		},
+
+	};
+
+	/**
+	 * Confetti
+	 *
+	 * @var {object}
+	 */
 	var confetti = {
 
 		start: function() {
@@ -159,12 +186,25 @@
 
 	};
 
+	// Add names to the form on render.
 	$( document ).ready( quiz.addNames );
 
+	// Click on an answer.
 	$( 'form#quiz-blocks-quiz label' ).on( 'click', quiz.addPopAnimation );
 
+	// Submit a quiz.
 	$( 'form#quiz-blocks-quiz' ).on( 'submit', quiz.submitQuiz );
 
+	// Show the rankings modal.
 	$( 'button.show-rankings' ).on( 'click', rankings.show );
+
+	// Show the results modal.
+	$( 'button.show-results' ).on( 'click', function( event ) {
+		const quizID = $( event.target ).data( 'quizid' );
+		$(`.quiz-${quizID}-results`).modal({
+			fadeDuration: 150
+		});
+		confetti.start();
+	} );
 
 } )( jQuery );

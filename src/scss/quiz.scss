@@ -7,8 +7,16 @@
 	top: 0;
 }
 
+#quiz-blocks {
+	h2.quiz-title {
+		margin: 0.5em 0;
+		text-align: center;
+	}
+}
+
 #quiz-blocks-quiz {
 	position: relative;
+	margin-bottom: 1em;
 
 	&.is-loading form,
 	&.not-logged-in form {
@@ -81,8 +89,14 @@
 
 }
 
-.rankings.modal {
+.quiz-blocks-rankings.modal,
+.quiz-blocks-results.modal {
 	min-width: 55%;
+	padding: 2em;
+
+	h2 {
+		margin-top: 10px;
+	}
 
 	.preloader {
 		max-width: 75px;
@@ -154,66 +168,10 @@
 			color: #ffffff;
 		}
 	}
-
-	.rankings {
-		display: none;
-	}
 }
 
-.ReactModal__Content[aria-modalname] {
-
-	h2 {
-		text-align: center;
-	}
-
-	button.close-modal {
-		border: none;
-		background: transparent;
-		transition: opacity 0.15s ease;
-
-		&:hover {
-			cursor: pointer;
-			opacity: 0.75;
-		}
-	}
-
-	> :first-child {
-		margin-top: 0;
-	}
-
-	> :last-child {
-		margin-bottom: 0;
-	}
-
-	.close-modal {
-		position: absolute;
-		top: 15px;
-		right: 15px;
-	}
-
-	.preloader {
-		display: block;
-		margin: 0 auto;
-		max-width: 75px;
-	}
-}
-
-.ReactModal__Content[aria-modalname="rankings"] {
-	max-height: 75%;
-}
-
-.wpquiz-info {
-	color: #0c5460;
-	background-color: #d1ecf1;
-	border-color: #bee5eb;
-	margin-top: 1em;
-	position: relative;
-	padding: 0.75rem 1.25rem;
-	margin-bottom: 1rem;
-	border: 1px solid transparent;
-	border-radius: 0.25rem;
-
-	&.no-rankings {
-		text-align: center;
-	}
+.quiz-blocks-rankings,
+.quiz-blocks-results,
+#quiz-blocks button.show-results {
+	display: none;
 }

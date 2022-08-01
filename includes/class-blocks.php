@@ -194,7 +194,7 @@ class Quiz_Blocks_Blocks {
 					print( '<div id="quiz-blocks">' );
 
 					printf(
-						'<h2>%s</h2>',
+						'<h2 class="quiz-title">%s</h2>',
 						esc_html( $quiz_content->post_title )
 					);
 
@@ -202,7 +202,7 @@ class Quiz_Blocks_Blocks {
 
 						printf(
 							'<button class="show-rankings button button_sliding_bg" data-quizid="%1$s">%2$s</button>
-							<div class="quiz-%1$s-rankings rankings"><img src="%3$s" class="preloader" /></div>',
+							<div class="quiz-%1$s-rankings quiz-blocks-rankings"><img src="%3$s" class="preloader" /></div>',
 							esc_attr( $atts['quizID'] ),
 							esc_html__( 'View Quiz Rankings', 'quiz-blocks' ),
 							plugin_dir_url( dirname( __FILE__ ) ) . 'src/img/preloader.svg'
@@ -217,9 +217,41 @@ class Quiz_Blocks_Blocks {
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
 
+					<button class="show-results button button_sliding_bg" data-quizid="<?php echo esc_attr( $atts['quizID'] ); ?>"><?php esc_html_e( 'View Results', 'quiz-blocks' ); ?></button>
+
 					<?php
 
+					if ( is_user_logged_in() && current_user_can( 'administrator' ) ) {
+
+							printf(
+								'<a href="%1$s" style="text-decoration: underline; color: #21759b;">%2$s</a>',
+								esc_url( admin_url( sprintf( 'post.php?post=%s&action=edit', $atts['quizID'] ) ) ),
+								esc_html__( 'Edit This Quiz', 'quiz-blocks' )
+							);
+
+					}
+
 					print( '</div>' );
+
+					printf(
+						'<div class="quiz-%1$s-results quiz-blocks-results">
+							<h2>%2$s</h2>
+							<p>%3$s</p>
+							<p>%4$s</p>
+						</div>',
+						esc_attr( $atts['quizID'] ),
+						esc_html__( 'Congratulations', 'quiz-blocks' ),
+						sprintf(
+							/* translators: %s is the percent correct <span> container. */
+							esc_html__( 'Percent Correct: %s', 'quiz-blocks' ),
+							'<span class="percent-correct"></span>'
+						),
+						sprintf(
+							/* translators: %s is the number correct <span> container. */
+							esc_html__( 'Number Correct: %s', 'quiz-blocks' ),
+							'<span class="number-correct"></span>'
+						)
+					);
 
 					return ob_get_clean();
 				},

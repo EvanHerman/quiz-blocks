@@ -93,8 +93,14 @@
   top: 0;
 }
 
+#quiz-blocks h2.quiz-title {
+  margin: 0.5em 0;
+  text-align: center;
+}
+
 #quiz-blocks-quiz {
   position: relative;
+  margin-bottom: 1em;
 }
 #quiz-blocks-quiz.is-loading form, #quiz-blocks-quiz.not-logged-in form {
   opacity: 0.25;
@@ -209,10 +215,17 @@
   margin: 0 auto;
 }
 
-.rankings.modal {
+.quiz-blocks-rankings.modal,
+.quiz-blocks-results.modal {
   min-width: 55%;
+  padding: 2em;
 }
-.rankings.modal .preloader {
+.quiz-blocks-rankings.modal h2,
+.quiz-blocks-results.modal h2 {
+  margin-top: 10px;
+}
+.quiz-blocks-rankings.modal .preloader,
+.quiz-blocks-results.modal .preloader {
   max-width: 75px;
   display: block;
   margin: 1em auto;
@@ -284,57 +297,11 @@
   background-position: 0px 0px;
   color: #ffffff;
 }
-#quiz-blocks .rankings,
-#quiz-blocks-quiz .rankings {
+
+.quiz-blocks-rankings,
+.quiz-blocks-results,
+#quiz-blocks button.show-results {
   display: none;
-}
-
-.ReactModal__Content[aria-modalname] h2 {
-  text-align: center;
-}
-.ReactModal__Content[aria-modalname] button.close-modal {
-  border: none;
-  background: transparent;
-  transition: opacity 0.15s ease;
-}
-.ReactModal__Content[aria-modalname] button.close-modal:hover {
-  cursor: pointer;
-  opacity: 0.75;
-}
-.ReactModal__Content[aria-modalname] > :first-child {
-  margin-top: 0;
-}
-.ReactModal__Content[aria-modalname] > :last-child {
-  margin-bottom: 0;
-}
-.ReactModal__Content[aria-modalname] .close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-.ReactModal__Content[aria-modalname] .preloader {
-  display: block;
-  margin: 0 auto;
-  max-width: 75px;
-}
-
-.ReactModal__Content[aria-modalname=rankings] {
-  max-height: 75%;
-}
-
-.wpquiz-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
-  margin-top: 1em;
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-.wpquiz-info.no-rankings {
-  text-align: center;
 }
 
 .answer label[data-animation=pop] {
