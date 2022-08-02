@@ -26,6 +26,8 @@ class Quiz_Blocks_CPT {
 
 		add_filter( 'enter_title_here', array( $this, 'change_placeholder_title_text' ) );
 
+		add_filter( 'the_title', array( $this, 'filter_no_quiz_name_title' ) );
+
 	}
 
 	/**
@@ -119,6 +121,15 @@ class Quiz_Blocks_CPT {
 
 		}
 
+		// View submissions script.
+		wp_enqueue_script(
+			'quiz-blocks-admin-table',
+			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/quiz-blocks-admin-table.js',
+			array( 'jquerymodal' ),
+			QUIZ_BLOCKS_VERSION,
+			true
+		);
+
 		$submissions = get_post_meta( $post_id, 'results' );
 
 		printf(
@@ -127,21 +138,36 @@ class Quiz_Blocks_CPT {
 			number_format_i18n( count( $submissions ) )
 		);
 
-		$url = wp_nonce_url(
+		$delete_url = wp_nonce_url(
 			add_query_arg(
 				array(
-					'wpquiz-action' => 'trash-submissions',
-					'quiz-id'       => $post_id,
+					'quiz-blocks-action' => 'trash-submissions',
+					'quiz-id'            => $post_id,
 				),
 				admin_url( 'edit.php?post_type=quiz' )
 			),
 			'trash-submissions'
 		);
 
+		$view_submission_url = add_query_arg(
+			array(
+				'quiz' => $post_id,
+			),
+			admin_url( 'edit.php?post_type=quiz&page=view-submissions' )
+		);
+
+		$quiz_name = get_the_title( $post_id );
+
+		$quiz_name = empty( $quiz_name ) ? __( '(no name)', 'quiz-blocks' ) : $quiz_name;
+
 		?>
 		<div class="row-actions">
+			<span class="view">
+				<a href="<?php echo esc_url( $view_submission_url ); ?>" class="view-submissions" aria-label="<?php esc_attr_e( 'View Submissions', 'quiz-blocks' ); ?>"><?php esc_attr_e( 'View Submissions', 'quiz-blocks' ); ?></a>
+			</span>
+			|
 			<span class="trash">
-				<a href="<?php echo esc_url( $url ); ?>" class="submitdelete" aria-label="<?php esc_attr_e( 'Clear All User Submissions', 'quiz-blocks' ); ?>"><?php esc_attr_e( 'Delete Quiz Submissions', 'quiz-blocks' ); ?></a>
+				<a href="<?php echo esc_url( $delete_url ); ?>" class="submitdelete" onclick="return confirm('<?php printf( /* translators: %s is the name of the quiz. */ esc_attr__( 'Are you sure you want to delete the %s submissions?', 'quiz-blocks' ), esc_attr( $quiz_name ) ); ?>')" aria-label="<?php esc_attr_e( 'Clear All User Submissions', 'quiz-blocks' ); ?>"><?php esc_attr_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
 			</span>
 		</div>
 		<?php
@@ -153,13 +179,13 @@ class Quiz_Blocks_CPT {
 	 */
 	public function clear_quiz_submissions() {
 
-		if ( ! isset( $_GET['wpquiz-action'] ) || ! isset( $_GET['quiz-id'] ) || ! isset( $_GET['_wpnonce'] ) ) {
+		if ( ! isset( $_GET['quiz-blocks-action'] ) || ! isset( $_GET['quiz-id'] ) || ! isset( $_GET['_wpnonce'] ) ) {
 
 			return;
 
 		}
 
-		$action  = filter_input( INPUT_GET, 'wpquiz-action', FILTER_SANITIZE_STRING );
+		$action  = filter_input( INPUT_GET, 'quiz-blocks-action', FILTER_SANITIZE_STRING );
 		$quiz_id = filter_input( INPUT_GET, 'quiz-id', FILTER_VALIDATE_INT );
 		$nonce   = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
 
@@ -205,7 +231,7 @@ class Quiz_Blocks_CPT {
 			sprintf(
 				/* translators: %s is the quiz name. */
 				esc_html__( '%s submissions deleted.', 'quiz-blocks' ),
-				$quiz->post_title
+				esc_html( empty( $quiz->post_title ) ? __( '(no name)', 'block-quiz' ) : $quiz->post_title )
 			)
 		);
 
@@ -237,6 +263,22 @@ class Quiz_Blocks_CPT {
 		}
 
 		return $title;
+
+	}
+
+	public function filter_no_quiz_name_title( $post_title ) {
+
+		global $pagenow;
+
+		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+		if ( ! is_admin() || empty( $pagenow ) || 'edit.php' !== $pagenow || ! $post_type || 'quiz' !== $post_type ) {
+
+			return $post_title;
+
+		}
+
+		return empty( $post_title ) ? '(no name)' : $post_title;
 
 	}
 

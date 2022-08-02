@@ -30,10 +30,14 @@ class Quiz_Blocks {
 	 */
 	public function __construct() {
 
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-helpers.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-blocks.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-cpt.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-submission-handler.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-rankings.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-user-profile.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-view-submissions.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-view-submission.php';
 
 	}
 

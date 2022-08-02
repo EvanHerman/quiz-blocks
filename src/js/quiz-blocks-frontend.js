@@ -43,6 +43,8 @@
 			const answers = form.serialize();
 			const quizID = form.data( 'quizid' );
 
+			timer.stop();
+
 			quiz.disableForm( form );
 
 			jQuery.post(
@@ -50,7 +52,8 @@
 				{
 					'action': 'validate_answers',
 					'quizID': quizID,
-					'answers': answers
+					'answers': answers,
+					'timeTaken': msTimeTaken
 				},
 				function ( response ) {
 					if ( response.success ) {
@@ -68,6 +71,8 @@
 						return;
 
 					}
+
+					console.error( response );
 
 					form.before(`<div class="quiz-blocks-alert error">${quizBlocks.errorText}</div>`);
 
@@ -112,7 +117,7 @@
 
 					}
 
-					console.error( ':(' );
+					console.error( response );
 				}
 			);
 
@@ -186,11 +191,40 @@
 
 	};
 
+	let start = 0;
+	let end = 0;
+	let msTimeTaken = 0;
+
+	var timer = {
+
+		start: function() {
+
+			if ( 0 !== start ) {
+				return;
+			}
+
+			start = new Date().getTime();
+
+		},
+
+		stop: function() {
+
+			end = new Date().getTime();
+
+			msTimeTaken = end - start;
+
+		},
+
+	};
+
 	// Add names to the form on render.
 	$( document ).ready( quiz.addNames );
 
 	// Click on an answer.
 	$( 'form#quiz-blocks-quiz label' ).on( 'click', quiz.addPopAnimation );
+
+	// Start the quiz timer.
+	$( 'form#quiz-blocks-quiz label' ).one( 'click', timer.start );
 
 	// Submit a quiz.
 	$( 'form#quiz-blocks-quiz' ).on( 'submit', quiz.submitQuiz );

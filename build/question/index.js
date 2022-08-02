@@ -68,8 +68,9 @@ function Edit(_ref) {
     const correctAnswerValues = [];
 
     for (var i = 0; i < attributes.answerCount; i++) {
+      const label = !attributes.answers[i] ? sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
       correctAnswerValues.push({
-        label: sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-blocks'), i + 1),
+        label: label,
         value: i
       });
     }
@@ -108,7 +109,7 @@ function Edit(_ref) {
     })
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
     tagName: "p",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type your question...'),
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type your question...', 'quiz-blocks'),
     value: attributes.question,
     onChange: question => setAttributes({
       question: question
@@ -128,7 +129,8 @@ function Edit(_ref) {
           answers: newAnswers
         });
       },
-      className: "answer"
+      className: "answer",
+      tabIndex: i
     });
   }))));
 }

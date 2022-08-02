@@ -37,9 +37,10 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	const correctAnswerValues = () => {
 		const correctAnswerValues = [];
 		for (var i = 0; i < attributes.answerCount; i++) {
+			const label = !attributes.answers[i] ? sprintf(__('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
 			correctAnswerValues.push(
 				{
-					label: sprintf(__('Answer %s', 'quiz-blocks'), i + 1),
+					label: label,
 					value: i
 				}
 			);
@@ -80,7 +81,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				<strong>
 					<RichText
 						tagName="p"
-						placeholder={__('Type your question...')}
+						placeholder={__('Type your question...', 'quiz-blocks')}
 						value={attributes.question}
 						onChange={(question) => setAttributes({ question: question })}
 						className="quiz-block-question"
@@ -99,6 +100,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 									setAttributes({ answers: newAnswers })
 								}}
 								className="answer"
+								tabIndex={i}
 							/>
 						)
 					})}

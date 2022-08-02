@@ -176,8 +176,15 @@ class Quiz_Blocks_Blocks {
 
 					}
 
+					// @todo: When users are not logged in, show the form but disable all fields and show a 'user must be logged in' notice.
+					if ( ! is_user_logged_in() ) {
+
+						return;
+
+					}
+
 					$quiz_content = get_post( $atts['quizID'] );
-					
+
 					if ( 'publish' !== $quiz_content->post_status ) {
 
 						return;

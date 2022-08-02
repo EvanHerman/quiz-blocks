@@ -42,6 +42,7 @@ class Quiz_Blocks_Submission_Handler {
 
 		$quiz_id      = filter_input( INPUT_POST, 'quizID', FILTER_VALIDATE_INT );
 		$user_answers = array_values( wp_parse_args( filter_input( INPUT_POST, 'answers' ) ) );
+		$time_taken   = filter_input( INPUT_POST, 'timeTaken', FILTER_VALIDATE_INT );
 
 		$correct_answers = $this->get_test_answers( $quiz_id );
 
@@ -63,7 +64,16 @@ class Quiz_Blocks_Submission_Handler {
 
 		$response['counts'] = array_count_values( $response['results'] );
 
-		$this->store_test_results( $quiz_id, $response );
+		$response['user_answers'] = $user_answers;
+
+		$response['snapshot'] = $this->get_test_snapshot( $quiz_id );
+
+		$response['time_taken'] = $time_taken;
+
+		$user_id = get_current_user_id();
+
+		$this->store_test_results( $user_id, $quiz_id, $response );
+		$this->store_user_meta( $user_id, $quiz_id, $response );
 
 		wp_send_json_success(
 			array(
@@ -112,12 +122,63 @@ class Quiz_Blocks_Submission_Handler {
 	}
 
 	/**
+	 * Get a "snapshot" for a given quiz.
+	 *
+	 * Note: A snapshot is just an array of questions and possible answers,
+	 *       incase a quiz changes AFTER a user submits it, you can still
+	 *       see what the questions and answers were at the time of submission.
+	 *
+	 * @param int $quiz_id The quiz ID to retreive questions for.
+	 *
+	 * @return array Question/Answers array for a given quiz.
+	 */
+	private function get_test_snapshot( $quiz_id ) {
+
+		$questions = array();
+		$post      = get_post( $quiz_id );
+
+		if ( has_blocks( $post->post_content ) ) {
+
+			// Filter out empty blocks on the page.
+			$blocks = array_values( array_filter(
+				parse_blocks( $post->post_content ),
+				function( $value ) {
+					return ! empty( $value['attrs'] );
+				}
+			) );
+
+			$block_attributes = wp_list_pluck( $blocks, 'attrs' );
+			$questions        = wp_list_pluck( $block_attributes, 'question' );
+			$answers          = wp_list_pluck( $block_attributes, 'answers' );
+
+			$questions = array_map( 'wp_strip_all_tags', $questions );
+
+			$snapshot = array();
+
+			foreach ( $questions as $index => $question ) {
+
+				$snapshot[] = array(
+					'question' => $question,
+					'answers'  => $answers[ $index ],
+				);
+
+			}
+
+			return $snapshot;
+
+		}
+
+		return $questions;
+
+	}
+
+	/**
 	 * Store the results for the test.
 	 *
 	 * @param int   $quiz_id The quiz ID to retreive answers for.
 	 * @param array $results The quiz results.
 	 */
-	private function store_test_results( $quiz_id, $results ) {
+	private function store_test_results( $user_id, $quiz_id, $results ) {
 
 		$existing_results = get_post_meta( $quiz_id, 'results', true );
 
@@ -127,33 +188,80 @@ class Quiz_Blocks_Submission_Handler {
 
 		}
 
-		$user_id = get_current_user_id();
-
-		// Determine if user already submitted results to this test.
-		$existing_user_key = array_search( $user_id, array_column( $existing_results, 'user_id' ), true );
-
 		$correct_count   = isset( $results['counts']['correct'] ) ? $results['counts']['correct'] : 0;
 		$incorrect_count = isset( $results['counts']['incorrect'] ) ? $results['counts']['incorrect'] : 0;
 		$percent_correct = ( $correct_count / count( $results['results'] ) ) * 100;
 
+		$results['user_id']             = $user_id;
+		$results['percent']             = $percent_correct;
+		$results['counts']['correct']   = $correct_count;
+		$results['counts']['incorrect'] = $incorrect_count;
+		$results['date']                = strtotime( 'now' );
+
+		// Determine if user already submitted results to this test.
+		$existing_user_key = array_search( $user_id, array_column( $existing_results, 'user_id' ), true );
+
 		// Update a user had previously submitted the quiz.
 		if ( false !== $existing_user_key ) {
-			$existing_results[ $existing_user_key ]['percent']             = $percent_correct;
-			$existing_results[ $existing_user_key ]['counts']['correct']   = $correct_count;
-			$existing_results[ $existing_user_key ]['counts']['incorrect'] = $incorrect_count;
+			$existing_results[ $existing_user_key ] = $results;
 
 			update_post_meta( $quiz_id, 'results', $existing_results );
 
 			return;
 		}
 
-		$results['user_id'] = $user_id;
-		$results['percent'] = $percent_correct;
-		$results['date']    = strtotime( 'now' );
-
 		$existing_results[] = $results;
 
 		update_post_meta( $quiz_id, 'results', $existing_results );
+
+	}
+	
+	/**
+	 * Store the results for the test in the user_meta.
+	 *
+	 * @param int   $quiz_id The quiz ID to retreive answers for.
+	 * @param array $results The quiz results.
+	 */
+	private function store_user_meta( $user_id, $quiz_id, $results ) {
+
+		$existing_results = get_user_meta( $user_id, 'quiz_results', true );
+
+		if ( ! $existing_results ) {
+
+			$existing_results = array();
+
+		}
+
+		// Determine if user already submitted results to this quiz.
+		$existing_quiz_key = array_search( $quiz_id, array_column( $existing_results, 'quiz_id' ), true );
+
+		$correct_count   = isset( $results['counts']['correct'] ) ? $results['counts']['correct'] : 0;
+		$incorrect_count = isset( $results['counts']['incorrect'] ) ? $results['counts']['incorrect'] : 0;
+		$percent_correct = ( $correct_count / count( $results['results'] ) ) * 100;
+
+		// Update a user had previously submitted the quiz.
+		if ( false !== $existing_quiz_key ) {
+			$existing_results[ $existing_quiz_key ]['percent']             = $percent_correct;
+			$existing_results[ $existing_quiz_key ]['counts']['correct']   = $correct_count;
+			$existing_results[ $existing_quiz_key ]['counts']['incorrect'] = $incorrect_count;
+
+			update_user_meta( $user_id, 'quiz_results', $existing_results );
+
+			return;
+		}
+
+		$results['quiz_id']             = $quiz_id;
+		$results['percent']             = $percent_correct;
+		$results['date']                = strtotime( 'now' );
+		$results['counts']['correct']   = $correct_count;
+		$results['counts']['incorrect'] = $incorrect_count;
+
+		$existing_results[] = $results;
+
+		update_option( 'etest_results', $results );
+		update_option( 'etest_existing_results', $existing_results );
+
+		update_user_meta( $user_id, 'quiz_results', $existing_results );
 
 	}
 
