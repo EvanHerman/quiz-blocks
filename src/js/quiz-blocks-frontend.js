@@ -51,7 +51,10 @@
 			const answers = form.serialize();
 			const quizID = form.data( 'quizid' );
 
-			if ( form.hasClass( 'not-logged-in' ) ) {
+			if (
+				form.hasClass( 'not-logged-in' ) ||
+				form.hasClass('multiple-submissions-disabled')
+			) {
 				return false; 
 			}
 
