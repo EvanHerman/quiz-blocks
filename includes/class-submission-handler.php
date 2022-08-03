@@ -232,6 +232,12 @@ class Quiz_Blocks_Submission_Handler {
 
 		// Update a user had previously submitted the quiz.
 		if ( false !== $existing_user_key ) {
+
+			// Prevent multiple submissions, when disabled.
+			if ( ! $block_attributes['multipleSubmissions'] ) {
+				return;
+			}
+
 			$existing_results[ $existing_user_key ] = $results;
 
 			update_post_meta( $quiz_id, 'results', $existing_results );
