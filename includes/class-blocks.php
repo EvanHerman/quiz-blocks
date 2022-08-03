@@ -21,7 +21,7 @@ class Quiz_Blocks_Blocks {
 
 		$this->helpers = new Quiz_Blocks_Helpers();
 
-		add_filter( 'block_categories_all',  array( $this, 'custom_block_category' ), PHP_INT_MAX, 2 );
+		add_filter( 'block_categories_all', array( $this, 'custom_block_category' ), PHP_INT_MAX, 2 );
 
 		add_filter( 'allowed_block_types_all', array( $this, 'quiz_allowed_blocks' ), PHP_INT_MAX, 2 );
 
@@ -35,7 +35,7 @@ class Quiz_Blocks_Blocks {
 
 	}
 
-	public function custom_block_category( $block_categories, $editor_context ) {
+	public function custom_block_category( $block_categories ) {
 
 		array_push(
 			$block_categories,
@@ -57,7 +57,6 @@ class Quiz_Blocks_Blocks {
 	 * @param mixed $post Gets current post type.
 	 *
 	 * @return mixed $allowed_blocks Returns the allowed blocks.
-	 *
 	 */
 	public function quiz_allowed_blocks( $allowed_block_types, $editor_context ) {
 
@@ -213,8 +212,6 @@ class Quiz_Blocks_Blocks {
 
 					$classes = array();
 
-					if ( $atts['multipleSubmissions'] ) 
-
 					ob_start();
 
 					print( '<div id="quiz-blocks">' );
@@ -250,7 +247,7 @@ class Quiz_Blocks_Blocks {
 							get_option( 'users_can_register' ) ? sprintf(
 								'<a href="%1$s" class="button_sliding_bg button login">%2$s</a>',
 								esc_url( wp_registration_url() ),
-								esc_html( 'Register', 'quiz-blocks' )
+								esc_html__( 'Register', 'quiz-blocks' )
 							) : ''
 						);
 
@@ -331,11 +328,11 @@ class Quiz_Blocks_Blocks {
 
 		// obfuscate question text.
 		shuffle( $word_list );
-		$quiz_markup = preg_replace( '/(<strong.*?>).*?(<\/strong>)/', '$1'. implode( ' ', array_slice( $word_list, 0, 3 ) ) .'$2', $quiz_markup );
+		$quiz_markup = preg_replace( '/(<strong.*?>).*?(<\/strong>)/', '$1' . implode( ' ', array_slice( $word_list, 0, 3 ) ) . '$2', $quiz_markup );
 
 		// obfuscate answer text.
 		shuffle( $word_list );
-		$quiz_markup = preg_replace( '/(<label.*?>).*?(<\/label>)/', '$1'. implode( ' ', array_slice( $word_list, 0, 3 ) ) .'$2', $quiz_markup );
+		$quiz_markup = preg_replace( '/(<label.*?>).*?(<\/label>)/', '$1' . implode( ' ', array_slice( $word_list, 0, 3 ) ) . '$2', $quiz_markup );
 
 		return $quiz_markup;
 

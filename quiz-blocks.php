@@ -12,6 +12,7 @@
  *
  * @package           create-block
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 
 	exit;
@@ -21,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'QUIZ_BLOCKS_VERSION', '1.0.0' );
 define( 'JQUERY_MODAL_VERSION', '0.9.1' );
 
+/**
+ * Quiz Blocks main class.
+ */
 class Quiz_Blocks {
 
 	/**

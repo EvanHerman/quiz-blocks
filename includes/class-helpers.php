@@ -56,7 +56,7 @@ class Quiz_Blocks_Helpers {
 		}
 
 	}
-	
+
 	/**
 	 * Retrieve quiz attributes from blocks for a given quiz ID.
 	 *

@@ -120,12 +120,14 @@ class Quiz_Blocks_Submission_Handler {
 		if ( has_blocks( $post->post_content ) ) {
 
 			// Filter out empty blocks on the page.
-			$blocks = array_values( array_filter(
-				parse_blocks( $post->post_content ),
-				function( $value ) {
-					return ! empty( $value['attrs'] );
-				}
-			) );
+			$blocks = array_values(
+				array_filter(
+					parse_blocks( $post->post_content ),
+					function( $value ) {
+						return ! empty( $value['attrs'] );
+					}
+				)
+			);
 
 			$block_attributes = wp_list_pluck( $blocks, 'attrs' );
 			$answers          = wp_list_pluck( $block_attributes, 'correctAnswer' );
@@ -161,12 +163,14 @@ class Quiz_Blocks_Submission_Handler {
 		if ( has_blocks( $post->post_content ) ) {
 
 			// Filter out empty blocks on the page.
-			$blocks = array_values( array_filter(
-				parse_blocks( $post->post_content ),
-				function( $value ) {
-					return ! empty( $value['attrs'] );
-				}
-			) );
+			$blocks = array_values(
+				array_filter(
+					parse_blocks( $post->post_content ),
+					function( $value ) {
+						return ! empty( $value['attrs'] );
+					}
+				)
+			);
 
 			$block_attributes = wp_list_pluck( $blocks, 'attrs' );
 			$questions        = wp_list_pluck( $block_attributes, 'question' );
@@ -236,7 +240,7 @@ class Quiz_Blocks_Submission_Handler {
 		update_post_meta( $quiz_id, 'results', $existing_results );
 
 	}
-	
+
 	/**
 	 * Store the results for the test in the user_meta.
 	 *

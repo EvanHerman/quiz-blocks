@@ -116,7 +116,7 @@ function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 				esc_html__( '%s Submissions', 'quiz-blocks' ),
 				esc_html( $quiz_name )
 			);
-		?>
+			?>
 	</h1>
 
 	<div id="poststuff">

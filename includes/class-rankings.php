@@ -134,7 +134,7 @@ class Quiz_Blocks_Rankings {
 				break;
 		}
 
-		return ! $icon ? '' : '<img class="medal" src="' . $icon .'" alt="' . $alt . '" />';
+		return ! $icon ? '' : '<img class="medal" src="' . $icon . '" alt="' . $alt . '" />';
 
 	}
 

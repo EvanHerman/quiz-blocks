@@ -79,14 +79,14 @@ class Quiz_Blocks_View_Submission {
 			'all'
 		);
 
-		$custom_css = "#quiz-blocks {
+		$custom_css = '#quiz-blocks {
 			max-width: 60%;
 			margin: 0 auto;
 		}
 		#poststuff h2.quiz-title {
 			font-size: 1.5rem;
 			margin: 0 0 1em 0;
-		}";
+		}';
 
 		wp_add_inline_style( 'quiz-blocks-styles', $custom_css );
 
@@ -169,14 +169,14 @@ class Quiz_Blocks_View_Submission {
 
 				<?php
 
-					foreach ( $user_submission_data['snapshot'] as $question_index => $question_block ) {
+				foreach ( $user_submission_data['snapshot'] as $question_index => $question_block ) {
 
-						$question = $question_block['question'];
-						$answers  = $question_block['answers'];
+					$question = $question_block['question'];
+					$answers  = $question_block['answers'];
 
-						$correct_class = ( 'correct' === $user_submission_data['results'][ $question_index ] ) ? 'correct' : 'incorrect';
+					$correct_class = ( 'correct' === $user_submission_data['results'][ $question_index ] ) ? 'correct' : 'incorrect';
 
-						?>
+					?>
 
 						<div class="question">
 							<p>
@@ -185,29 +185,29 @@ class Quiz_Blocks_View_Submission {
 								</strong>
 							</p>
 							<div class="answers <?php echo esc_attr( $correct_class ); ?>">
-								<?php
+							<?php
 
-									foreach ( $answers as $index => $answer ) {
+							foreach ( $answers as $index => $answer ) {
 
-										printf(
-											'<div class="answer">
+								printf(
+									'<div class="answer">
 												<input type="radio" required disabled="disabled" %2$s>
 												<label>%3$s</label>
 											</div>',
-											esc_attr( $index ),
-											checked( $user_submission_data['user_answers'][ $question_index ], $index, false ),
-											wp_kses_post( $answer )
-										);
+									esc_attr( $index ),
+									checked( $user_submission_data['user_answers'][ $question_index ], $index, false ),
+									wp_kses_post( $answer )
+								);
 
-									}
+							}
 
-								?>
+							?>
 							</div>
 						</div>
 
 						<?php
 
-					}
+				}
 
 				?>
 
