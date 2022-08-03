@@ -85,7 +85,7 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
-				<PanelBody title={__('Quiz Settings', 'quiz-blocks')} initialOpen={true}>
+				<PanelBody title={__('Display Settings', 'quiz-blocks')} initialOpen={true}>
 					<SelectControl
 						label={__('Select which quiz to display.', 'quiz-blocks')}
 						value={attributes.quizID}
@@ -93,14 +93,35 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 						onChange={(quizID) => setAttributes({ quizID: parseInt(quizID) })}
 					/>
 					<ToggleControl
-						label={__('Show Quiz Title?', 'quiz-blocks')}
+						label={attributes.showTitle ? __('Quiz Title Enabled', 'quiz-blocks') : __('Quiz Title Disabled', 'quiz-blocks')}
 						checked={attributes.showTitle}
 						onChange={(showTitle) => setAttributes({ showTitle: !attributes.showTitle })}
 					/>
+				</PanelBody>
+				<PanelBody title={__('Quiz Settings', 'quiz-blocks')} initialOpen={true}>
 					<ToggleControl
-						label={__('Show Rankings?', 'quiz-blocks')}
+						label={attributes.useRankings ? __('Rankings Enabled', 'quiz-blocks') : __('Rankings Disabled', 'quiz-blocks')}
 						checked={attributes.useRankings}
 						onChange={(useRankings) => setAttributes({ useRankings: !attributes.useRankings })}
+						help={attributes.useRankings ? __('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : __('Rankings are disabled. Non-logged in users can submit the form. Quiz submissions will not be saved.', 'quiz-blocks')}
+					/>
+					<ToggleControl
+						label={attributes.showResults ? __('Show Results Enabled', 'quiz-blocks') : __('Show Results Disabled', 'quiz-blocks')}
+						checked={attributes.showResults}
+						onChange={(showResults) => setAttributes({ showResults: !attributes.showResults })}
+						help={attributes.showResults ? __('Results will be shown to the user after the quiz is submitted. Users will see how many questions they got right, and the percent correct.', 'quiz-blocks') : __('Results will not be shown to the user after the quiz is submitted.', 'quiz-blocks')}
+					/>
+					<ToggleControl
+						label={attributes.showAnswers ? __('Show Answers Enabled', 'quiz-blocks') : __('Show Answers Disabled', 'quiz-blocks')}
+						checked={attributes.showAnswers}
+						onChange={(showAnswers) => setAttributes({ showAnswers: !attributes.showAnswers })}
+						help={attributes.showAnswers ? __('After the quiz is submitted, the correct answers will be shown to the user.', 'quiz-blocks') : __('After the quiz is submitted, the answers will not be shown to the user.', 'quiz-blocks')}
+					/>
+					<ToggleControl
+						label={attributes.multipleSubmissions ? __('Multiple Submissions Enabled', 'quiz-blocks') : __('Multiple Submissions Disabled', 'quiz-blocks')}
+						checked={attributes.multipleSubmissions}
+						onChange={(multipleSubmissions) => setAttributes({ multipleSubmissions: !attributes.multipleSubmissions })}
+						help={attributes.multipleSubmissions ? __('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : __('Users can only submit this quiz one time.', 'quiz-blocks')}
 					/>
 				</PanelBody>
 			</InspectorControls>

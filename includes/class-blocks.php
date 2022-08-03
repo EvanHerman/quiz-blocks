@@ -13,9 +13,13 @@ class Quiz_Blocks_Blocks {
 
 	private $blocks_dir;
 
+	private $helpers;
+
 	public function __construct() {
 
 		$this->blocks_dir = basename( __DIR__ ) . '/../build/';
+
+		$this->helpers = new Quiz_Blocks_Helpers();
 
 		add_filter( 'block_categories_all',  array( $this, 'custom_block_category' ), PHP_INT_MAX, 2 );
 
@@ -156,28 +160,33 @@ class Quiz_Blocks_Blocks {
 				'title'           => __( 'Quiz', 'quiz-blocks' ),
 				'style'           => 'quiz-blocks-styles',
 				'attributes'      => array(
-					'quizID' => array(
+					'quizID'              => array(
 						'type'    => 'integer',
 						'default' => 0,
 					),
-					'useRankings' => array(
+					'useRankings'         => array(
 						'type'    => 'boolean',
 						'default' => true,
 					),
-					'showTitle'   => array(
+					'showTitle'           => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'showResults'         => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'showAnswers'         => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'multipleSubmissions' => array(
 						'type'    => 'boolean',
 						'default' => true,
 					),
 				),
 				'render_callback' => function( $atts ) {
 					if ( 0 === $atts['quizID'] ) {
-
-						return;
-
-					}
-
-					// @todo: When users are not logged in, show the form but disable all fields and show a 'user must be logged in' notice.
-					if ( ! is_user_logged_in() ) {
 
 						return;
 
@@ -200,6 +209,12 @@ class Quiz_Blocks_Blocks {
 
 					}
 
+					$is_logged_in = is_user_logged_in();
+
+					$classes = array();
+
+					if ( $atts['multipleSubmissions'] ) 
+
 					ob_start();
 
 					print( '<div id="quiz-blocks">' );
@@ -209,7 +224,7 @@ class Quiz_Blocks_Blocks {
 						esc_html( $quiz_content->post_title )
 					);
 
-					if ( $atts['useRankings'] ) {
+					if ( $is_logged_in && $atts['useRankings'] ) {
 
 						printf(
 							'<button class="show-rankings button button_sliding_bg" data-quizid="%1$s">%2$s</button>
@@ -221,9 +236,47 @@ class Quiz_Blocks_Blocks {
 
 					}
 
+					if ( ! $is_logged_in && $atts['useRankings'] ) {
+						$classes[] = 'not-logged-in';
+						printf(
+							'<div class="login-notice">
+								<h4>%1$s</h4>
+								<a href="%2$s" class="button_sliding_bg button login">%3$s</a>
+								%4$s
+							</div>',
+							esc_html__( 'Please log in to access this test.', 'quiz-blocks' ),
+							esc_url( wp_login_url() ),
+							esc_html__( 'Login', 'quiz-blocks' ),
+							get_option( 'users_can_register' ) ? sprintf(
+								'<a href="%1$s" class="button_sliding_bg button login">%2$s</a>',
+								esc_url( wp_registration_url() ),
+								esc_html( 'Register', 'quiz-blocks' )
+							) : ''
+						);
+
+						// Obfuscate the questions and answers.
+						$quiz = $this->obfuscate_questions( $quiz );
+					}
+
+					if ( ! $atts['multipleSubmissions'] ) {
+						$classes[] = 'multiple-submissions-disabled';
+						printf(
+							'<div class="multiple-submissions-disabled-notice">
+								<h4>%1$s</h4>
+								<a href="%1$s" class="show-existing-results button_sliding_bg button" data-quizid="%2$s">%3$s</a>
+							</div>',
+							esc_html__( 'You have already submitted this form.', 'quiz-blocks' ),
+							esc_attr( $atts['quizID'] ),
+							esc_html__( 'View Results', 'quiz-blocks' )
+						);
+
+						// Obfuscate the questions and answers.
+						$quiz = $this->obfuscate_questions( $quiz );
+					}
+
 					?>
 
-					<form id="quiz-blocks-quiz" data-quizid="<?php echo esc_attr( $atts['quizID'] ); ?>">
+					<form id="quiz-blocks-quiz" data-quizid="<?php echo esc_attr( $atts['quizID'] ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 						<?php echo $quiz; ?>
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
@@ -268,6 +321,23 @@ class Quiz_Blocks_Blocks {
 				},
 			)
 		);
+
+	}
+
+	private function obfuscate_questions( $quiz_markup ) {
+
+		$text      = 'Sociosqu consectetuer. Placerat nisl, hendrerit. Morbi lobortis vitae non mattis pellentesque hendrerit ultrices ante neque dui. Torquent inceptos. Penatibus est eu libero non enim class auctor purus a netus curae; purus feugiat ultricies. Adipiscing nec cubilia metus convallis, nunc. Ridiculus placerat praesent a. Taciti litora sociis congue eu ullamcorper egestas ac adipiscing orci. Cras integer porttitor et convallis. Enim nisi nulla luctus Bibendum Gravida ut nonummy montes, nonummy bibendum pharetra malesuada. Pretium luctus suspendisse. Malesuada scelerisque nec pretium class hendrerit hendrerit nisi iaculis. Netus enim auctor. Tellus aliquam magna feugiat aenean vestibulum sapien pharetra laoreet ac volutpat venenatis curabitur sapien.';
+		$word_list = explode( ' ', $text );
+
+		// obfuscate question text.
+		shuffle( $word_list );
+		$quiz_markup = preg_replace( '/(<strong.*?>).*?(<\/strong>)/', '$1'. implode( ' ', array_slice( $word_list, 0, 3 ) ) .'$2', $quiz_markup );
+
+		// obfuscate answer text.
+		shuffle( $word_list );
+		$quiz_markup = preg_replace( '/(<label.*?>).*?(<\/label>)/', '$1'. implode( ' ', array_slice( $word_list, 0, 3 ) ) .'$2', $quiz_markup );
+
+		return $quiz_markup;
 
 	}
 

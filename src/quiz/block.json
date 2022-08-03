@@ -22,6 +22,18 @@
 		"showTitle": {
 			"type": "boolean",
 			"default": true
+		},
+		"showAnswers": {
+			"type": "boolean",
+			"default": true
+		},
+		"showResults": {
+			"type": "boolean",
+			"default": true
+		},
+		"multipleSubmissions": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"textdomain": "quiz-blocks",

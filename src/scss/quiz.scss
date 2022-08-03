@@ -8,15 +8,65 @@
 }
 
 #quiz-blocks {
+	position: relative;
+
 	h2.quiz-title {
 		margin: 0.5em 0;
 		text-align: center;
+	}
+
+	.login-notice,
+	.multiple-submissions-disabled-notice {
+		position: absolute;
+		top: 0;
+		background: white;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		height: 210px;
+		width: 85%;
+		text-align: center;
+		z-index: 2;
+		border: 1px solid #21749b50;
+		border-radius: 5px;
+		box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
+
+		h4 {
+			margin: 1em 0;
+		}
+
+		a.login {
+			margin: 0;
+		}
 	}
 }
 
 #quiz-blocks-quiz {
 	position: relative;
 	margin-bottom: 1em;
+
+	&.not-logged-in,
+	&.multiple-submissions-disabled {
+		filter: blur(0.25rem);
+		position: relative;
+
+		label:hover,
+		.question strong,
+		input[type="submit"] {
+			cursor: default !important;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		.question {
+			opacity: 0.5;
+		}
+	}
 
 	&.is-loading form,
 	&.not-logged-in form {

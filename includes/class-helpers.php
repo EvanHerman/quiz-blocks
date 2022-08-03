@@ -56,5 +56,30 @@ class Quiz_Blocks_Helpers {
 		}
 
 	}
+	
+	/**
+	 * Retrieve quiz attributes from blocks for a given quiz ID.
+	 *
+	 * @param integer $quiz_id The quiz ID to pull attributes for.
+	 * @param array   $blocks  Post content block array.
+	 *
+	 * @return array The attributes for the specified quiz, else empty.
+	 */
+	public function get_block_attributes( $quiz_id, $blocks ) {
+
+		if ( ! $quiz_id || empty( $blocks ) ) {
+			return array();
+		}
+
+		foreach ( $blocks as $block ) {
+			if ( ! isset( $block['attrs']['quizID'] ) || $quiz_id !== $block['attrs']['quizID'] ) {
+				continue;
+			}
+			return $block['attrs'];
+		}
+
+		return array();
+
+	}
 
 }

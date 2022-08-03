@@ -11,7 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Quiz_Blocks_Submission_Handler {
 
+	private $helpers;
+
 	public function __construct() {
+
+		$this->helpers = new Quiz_Blocks_Helpers();
 
 		add_action( 'wp_ajax_validate_answers', array( $this, 'validate_answers' ), PHP_INT_MAX );
 
@@ -40,9 +44,22 @@ class Quiz_Blocks_Submission_Handler {
 
 		}
 
+		$post_id = url_to_postid( wp_get_referer() );
+
+		$block_attributes = array();
+
 		$quiz_id      = filter_input( INPUT_POST, 'quizID', FILTER_VALIDATE_INT );
 		$user_answers = array_values( wp_parse_args( filter_input( INPUT_POST, 'answers' ) ) );
 		$time_taken   = filter_input( INPUT_POST, 'timeTaken', FILTER_VALIDATE_INT );
+
+		if ( 0 !== $post_id ) {
+
+			$post   = get_post( $post_id );
+			$blocks = parse_blocks( $post->post_content );
+
+			$block_attributes = $this->helpers->get_block_attributes( $quiz_id, $blocks );
+
+		}
 
 		$correct_answers = $this->get_test_answers( $quiz_id );
 
@@ -74,6 +91,10 @@ class Quiz_Blocks_Submission_Handler {
 
 		$this->store_test_results( $user_id, $quiz_id, $response );
 		$this->store_user_meta( $user_id, $quiz_id, $response );
+
+		// Not stored as user data.
+		$response['show_answers'] = isset( $block_attributes['showAnswers'] ) ? $block_attributes['showAnswers'] : true;
+		$response['show_results'] = isset( $block_attributes['showResults'] ) ? $block_attributes['showResults'] : true;
 
 		wp_send_json_success(
 			array(

@@ -18,6 +18,14 @@
 			} );
 		},
 
+		notLoggedIn: function() {
+			$( '#quiz-blocks-quiz.not-logged-in' ).find( 'input' ).attr( 'disabled', 'disabled' );
+		},
+
+		multipleSubmissionsDisabled: function() {
+			$( '#quiz-blocks-quiz.multiple-submissions-disabled' ).find( 'input' ).attr( 'disabled', 'disabled' );
+		},
+
 		addPopAnimation: function( event ) {
 			const button = $( event.target );
 			if (button.prev().prop('disabled')) {
@@ -43,6 +51,10 @@
 			const answers = form.serialize();
 			const quizID = form.data( 'quizid' );
 
+			if ( form.hasClass( 'not-logged-in' ) ) {
+				return false; 
+			}
+
 			timer.stop();
 
 			quiz.disableForm( form );
@@ -58,10 +70,10 @@
 				function ( response ) {
 					if ( response.success ) {
 
-						const quizResults = response.data.response.results;
 						const quizResponse = response.data.response;
 
-						quiz.markCorrectAnswers( form, quizResults );
+						quiz.markCorrectAnswers(form, quizResponse );
+
 						results.show( quizID, quizResponse );
 
 						form.before( `<div class="quiz-blocks-alert success">${quizBlocks.successText}</div>` );
@@ -80,11 +92,18 @@
 			);
 		},
 
-		markCorrectAnswers: function( form, results ) {
+		markCorrectAnswers: function( form, quizResults ) {
+
+			// Do not show the user the correct answers.
+			if ( ! quizResults.show_answers ) {
+				return;
+			}
+
+			const results = quizResults.results;
 
 			for (var i = 0; i < results.length; i++) {
 				let nthChild = i+1;
-				form.find('.question:nth-child(' + nthChild + ') .answers').addClass( results[i] );
+				form.find( '.question:nth-child(' + nthChild + ') .answers' ).addClass( results[i] );
 			}
 
 		},
@@ -105,7 +124,7 @@
 			jQuery.get(
 				quizBlocks.ajaxURL,
 				{
-					'action': 'get_rankings',
+					'action': 'get_existing_ranking',
 					'quizID': quizID
 				},
 				function (response) {
@@ -137,6 +156,11 @@
 	var results = {
 
 		show: function( quizID, response ) {
+			// Do not show the user the results modal.
+			if ( ! response.show_results ) {
+				return;
+			}
+
 			const numberCorrect = response.counts.correct ?? 0;
 			const percentCorrect = ( ( numberCorrect / response.results.length ) * 100 ) + '%';
 
@@ -150,6 +174,39 @@
 			$( `button[data-quizid="${quizID}"].show-results` ).show();
 
 			confetti.start();
+		},
+
+		showExisting: function( event ) {
+			event.preventDefault();
+			const button = $( event.target );
+			const quizID = button.data( 'quizid' );
+
+			jQuery.get(
+				quizBlocks.ajaxURL,
+				{
+					'action': 'get_existing_result',
+					'quizID': quizID
+				},
+				function (response) {
+					if (response.success) {
+
+						$(`.quiz-${quizID}-results`).find('.percent-correct').text(response.data.results.percent);
+						$(`.quiz-${quizID}-results`).find('.number-correct').text(response.data.results.counts.correct ?? 0);
+
+						$(`.quiz-${quizID}-results`).modal({
+							fadeDuration: 150
+						});
+
+						confetti.start();
+
+						return;
+
+					}
+
+					console.error(response);
+				}
+			);
+
 		},
 
 	};
@@ -220,6 +277,12 @@
 	// Add names to the form on render.
 	$( document ).ready( quiz.addNames );
 
+	// Disable the form when user is not logged in.
+	$( document ).ready( quiz.notLoggedIn );
+
+	// Disable/Style the form when multiple submissions are disabled.
+	$( document ).ready( quiz.multipleSubmissionsDisabled );
+
 	// Click on an answer.
 	$( 'form#quiz-blocks-quiz label' ).on( 'click', quiz.addPopAnimation );
 
@@ -231,6 +294,9 @@
 
 	// Show the rankings modal.
 	$( 'button.show-rankings' ).on( 'click', rankings.show );
+
+	// Show the rankings modal.
+	$( 'a.show-existing-results' ).on( 'click', results.showExisting );
 
 	// Show the results modal.
 	$( 'button.show-results' ).on( 'click', function( event ) {
