@@ -87,10 +87,14 @@ class Quiz_Blocks_Submission_Handler {
 
 		$response['time_taken'] = $time_taken;
 
-		$user_id = get_current_user_id();
+		if ( $block_attributes['useRankings'] ) {
 
-		$this->store_test_results( $user_id, $quiz_id, $response );
-		$this->store_user_meta( $user_id, $quiz_id, $response );
+			$user_id = get_current_user_id();
+
+			$this->store_test_results( $user_id, $quiz_id, $response, $block_attributes );
+			$this->store_user_meta( $user_id, $quiz_id, $response,  $block_attributes );
+
+		}
 
 		// Not stored as user data.
 		$response['show_answers'] = isset( $block_attributes['showAnswers'] ) ? $block_attributes['showAnswers'] : true;
@@ -203,7 +207,7 @@ class Quiz_Blocks_Submission_Handler {
 	 * @param int   $quiz_id The quiz ID to retreive answers for.
 	 * @param array $results The quiz results.
 	 */
-	private function store_test_results( $user_id, $quiz_id, $results ) {
+	private function store_test_results( $user_id, $quiz_id, $results, $block_attributes ) {
 
 		$existing_results = get_post_meta( $quiz_id, 'results', true );
 
@@ -247,7 +251,7 @@ class Quiz_Blocks_Submission_Handler {
 	 * @param int   $quiz_id The quiz ID to retreive answers for.
 	 * @param array $results The quiz results.
 	 */
-	private function store_user_meta( $user_id, $quiz_id, $results ) {
+	private function store_user_meta( $user_id, $quiz_id, $results, $block_attributes ) {
 
 		$existing_results = get_user_meta( $user_id, 'quiz_results', true );
 
@@ -266,6 +270,12 @@ class Quiz_Blocks_Submission_Handler {
 
 		// Update a user had previously submitted the quiz.
 		if ( false !== $existing_quiz_key ) {
+
+			// Prevent multiple submissions, when disabled.
+			if ( ! $block_attributes['multipleSubmissions'] ) {
+				return;
+			}
+
 			$existing_results[ $existing_quiz_key ]['percent']             = $percent_correct;
 			$existing_results[ $existing_quiz_key ]['counts']['correct']   = $correct_count;
 			$existing_results[ $existing_quiz_key ]['counts']['incorrect'] = $incorrect_count;
