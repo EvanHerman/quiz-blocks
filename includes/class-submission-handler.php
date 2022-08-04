@@ -94,7 +94,7 @@ class Quiz_Blocks_Submission_Handler {
 			$user_id = get_current_user_id();
 
 			$this->store_test_results( $user_id, $quiz_id, $response, $block_attributes );
-			$this->store_user_meta( $user_id, $quiz_id, $response,  $block_attributes );
+			$this->store_user_meta( $user_id, $quiz_id, $response, $block_attributes );
 
 		}
 
@@ -204,7 +204,9 @@ class Quiz_Blocks_Submission_Handler {
 	}
 
 	/**
-	 * Store the results for the test.
+	 * Store the results for the quiz.
+	 *
+	 * Note: quiz results are stored in post_meta for the post/page the quiz is on.
 	 *
 	 * @param int   $quiz_id The quiz ID to retreive answers for.
 	 * @param array $results The quiz results.
@@ -219,6 +221,8 @@ class Quiz_Blocks_Submission_Handler {
 
 		}
 
+		$allow_multiple_submissions = isset( $block_attributes['multipleSubmissions'] ) ? $block_attributes['multipleSubmissions'] : true;
+
 		$correct_count   = isset( $results['counts']['correct'] ) ? $results['counts']['correct'] : 0;
 		$incorrect_count = isset( $results['counts']['incorrect'] ) ? $results['counts']['incorrect'] : 0;
 		$percent_correct = ( $correct_count / count( $results['results'] ) ) * 100;
@@ -227,7 +231,7 @@ class Quiz_Blocks_Submission_Handler {
 		$results['percent']             = $percent_correct;
 		$results['counts']['correct']   = $correct_count;
 		$results['counts']['incorrect'] = $incorrect_count;
-		$results['date']                = strtotime( 'now' );
+		$results['date']                = current_time( 'mysql' );
 
 		// Determine if user already submitted results to this test.
 		$existing_user_key = array_search( $user_id, array_column( $existing_results, 'user_id' ), true );
@@ -236,8 +240,10 @@ class Quiz_Blocks_Submission_Handler {
 		if ( false !== $existing_user_key ) {
 
 			// Prevent multiple submissions, when disabled.
-			if ( ! $block_attributes['multipleSubmissions'] ) {
+			if ( ! $allow_multiple_submissions ) {
+
 				return;
+
 			}
 
 			$existing_results[ $existing_user_key ] = $results;
@@ -269,6 +275,8 @@ class Quiz_Blocks_Submission_Handler {
 
 		}
 
+		$allow_multiple_submissions = isset( $block_attributes['multipleSubmissions'] ) ? $block_attributes['multipleSubmissions'] : true;
+
 		// Determine if user already submitted results to this quiz.
 		$existing_quiz_key = array_search( $quiz_id, array_column( $existing_results, 'quiz_id' ), true );
 
@@ -276,33 +284,31 @@ class Quiz_Blocks_Submission_Handler {
 		$incorrect_count = isset( $results['counts']['incorrect'] ) ? $results['counts']['incorrect'] : 0;
 		$percent_correct = ( $correct_count / count( $results['results'] ) ) * 100;
 
+		$results['quiz_id']             = $quiz_id;
+		$results['percent']             = $percent_correct;
+		$results['date']                = current_time( 'mysql' );
+		$results['counts']['correct']   = $correct_count;
+		$results['counts']['incorrect'] = $incorrect_count;
+
 		// Update a user had previously submitted the quiz.
 		if ( false !== $existing_quiz_key ) {
 
 			// Prevent multiple submissions, when disabled.
-			if ( ! $block_attributes['multipleSubmissions'] ) {
+			if ( ! $allow_multiple_submissions ) {
+
 				return;
+
 			}
 
-			$existing_results[ $existing_quiz_key ]['percent']             = $percent_correct;
-			$existing_results[ $existing_quiz_key ]['counts']['correct']   = $correct_count;
-			$existing_results[ $existing_quiz_key ]['counts']['incorrect'] = $incorrect_count;
+			$existing_results[ $existing_quiz_key ] = $results;
 
 			update_user_meta( $user_id, 'quiz_results', $existing_results );
 
 			return;
+
 		}
 
-		$results['quiz_id']             = $quiz_id;
-		$results['percent']             = $percent_correct;
-		$results['date']                = strtotime( 'now' );
-		$results['counts']['correct']   = $correct_count;
-		$results['counts']['incorrect'] = $incorrect_count;
-
 		$existing_results[] = $results;
-
-		update_option( 'etest_results', $results );
-		update_option( 'etest_existing_results', $existing_results );
 
 		update_user_meta( $user_id, 'quiz_results', $existing_results );
 
