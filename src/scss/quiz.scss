@@ -25,8 +25,8 @@
 		right: 0;
 		bottom: 0;
 		margin: auto;
-		height: 210px;
 		width: 85%;
+		max-height: 265px;
 		text-align: center;
 		z-index: 2;
 		border: 1px solid #21749b50;
@@ -34,10 +34,12 @@
 		box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
 
 		h4 {
-			margin: 1em 0;
+			margin: 1em auto;
+			width: 70%;
 		}
 
-		a.login {
+		a.login,
+		a.show-existing-results {
 			margin: 0;
 		}
 	}

@@ -53,7 +53,7 @@
 
 			if (
 				form.hasClass( 'not-logged-in' ) ||
-				form.hasClass('multiple-submissions-disabled')
+				form.hasClass( 'multiple-submissions-disabled' )
 			) {
 				return false; 
 			}
@@ -127,7 +127,7 @@
 			jQuery.get(
 				quizBlocks.ajaxURL,
 				{
-					'action': 'get_existing_ranking',
+					'action': 'get_rankings',
 					'quizID': quizID
 				},
 				function (response) {

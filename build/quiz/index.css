@@ -109,8 +109,8 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  height: 210px;
   width: 85%;
+  max-height: 265px;
   text-align: center;
   z-index: 2;
   border: 1px solid rgba(33, 116, 155, 0.3137254902);
@@ -119,10 +119,13 @@
 }
 #quiz-blocks .login-notice h4,
 #quiz-blocks .multiple-submissions-disabled-notice h4 {
-  margin: 1em 0;
+  margin: 1em auto;
+  width: 70%;
 }
 #quiz-blocks .login-notice a.login,
-#quiz-blocks .multiple-submissions-disabled-notice a.login {
+#quiz-blocks .login-notice a.show-existing-results,
+#quiz-blocks .multiple-submissions-disabled-notice a.login,
+#quiz-blocks .multiple-submissions-disabled-notice a.show-existing-results {
   margin: 0;
 }
 

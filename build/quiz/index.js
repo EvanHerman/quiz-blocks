@@ -235,12 +235,37 @@ const Edit = _ref => {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Quiz Settings', 'quiz-blocks'),
     initialOpen: true
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: attributes.requireLogin ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Require Login', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Do Not Require Login', 'quiz-blocks'),
+    checked: attributes.requireLogin,
+    onChange: requireLogin => {
+      setAttributes({
+        requireLogin: !attributes.requireLogin
+      });
+
+      if (!!attributes.requireLogin) {
+        setAttributes({
+          useRankings: false,
+          multipleSubmissions: false
+        });
+      }
+    },
+    help: attributes.requireLogin ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users must be logged in to submit this quiz.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Non-logged in users can submit this quiz. Note: Rankings and multiple submissions are disabled.', 'quiz-blocks')
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.useRankings ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings Disabled', 'quiz-blocks'),
-    checked: attributes.useRankings,
+    checked: attributes.requireLogin && attributes.useRankings,
+    disabled: !attributes.requireLogin,
     onChange: useRankings => setAttributes({
       useRankings: !attributes.useRankings
     }),
-    help: attributes.useRankings ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings are disabled. Non-logged in users can submit the form. Quiz submissions will not be saved.', 'quiz-blocks')
+    help: attributes.useRankings ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings are disabled.', 'quiz-blocks')
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Disabled', 'quiz-blocks'),
+    checked: attributes.requireLogin && attributes.multipleSubmissions,
+    disabled: !attributes.requireLogin,
+    onChange: multipleSubmissions => setAttributes({
+      multipleSubmissions: !attributes.multipleSubmissions
+    }),
+    help: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can only submit this quiz one time.', 'quiz-blocks')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.showResults ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Results Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Results Disabled', 'quiz-blocks'),
     checked: attributes.showResults,
@@ -255,13 +280,6 @@ const Edit = _ref => {
       showAnswers: !attributes.showAnswers
     }),
     help: attributes.showAnswers ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('After the quiz is submitted, the correct answers will be shown to the user.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('After the quiz is submitted, the answers will not be shown to the user.', 'quiz-blocks')
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Disabled', 'quiz-blocks'),
-    checked: attributes.multipleSubmissions,
-    onChange: multipleSubmissions => setAttributes({
-      multipleSubmissions: !attributes.multipleSubmissions
-    }),
-    help: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can only submit this quiz one time.', 'quiz-blocks')
   }))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: _img_preloader_svg__WEBPACK_IMPORTED_MODULE_6__["default"],
     className: "preloader"
@@ -440,7 +458,7 @@ module.exports = window["wp"]["i18n"];
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"useRankings":{"type":"boolean","default":true},"showTitle":{"type":"boolean","default":true},"showAnswers":{"type":"boolean","default":true},"showResults":{"type":"boolean","default":true},"multipleSubmissions":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"quizblocks/quiz","version":"0.1.0","title":"Quiz","icon":"forms","description":"Display a quiz on your website.","category":"quiz-blocks","supports":{"html":false},"attributes":{"quizID":{"type":"integer","default":0},"requireLogin":{"type":"boolean","default":true},"useRankings":{"type":"boolean","default":true},"multipleSubmissions":{"type":"boolean","default":true},"showTitle":{"type":"boolean","default":true},"showAnswers":{"type":"boolean","default":true},"showResults":{"type":"boolean","default":true}},"textdomain":"quiz-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

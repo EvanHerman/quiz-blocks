@@ -46,20 +46,22 @@ class Quiz_Blocks_Submission_Handler {
 
 		$post_id = url_to_postid( wp_get_referer() );
 
-		$block_attributes = array();
+		if ( 0 === $post_id ) {
+
+			return;
+
+		}
 
 		$quiz_id      = filter_input( INPUT_POST, 'quizID', FILTER_VALIDATE_INT );
 		$user_answers = array_values( wp_parse_args( filter_input( INPUT_POST, 'answers' ) ) );
 		$time_taken   = filter_input( INPUT_POST, 'timeTaken', FILTER_VALIDATE_INT );
 
-		if ( 0 !== $post_id ) {
+		$post   = get_post( $post_id );
+		$blocks = parse_blocks( $post->post_content );
 
-			$post   = get_post( $post_id );
-			$blocks = parse_blocks( $post->post_content );
+		$block_attributes = $this->helpers->get_block_attributes( $quiz_id, $blocks );
 
-			$block_attributes = $this->helpers->get_block_attributes( $quiz_id, $blocks );
-
-		}
+		$require_login = isset( $block_attributes['requireLogin'] ) ? $block_attributes['requireLogin'] : true;
 
 		$correct_answers = $this->get_test_answers( $quiz_id );
 
@@ -87,7 +89,7 @@ class Quiz_Blocks_Submission_Handler {
 
 		$response['time_taken'] = $time_taken;
 
-		if ( $block_attributes['useRankings'] ) {
+		if ( $require_login ) {
 
 			$user_id = get_current_user_id();
 

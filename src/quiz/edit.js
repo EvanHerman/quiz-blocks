@@ -100,10 +100,32 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 				</PanelBody>
 				<PanelBody title={__('Quiz Settings', 'quiz-blocks')} initialOpen={true}>
 					<ToggleControl
+						label={attributes.requireLogin ? __('Require Login', 'quiz-blocks') : __('Do Not Require Login', 'quiz-blocks')}
+						checked={attributes.requireLogin}
+						onChange={(requireLogin) => {
+							setAttributes({ requireLogin: !attributes.requireLogin });
+							if ( !! attributes.requireLogin ) {
+								setAttributes({
+									useRankings: false,
+									multipleSubmissions: false,
+								});
+							}
+						}}
+						help={attributes.requireLogin ? __('Users must be logged in to submit this quiz.', 'quiz-blocks') : __('Non-logged in users can submit this quiz. Note: Rankings and multiple submissions are disabled.', 'quiz-blocks')}
+					/>
+					<ToggleControl
 						label={attributes.useRankings ? __('Rankings Enabled', 'quiz-blocks') : __('Rankings Disabled', 'quiz-blocks')}
-						checked={attributes.useRankings}
+						checked={attributes.requireLogin && attributes.useRankings}
+						disabled={!attributes.requireLogin}
 						onChange={(useRankings) => setAttributes({ useRankings: !attributes.useRankings })}
-						help={attributes.useRankings ? __('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : __('Rankings are disabled. Non-logged in users can submit the form. Quiz submissions will not be saved.', 'quiz-blocks')}
+						help={attributes.useRankings ? __('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : __('Rankings are disabled.', 'quiz-blocks')}
+					/>
+					<ToggleControl
+						label={attributes.multipleSubmissions ? __('Multiple Submissions Enabled', 'quiz-blocks') : __('Multiple Submissions Disabled', 'quiz-blocks')}
+						checked={attributes.requireLogin && attributes.multipleSubmissions}
+						disabled={!attributes.requireLogin}
+						onChange={(multipleSubmissions) => setAttributes({ multipleSubmissions: !attributes.multipleSubmissions })}
+						help={attributes.multipleSubmissions ? __('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : __('Users can only submit this quiz one time.', 'quiz-blocks')}
 					/>
 					<ToggleControl
 						label={attributes.showResults ? __('Show Results Enabled', 'quiz-blocks') : __('Show Results Disabled', 'quiz-blocks')}
@@ -116,12 +138,6 @@ const Edit = ({ attributes, setAttributes, isSelected }) => {
 						checked={attributes.showAnswers}
 						onChange={(showAnswers) => setAttributes({ showAnswers: !attributes.showAnswers })}
 						help={attributes.showAnswers ? __('After the quiz is submitted, the correct answers will be shown to the user.', 'quiz-blocks') : __('After the quiz is submitted, the answers will not be shown to the user.', 'quiz-blocks')}
-					/>
-					<ToggleControl
-						label={attributes.multipleSubmissions ? __('Multiple Submissions Enabled', 'quiz-blocks') : __('Multiple Submissions Disabled', 'quiz-blocks')}
-						checked={attributes.multipleSubmissions}
-						onChange={(multipleSubmissions) => setAttributes({ multipleSubmissions: !attributes.multipleSubmissions })}
-						help={attributes.multipleSubmissions ? __('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : __('Users can only submit this quiz one time.', 'quiz-blocks')}
 					/>
 				</PanelBody>
 			</InspectorControls>

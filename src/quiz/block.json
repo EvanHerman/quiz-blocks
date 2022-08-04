@@ -15,7 +15,15 @@
 			"type": "integer",
 			"default": 0
 		},
+		"requireLogin": {
+			"type": "boolean",
+			"default": true
+		},
 		"useRankings": {
+			"type": "boolean",
+			"default": true
+		},
+		"multipleSubmissions": {
 			"type": "boolean",
 			"default": true
 		},
@@ -28,10 +36,6 @@
 			"default": true
 		},
 		"showResults": {
-			"type": "boolean",
-			"default": true
-		},
-		"multipleSubmissions": {
 			"type": "boolean",
 			"default": true
 		}
