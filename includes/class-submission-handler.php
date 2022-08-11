@@ -251,6 +251,7 @@ class Quiz_Blocks_Submission_Handler {
 			update_post_meta( $quiz_id, 'results', $existing_results );
 
 			return;
+
 		}
 
 		$existing_results[] = $results;

@@ -26,7 +26,7 @@ class Quiz_Blocks_View_Submissions {
 
 		add_action( 'admin_init', array( $this, 'clear_quiz_submission' ) );
 
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		add_action( 'admin_notices', array( $this, 'clear_submission_admin_notices' ) );
 
 		add_filter( 'removable_query_args', array( $this, 'removable_query_args' ) );
 
@@ -123,7 +123,7 @@ class Quiz_Blocks_View_Submissions {
 
 		unset( $quiz_results[ $user_submission_key ] );
 
-		$update_quiz_results = update_post_meta( $quiz_id, 'results', array_values( $quiz_results ) );
+		$update_quiz_results = update_post_meta( $quiz_id, 'results', $quiz_results );
 
 		wp_safe_redirect(
 			add_query_arg(
@@ -142,7 +142,49 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
-	public function admin_notices() {
+	/**
+	 * Clear all submissions for a quiz.
+	 */
+	public function clear_all_quiz_submissions() {
+
+		if ( ! isset( $_GET['quiz-blocks-action'] ) || ! isset( $_GET['quiz-id'] ) || ! isset( $_GET['_wpnonce'] ) ) {
+
+			return;
+
+		}
+
+		$action  = filter_input( INPUT_GET, 'quiz-blocks-action', FILTER_SANITIZE_STRING );
+		$quiz_id = filter_input( INPUT_GET, 'quiz-id', FILTER_VALIDATE_INT );
+		$nonce   = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
+
+		if ( ! wp_verify_nonce( $nonce, 'trash-submissions' ) ) {
+
+			return;
+
+		}
+
+		$quiz_results = get_post_meta( $quiz_id, 'results', true );
+
+		$update_quiz_results = update_post_meta( $quiz_id, 'results', array() );
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'submissions-deleted' => $update_quiz_results,
+					'quiz-id'             => $quiz_id,
+				),
+				sprintf(
+					admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s' ),
+					$quiz_id
+				)
+			),
+		);
+
+		exit;
+
+	}
+
+	public function clear_submission_admin_notices() {
 
 		global $pagenow;
 

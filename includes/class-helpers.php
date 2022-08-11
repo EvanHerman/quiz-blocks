@@ -49,6 +49,10 @@ class Quiz_Blocks_Helpers {
 
 		$last = array_pop( $parts );
 
+		if ( empty( $parts ) && empty( $last ) ) {
+			return '1 second';
+		}
+
 		if ( empty( $parts ) ) {
 			return $last;
 		} else {

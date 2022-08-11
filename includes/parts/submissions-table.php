@@ -16,6 +16,20 @@ $all_completion_times = wp_list_pluck( $submissions, 'time_taken' );
 $average_completion_time = empty( $submissions ) ? 0 : ( array_sum( $all_completion_times ) / $total_submissions );
 $average_completion_time = ( 0 === $average_completion_time ) ? 'N/A' : $helpers->seconds_to_time( $average_completion_time );
 
+$delete_all_submissions_url = wp_nonce_url(
+	add_query_arg(
+		array(
+			'quiz-blocks-action' => 'trash-submissions',
+			'quiz-id'            => $quiz_id,
+		),
+		sprintf(
+			admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s' ),
+			$quiz_id
+		)
+	),
+	'trash-submissions'
+);
+
 function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 
 	if ( ! $submissions ) {
@@ -76,7 +90,7 @@ function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 					</span>
 					|
 					<span class="trash">
-						<a href="<?php echo esc_url( $delete_submission_url ); ?>" class="submitdelete" aria-label="<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Delete submission for %s', 'quiz-blocks' ), esc_attr( $user->display_name ) ); ?>">
+						<a href="<?php echo esc_url( $delete_submission_url ); ?>" class="submitdelete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete the quiz submission for %s? This cannot be undone.', 'quiz-blocks' ), esc_attr( $user->display_name ) ); ?>' )" aria-label="<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Delete submission for %s', 'quiz-blocks' ), esc_attr( $user->display_name ) ); ?>">
 							<?php esc_html_e( 'Delete Submission', 'quiz-blocks' ); ?>
 						</a>
 					</span>
@@ -106,6 +120,18 @@ function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 
 }
 ?>
+
+<style type="text/css">
+a.button.button-secondary.delete {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #aa8084;
+}
+
+	a.button.button-secondary.delete:hover {
+		background-color: #f5cace;
+	}
+</style>
 
 <div class="wrap">
 
@@ -189,6 +215,7 @@ function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 							</ul>
 
 							<a class="button button-secondary" href="<?php echo esc_url( sprintf( admin_url( 'post.php?post=%s&action=edit' ), $quiz_id ) ); ?>" ><?php esc_html_e( 'Edit Quiz', 'quiz-blocks' ); ?></a>
+							<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" ><?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
 						</div>
 						<!-- .inside -->
 

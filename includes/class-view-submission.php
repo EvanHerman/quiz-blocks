@@ -224,17 +224,46 @@ class Quiz_Blocks_View_Submission {
 		$user_id   = $user_submission_data['user_id'];
 		$user_data = get_userdata( $user_id );
 
+		$quiz_id = filter_input( INPUT_GET, 'quiz', FILTER_SANITIZE_NUMBER_INT );
+
 		$percent_correct = $user_submission_data['percent'];
 
 		$time_taken = $this->helpers->seconds_to_time( $user_submission_data['time_taken'] );
 
 		$date_string = sprintf(
 			__( '%1$s at %2$s', 'quiz-blocks' ),
-			date_i18n( get_option( 'date_format' ), $user_submission_data['date'] ),
-			date_i18n( get_option( 'time_format' ), $user_submission_data['date'] )
+			date_i18n( get_option( 'date_format' ), strtotime( $user_submission_data['date'] ) ),
+			date_i18n( get_option( 'time_format' ), strtotime( $user_submission_data['date'] ) )
+		);
+
+		$delete_submission_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'quiz-blocks-action' => 'trash-submission',
+					'quiz-id'            => $quiz_id,
+					'user-id'            => $user_id,
+				),
+				sprintf(
+					admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s' ),
+					$quiz_id
+				)
+			),
+			'trash-submission'
 		);
 
 		?>
+
+		<style type="text/css">
+		a.button.button-secondary.delete {
+			color: #721c24;
+			background-color: #f8d7da;
+			border-color: #aa8084;
+		}
+
+			a.button.button-secondary.delete:hover {
+				background-color: #f5cace;
+			}
+		</style>
 
 		<!-- sidebar -->
 		<div id="postbox-container-1" class="postbox-container">
@@ -249,10 +278,13 @@ class Quiz_Blocks_View_Submission {
 
 						<ul>
 							<li><?php printf( /* translators: %s is the users display name. */ esc_html__( 'User: %s', 'quiz-blocks' ), esc_html( $user_data->display_name ) ); ?></li>
+							<li><?php printf( /* translators: %s is the users email address. */ esc_html__( 'User Email: %s', 'quiz-blocks' ), sprintf( '<a href="mailto: %1$s">%1$s</a>', wp_kses_post( $user_data->user_email ) ) ); ?></li>
 							<li><?php printf( /* translators: %s is the percent correct for the quiz. */ esc_html__( 'Percent Correct: %s', 'quiz-blocks' ), esc_html( $percent_correct ) ); ?>%</li>
 							<li><?php printf( /* translators: %s is the date the quiz was submitted. */ esc_html__( 'Submitted: %s', 'quiz-blocks' ), esc_html( $date_string ) ); ?></li>
 							<li><?php printf( /* translators: %s is the amount of time taken. */ esc_html__( 'Time Taken: %s', 'quiz-blocks' ), esc_html( $time_taken ) ); ?></li>
 						</ul>
+
+						<a href="<?php echo esc_url( $delete_submission_url ); ?>" onclick="return confirm( '<?php esc_attr_e( 'Are you sure you want to delete this quiz submission? This cannot be undone.', 'quiz-blocks' ); ?>' )" class="button button-secondary delete"><?php esc_html_e( 'Delete Submission', 'quiz-blocks' ); ?></a>
 
 					</div>
 					<!-- .inside -->

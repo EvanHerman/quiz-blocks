@@ -130,7 +130,8 @@ class Quiz_Blocks_CPT {
 			true
 		);
 
-		$submissions = get_post_meta( $post_id, 'results' );
+		$submissions = get_post_meta( $post_id, 'results', true );
+		$submissions = ! $submissions ? array() : $submissions;
 
 		printf(
 			/* translators: %s is an integer value for the number of submission. */
@@ -185,6 +186,8 @@ class Quiz_Blocks_CPT {
 
 		}
 
+		$url_attributes = wp_parse_args( wp_get_referer() );
+
 		$action  = filter_input( INPUT_GET, 'quiz-blocks-action', FILTER_SANITIZE_STRING );
 		$quiz_id = filter_input( INPUT_GET, 'quiz-id', FILTER_VALIDATE_INT );
 		$nonce   = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
@@ -195,6 +198,11 @@ class Quiz_Blocks_CPT {
 
 		}
 
+		$redirect_url = ( isset( $url_attributes['page'] ) && 'view-submissions' === $url_attributes['page'] ) ? sprintf(
+			admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s' ),
+			$quiz_id,
+		) : admin_url( 'edit.php?post_type=quiz' );
+
 		delete_post_meta( $quiz_id, 'results' );
 
 		wp_safe_redirect(
@@ -203,7 +211,7 @@ class Quiz_Blocks_CPT {
 					'submissions-deleted' => true,
 					'quiz-id'             => $quiz_id,
 				),
-				admin_url( 'edit.php?post_type=quiz' )
+				$redirect_url
 			),
 		);
 
