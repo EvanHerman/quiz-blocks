@@ -231,6 +231,7 @@ class Quiz_Blocks_View_Submission {
 		$time_taken = $this->helpers->seconds_to_time( $user_submission_data['time_taken'] );
 
 		$date_string = sprintf(
+			/* translators: %1$s is the date the quiz was submitted. %2$s is the time the quiz was submitted. */
 			__( '%1$s at %2$s', 'quiz-blocks' ),
 			date_i18n( get_option( 'date_format' ), strtotime( $user_submission_data['date'] ) ),
 			date_i18n( get_option( 'time_format' ), strtotime( $user_submission_data['date'] ) )

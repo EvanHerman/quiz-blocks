@@ -103,9 +103,10 @@ function quiz_blocks_get_submission_rows( $submissions, $quiz_id, $helpers ) {
 
 			<?php
 				$date_string = sprintf(
+					/* translators: %1$s is the date the quiz was submitted. %2$s is the time the quiz was submitted. */
 					__( '%1$s at %2$s', 'quiz-blocks' ),
-					date_i18n( get_option( 'date_format' ), $submission['date'] ),
-					date_i18n( get_option( 'time_format' ), $submission['date'] )
+					date_i18n( get_option( 'date_format' ), strtotime( $submission['date'] ) ),
+					date_i18n( get_option( 'time_format' ), strtotime( $submission['date'] ) )
 				);
 			?>
 
