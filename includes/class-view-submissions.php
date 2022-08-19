@@ -72,7 +72,9 @@ class Quiz_Blocks_View_Submissions {
 
 	public function submissions_page() {
 
-		require_once plugin_dir_path( __FILE__ ) . 'parts/submissions-table.php';
+		$submissions_table = new Quiz_Blocks_Submissions_Table();
+
+		$submissions_table->table();
 
 	}
 

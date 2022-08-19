@@ -86,6 +86,9 @@ class Quiz_Blocks_View_Submission {
 		#poststuff h2.quiz-title {
 			font-size: 1.5rem;
 			margin: 0 0 1em 0;
+		}
+		.postbox.submission {
+			padding: 1em 0 3em 0;
 		}';
 
 		wp_add_inline_style( 'quiz-blocks-styles', $custom_css );
@@ -132,7 +135,7 @@ class Quiz_Blocks_View_Submission {
 					<!-- main content -->
 					<div id="post-body-content">
 
-						<div class="meta-box-sortables ui-sortable">
+						<div class="meta-box-sortables ui-sortable postbox submission">
 
 							<?php $this->render_quiz_snapshot( $quiz_name, $quiz_results[ $user_submission_key ] ); ?>
 

@@ -16,7 +16,9 @@ class Quiz_Blocks_CPT {
 		add_action( 'init', array( $this, 'register_cpt' ), PHP_INT_MAX );
 
 		add_filter( 'manage_quiz_posts_columns', array( $this, 'set_custom_columns' ) );
-		add_action( 'manage_quiz_posts_custom_column', array( $this, 'custom_column_data' ), PHP_INT_MAX, 2 );
+
+		add_action( 'manage_quiz_posts_custom_column', array( $this, 'submissions_column_data' ), PHP_INT_MAX, 2 );
+		add_action( 'manage_quiz_posts_custom_column', array( $this, 'shortcode_column_data' ), PHP_INT_MAX, 2 );
 
 		add_action( 'admin_init', array( $this, 'clear_quiz_submissions' ) );
 
@@ -103,6 +105,7 @@ class Quiz_Blocks_CPT {
 		unset( $columns['categories'] );
 
 		$columns['submissions'] = __( 'Quiz Submissions', 'quiz-blocks' );
+		$columns['shortcode']   = __( 'Quiz Shortcode', 'quiz-blocks' );
 
 		return $columns;
 	}
@@ -113,7 +116,7 @@ class Quiz_Blocks_CPT {
 	 * @param string $column  Column name.
 	 * @param int    $post_id Post ID.
 	 */
-	public function custom_column_data( $column, $post_id ) {
+	public function submissions_column_data( $column, $post_id ) {
 
 		if ( 'submissions' !== $column ) {
 
@@ -172,6 +175,27 @@ class Quiz_Blocks_CPT {
 			</span>
 		</div>
 		<?php
+
+	}
+
+	/**
+	 * Display our quiz shortcode back to the user.
+	 *
+	 * @param string $column  Column name.
+	 * @param int    $post_id Post ID.
+	 */
+	public function shortcode_column_data( $column, $post_id ) {
+
+		if ( 'shortcode' !== $column ) {
+
+			return;
+
+		}
+
+		printf(
+			'<code>[quiz id="%s"]</code>',
+			$post_id
+		);
 
 	}
 
