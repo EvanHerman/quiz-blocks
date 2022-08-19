@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Rankings
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,8 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_Rankings class.
+ *
+ * Handles ranking functionality.
+ */
 class Quiz_Blocks_Rankings {
 
+	/**
+	 * Quiz_Blocks_Rankings constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'wp_ajax_get_rankings', array( $this, 'get_rankings' ), PHP_INT_MAX );
@@ -22,7 +32,7 @@ class Quiz_Blocks_Rankings {
 	 */
 	public function get_rankings() {
 
-		if ( ! isset( $_GET['quizID'] ) ) {
+		if ( ! isset( $_GET['quizID'] ) ) { // phpcs:ignore
 
 			wp_send_json_error( 'Missing Quiz ID.', 400 );
 
@@ -66,6 +76,8 @@ class Quiz_Blocks_Rankings {
 
 	/**
 	 * Generate the rankings markup.
+	 *
+	 * @param array $rankings Rankings array.
 	 */
 	private function rankings_markup( $rankings ) {
 
@@ -92,7 +104,7 @@ class Quiz_Blocks_Rankings {
 							<td>%4$s</td>
 							<td>%5$s</td>
 						</tr>',
-						$this->get_medal( $index ),
+						wp_kses_post( $this->get_medal( $index ) ),
 						esc_html( $user['display_name'] ),
 						esc_html( $user['percent'] ) . '%',
 						esc_html( $user['counts']['correct'] ),
@@ -109,6 +121,13 @@ class Quiz_Blocks_Rankings {
 
 	}
 
+	/**
+	 * Retreive the medal image for the rankings.
+	 *
+	 * @param integer $place The place of the person to retreive a medal for.
+	 *
+	 * @return mixed <img> tag for the medal.
+	 */
 	private function get_medal( $place ) {
 
 		$icon = false;

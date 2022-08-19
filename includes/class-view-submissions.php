@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks View Submissions Page
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,8 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_View_Submissions class.
+ *
+ * Actions for quiz submissions.
+ */
 class Quiz_Blocks_View_Submissions {
 
+	/**
+	 * Quiz_Blocks_View_Submissions constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'prevent_direct_access' ) );
@@ -32,6 +42,9 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
+	/**
+	 * Prevent direct access to the view-submissions admin page.
+	 */
 	public function prevent_direct_access() {
 
 		global $pagenow;
@@ -57,6 +70,9 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
+	/**
+	 * Register the view submissions admin page.
+	 */
 	public function register_view_submissions_page() {
 
 		add_submenu_page(
@@ -70,6 +86,11 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
+	/**
+	 * Render the submissions page markup.
+	 *
+	 * @return mixed Markup for the view submissions page.
+	 */
 	public function submissions_page() {
 
 		$submissions_table = new Quiz_Blocks_Submissions_Table();
@@ -83,7 +104,7 @@ class Quiz_Blocks_View_Submissions {
 	 */
 	public function clear_quiz_submission() {
 
-		if ( ! isset( $_GET['quiz-blocks-action'] ) || ! isset( $_GET['user-id'] ) || ! isset( $_GET['quiz-id'] ) || ! isset( $_GET['_wpnonce'] ) ) {
+		if ( ! isset( $_GET['quiz-blocks-action'] ) || ! isset( $_GET['user-id'] ) || ! isset( $_GET['quiz-id'] ) || ! isset( $_GET['_wpnonce'] ) ) { // phpcs:ignore
 
 			return;
 
@@ -186,6 +207,11 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
+	/**
+	 * Admin notice when a submission is deleted.
+	 *
+	 * @return mixed Markup for the admin notice.
+	 */
 	public function clear_submission_admin_notices() {
 
 		global $pagenow;
@@ -194,7 +220,7 @@ class Quiz_Blocks_View_Submissions {
 		$submission_deleted = filter_input( INPUT_GET, 'submission-deleted', FILTER_VALIDATE_BOOLEAN );
 		$user_id            = filter_input( INPUT_GET, 'user-id', FILTER_SANITIZE_NUMBER_INT );
 
-		if ( ! $page || 'view-submissions' !== $page || ! isset( $_GET['submission-deleted'] ) || ! $user_id ) {
+		if ( ! $page || 'view-submissions' !== $page || ! isset( $_GET['submission-deleted'] ) || ! $user_id ) { // phpcs:ignore
 
 			return;
 
@@ -219,11 +245,18 @@ class Quiz_Blocks_View_Submissions {
 
 	}
 
+	/**
+	 * Remove our quiz blocks query args from the admin URL.
+	 *
+	 * @param array $removable_query_args Default core removable query args.
+	 *
+	 * @return array Filtered removable query args.
+	 */
 	public function removable_query_args( $removable_query_args ) {
 
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
-		if ( ! $page || ! isset( $_GET['submission-deleted'] ) ) {
+		if ( ! $page || ! isset( $_GET['submission-deleted'] ) ) { // phpcs:ignore
 
 			return $removable_query_args;
 

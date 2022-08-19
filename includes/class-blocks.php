@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Blocks
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,12 +11,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_Blocks class.
+ *
+ * Blocks included with Quiz Blocks.
+ */
 class Quiz_Blocks_Blocks {
 
+	/**
+	 * Blocks directory.
+	 *
+	 * @var string
+	 */
 	private $blocks_dir;
 
+	/**
+	 * Helpers class instance.
+	 *
+	 * @var class
+	 */
 	private $helpers;
 
+	/**
+	 * Quiz_Blocks_Blocks constructor.
+	 */
 	public function __construct() {
 
 		$this->blocks_dir = basename( __DIR__ ) . '/../build/';
@@ -35,6 +55,13 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Register Custom Block Category.
+	 *
+	 * @param array $block_categories Array of core block categories.
+	 *
+	 * @return array Filtered list of block categories.
+	 */
 	public function custom_block_category( $block_categories ) {
 
 		array_push(
@@ -53,8 +80,8 @@ class Quiz_Blocks_Blocks {
 	/**
 	 * Limit the blocks allowed in the block editor for quiz post types.
 	 *
-	 * @param mixed $allowed_blocks Array of allowable blocks for Gutenberg Editor.
-	 * @param mixed $post Gets current post type.
+	 * @param mixed $allowed_block_types Array of allowable blocks for Gutenberg Editor.
+	 * @param mixed $editor_context      Gets current post type.
 	 *
 	 * @return mixed $allowed_blocks Returns the allowed blocks.
 	 */
@@ -87,6 +114,9 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Enqueue the quiz blocks blocks and assets.
+	 */
 	public function quizblocks_blocks() {
 
 		global $post;
@@ -143,6 +173,9 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Register the side render blocks.
+	 */
 	public function register_serverside_render_blocks() {
 
 		wp_register_style(
@@ -202,7 +235,7 @@ class Quiz_Blocks_Blocks {
 							<div class="quiz-%1$s-rankings quiz-blocks-rankings"><img src="%3$s" class="preloader" /></div>',
 							esc_attr( $atts['quizID'] ),
 							esc_html__( 'View Quiz Rankings', 'quiz-blocks' ),
-							plugin_dir_url( dirname( __FILE__ ) ) . 'src/img/preloader.svg'
+							esc_url( plugin_dir_url( dirname( __FILE__ ) ) . 'src/img/preloader.svg' )
 						);
 
 					}
@@ -248,7 +281,7 @@ class Quiz_Blocks_Blocks {
 					?>
 
 					<form id="quiz-blocks-quiz" data-quizid="<?php echo esc_attr( $atts['quizID'] ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-						<?php echo $quiz; ?>
+						<?php echo $quiz; // phpcs:ignore ?>
 						<input class="button_sliding_bg button" type="submit" name="submit" id="submit" value="<?php esc_html_e( 'Submit', 'quiz-blocks' ); ?>" />
 					</form>
 
@@ -295,6 +328,9 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Enqueue the quiz block scripts.
+	 */
 	public function enqueue_quiz_script() {
 
 		if ( ! has_block( 'quizblocks/quiz' ) ) {
@@ -347,6 +383,13 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Obfuscate the HTML markup for the quiz block.
+	 *
+	 * @param mixed $quiz_markup The markup for the quiz block.
+	 *
+	 * @return mixed Quiz block markup with obfuscated question/answer text.
+	 */
 	private function obfuscate_questions( $quiz_markup ) {
 
 		$text      = 'Sociosqu consectetuer. Placerat nisl, hendrerit. Morbi lobortis vitae non mattis pellentesque hendrerit ultrices ante neque dui. Torquent inceptos. Penatibus est eu libero non enim class auctor purus a netus curae; purus feugiat ultricies. Adipiscing nec cubilia metus convallis, nunc. Ridiculus placerat praesent a. Taciti litora sociis congue eu ullamcorper egestas ac adipiscing orci. Cras integer porttitor et convallis. Enim nisi nulla luctus Bibendum Gravida ut nonummy montes, nonummy bibendum pharetra malesuada. Pretium luctus suspendisse. Malesuada scelerisque nec pretium class hendrerit hendrerit nisi iaculis. Netus enim auctor. Tellus aliquam magna feugiat aenean vestibulum sapien pharetra laoreet ac volutpat venenatis curabitur sapien.';
@@ -364,6 +407,13 @@ class Quiz_Blocks_Blocks {
 
 	}
 
+	/**
+	 * Determine if a user has taken a quiz already.
+	 *
+	 * @param integer $quiz_id The quiz ID to check.
+	 *
+	 * @return boolean True when the user has taken the quiz, else false.
+	 */
 	private function has_user_taken_quiz( $quiz_id ) {
 
 		$existing_results = get_user_meta( get_current_user_id(), 'quiz_results', true );

@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks View Submission Page
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,10 +11,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_View_Submission class.
+ */
 class Quiz_Blocks_View_Submission {
 
+	/**
+	 * Helpers class.
+	 *
+	 * @var class
+	 */
 	private $helpers;
 
+	/**
+	 * Quiz_Blocks_View_Submission constructor.
+	 */
 	public function __construct() {
 
 		$this->helpers = new Quiz_Blocks_Helpers();
@@ -30,6 +43,9 @@ class Quiz_Blocks_View_Submission {
 
 	}
 
+	/**
+	 * Prevent direct access to the single submission page.
+	 */
 	public function prevent_direct_access() {
 
 		global $pagenow;
@@ -56,6 +72,9 @@ class Quiz_Blocks_View_Submission {
 
 	}
 
+	/**
+	 * Register the single submission view page.
+	 */
 	public function register_view_submission_page() {
 
 		add_submenu_page(
@@ -69,6 +88,12 @@ class Quiz_Blocks_View_Submission {
 
 	}
 
+	/**
+	 * Single submission view admin page.
+	 * Enqueue styles.
+	 *
+	 * @return mixed Markup for the submission page.
+	 */
 	public function submission_page() {
 
 		wp_enqueue_style(
@@ -145,7 +170,7 @@ class Quiz_Blocks_View_Submission {
 					</div>
 					<!-- post-body-content -->
 
-					<?php $this->submission_page_sidebar( $quiz_name, $quiz_results[ $user_submission_key ] ); ?>
+					<?php $this->submission_page_sidebar( $quiz_results[ $user_submission_key ] ); ?>
 
 				</div>
 				<!-- #post-body .metabox-holder .columns-2 -->
@@ -160,6 +185,14 @@ class Quiz_Blocks_View_Submission {
 
 	}
 
+	/**
+	 * Render the quiz snapshot.
+	 *
+	 * @param string $quiz_name             The name of the quiz that is being submitted.
+	 * @param array  $user_submission_data  The user submitted data.
+	 *
+	 * @return mixed Markup for the quiz snapshot.
+	 */
 	private function render_quiz_snapshot( $quiz_name, $user_submission_data ) {
 
 		?>
@@ -222,7 +255,14 @@ class Quiz_Blocks_View_Submission {
 
 	}
 
-	private function submission_page_sidebar( $quiz_name, $user_submission_data ) {
+	/**
+	 * Single submission page sidebar.
+	 *
+	 * @param array $user_submission_data The user submission data array.
+	 *
+	 * @return mixed Markup for the submission page sidebar.
+	 */
+	private function submission_page_sidebar( $user_submission_data ) {
 
 		$user_id   = $user_submission_data['user_id'];
 		$user_data = get_userdata( $user_id );
@@ -308,8 +348,6 @@ class Quiz_Blocks_View_Submission {
 
 	/**
 	 * Clear a submission for a quiz.
-	 *
-	 * @todo Determine if we need this on the single submission view or not.
 	 */
 	public function clear_quiz_submission() {
 

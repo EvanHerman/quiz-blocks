@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Custom Post Type Registration
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,8 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_CPT class.
+ *
+ * Handles custom post type functionality for Quiz_Blocks.
+ */
 class Quiz_Blocks_CPT {
 
+	/**
+	 * Quiz_Blocks_CPT constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'register_cpt' ), PHP_INT_MAX );
@@ -138,8 +148,8 @@ class Quiz_Blocks_CPT {
 
 		printf(
 			/* translators: %s is an integer value for the number of submission. */
-			_n( '%s submission', '%s submissions', number_format_i18n( count( $submissions ) ), 'quiz-blocks' ),
-			number_format_i18n( count( $submissions ) )
+			esc_html( _n( '%s submission', '%s submissions', number_format_i18n( count( $submissions ) ), 'quiz-blocks' ) ),
+			esc_html( number_format_i18n( count( $submissions ) ) )
 		);
 
 		$delete_url = wp_nonce_url(
@@ -194,7 +204,7 @@ class Quiz_Blocks_CPT {
 
 		printf(
 			'<code>[quiz id="%s"]</code>',
-			$post_id
+			esc_html( $post_id )
 		);
 
 	}
@@ -246,7 +256,7 @@ class Quiz_Blocks_CPT {
 	 */
 	public function trashed_submissions_admin_notice() {
 
-		if ( ! isset( $_GET['submissions-deleted'] ) || ! isset( $_GET['quiz-id'] ) ) {
+		if ( ! isset( $_GET['submissions-deleted'] ) || ! isset( $_GET['quiz-id'] ) ) { // phpcs:ignore
 
 			return;
 
@@ -284,6 +294,13 @@ class Quiz_Blocks_CPT {
 
 	}
 
+	/**
+	 * Change the quiz custom post type title placeholder.
+	 *
+	 * @param string $title The title text placeholder.
+	 *
+	 * @return string The title placeholder text.
+	 */
 	public function change_placeholder_title_text( $title ) {
 
 		$screen = get_current_screen();
@@ -298,6 +315,13 @@ class Quiz_Blocks_CPT {
 
 	}
 
+	/**
+	 * Filter the title of a quiz when no title is added.
+	 *
+	 * @param string $post_title The post title.
+	 *
+	 * @return string The entered post title when one exists, else (no name).
+	 */
 	public function filter_no_quiz_name_title( $post_title ) {
 
 		global $pagenow;

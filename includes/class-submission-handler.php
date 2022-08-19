@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Submission Handler
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,10 +11,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz Blocks submission handler.
+ *
+ * Handles quiz submissions.
+ */
 class Quiz_Blocks_Submission_Handler {
 
+	/**
+	 * Helpers class.
+	 *
+	 * @var class
+	 */
 	private $helpers;
 
+	/**
+	 * Quiz_Blocks_Submission_Handler constructor.
+	 */
 	public function __construct() {
 
 		$this->helpers = new Quiz_Blocks_Helpers();
@@ -32,13 +47,13 @@ class Quiz_Blocks_Submission_Handler {
 
 		}
 
-		if ( ! isset( $_POST['quizID'] ) ) {
+		if ( ! isset( $_POST['quizID'] ) ) { // phpcs:ignore
 
 			wp_send_json_error( 'Missing Quiz ID.', 400 );
 
 		}
 
-		if ( ! isset( $_POST['answers'] ) ) {
+		if ( ! isset( $_POST['answers'] ) ) { // phpcs:ignore
 
 			wp_send_json_error( 'Missing Answers.', 400 );
 
@@ -208,8 +223,10 @@ class Quiz_Blocks_Submission_Handler {
 	 *
 	 * Note: quiz results are stored in post_meta for the post/page the quiz is on.
 	 *
-	 * @param int   $quiz_id The quiz ID to retreive answers for.
-	 * @param array $results The quiz results.
+	 * @param int   $user_id          The user ID to retreive answers for.
+	 * @param int   $quiz_id          The quiz ID to retreive answers for.
+	 * @param array $results          The quiz results.
+	 * @param array $block_attributes Array of block attributes.
 	 */
 	private function store_test_results( $user_id, $quiz_id, $results, $block_attributes ) {
 
@@ -263,8 +280,10 @@ class Quiz_Blocks_Submission_Handler {
 	/**
 	 * Store the results for the test in the user_meta.
 	 *
-	 * @param int   $quiz_id The quiz ID to retreive answers for.
-	 * @param array $results The quiz results.
+	 * @param int   $user_id          The user ID to retreive answers for.
+	 * @param int   $quiz_id          The quiz ID to retreive answers for.
+	 * @param array $results          The quiz results.
+	 * @param array $block_attributes Array of block attributes.
 	 */
 	private function store_user_meta( $user_id, $quiz_id, $results, $block_attributes ) {
 

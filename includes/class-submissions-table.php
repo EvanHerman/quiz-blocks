@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Submissions Table
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,14 +11,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_Submissions_Table class.
+ *
+ * Renders the markup for the submissions table in the admin.
+ */
 class Quiz_Blocks_Submissions_Table {
 
+	/**
+	 * Helpers class instance.
+	 *
+	 * @var class
+	 */
 	private $helpers;
 
+	/**
+	 * Quiz ID.
+	 *
+	 * @var integer
+	 */
 	private $quiz_id;
 
+	/**
+	 * Submissions array.
+	 *
+	 * @var array
+	 */
 	private $submissions;
 
+	/**
+	 * Quiz_Blocks_Submissions_Table() constructor.
+	 */
 	public function __construct() {
 
 		$this->helpers = new Quiz_Blocks_Helpers();
@@ -26,6 +51,11 @@ class Quiz_Blocks_Submissions_Table {
 
 	}
 
+	/**
+	 * Render the markup for the submissions table.
+	 *
+	 * @return mixed Markup for the submissions table.
+	 */
 	public function table() {
 
 		$quiz_name = get_the_title( $this->quiz_id );
@@ -78,7 +108,7 @@ class Quiz_Blocks_Submissions_Table {
 						esc_html__( '%s Submissions', 'quiz-blocks' ),
 						esc_html( $quiz_name )
 					);
-					?>
+				?>
 			</h1>
 
 			<div id="poststuff">
@@ -177,6 +207,14 @@ class Quiz_Blocks_Submissions_Table {
 
 	}
 
+	/**
+	 * Retreive the markup for a submission table row.
+	 *
+	 * @param array $submissions The submissions array.
+	 * @param int   $quiz_id     The quiz ID.
+	 *
+	 * @return mixed Markup for the tr.
+	 */
 	public function get_submission_row( $submissions, $quiz_id ) {
 
 		if ( ! $submissions ) {

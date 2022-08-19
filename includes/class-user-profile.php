@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks User Profile Section
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,14 +11,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_User_Profile class.
+ */
 class Quiz_Blocks_User_Profile {
 
+	/**
+	 * Quiz_Blocks_User_Profile constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'show_user_profile', array( $this, 'user_quiz_section' ) );
 
 	}
 
+	/**
+	 * Render the quiz results table on the user profile.
+	 *
+	 * @param WP_User $user WordPress user object.
+	 *
+	 * @return mixed Markup for the user profile quiz section.
+	 */
 	public function user_quiz_section( WP_User $user ) {
 
 		$quiz_results = get_user_meta( $user->ID, 'quiz_results', true );
@@ -30,18 +45,26 @@ class Quiz_Blocks_User_Profile {
 
 	}
 
+	/**
+	 * [show_user_results_table description]
+	 *
+	 * @param array $quiz_results The quiz results array.
+	 *
+	 * @return mixed Markup for the results table.
+	 */
 	private function show_user_results_table( $quiz_results ) {
 
 		if ( ! $quiz_results ) {
 
-			print(
+			printf(
 				'<tr>
 					<th>
-						<label>No Quizzes Taken</label>
+						<label>%s</label>
 					</th>
 					<td>
 					</td>
-				</tr>'
+				</tr>',
+				esc_html__( 'No Quizzes Taken', 'quiz-blocks' )
 			);
 
 			return;

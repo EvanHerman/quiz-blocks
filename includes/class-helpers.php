@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Helpers
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,6 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_Helpers helpers class.
+ *
+ * Helper functions used throughout Quiz Blocks.
+ */
 class Quiz_Blocks_Helpers {
 
 	/**

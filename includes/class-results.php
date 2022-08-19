@@ -1,6 +1,8 @@
 <?php
 /**
  * Quiz Blocks Results
+ *
+ * @package Quiz_Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,8 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+/**
+ * Quiz_Blocks_Results class.
+ */
 class Quiz_Blocks_Results {
 
+	/**
+	 * Quiz_Blocks_Results constructor.
+	 */
 	public function __construct() {
 
 		add_action( 'wp_ajax_get_existing_result', array( $this, 'get_existing_result' ), PHP_INT_MAX );
@@ -22,9 +30,9 @@ class Quiz_Blocks_Results {
 	 */
 	public function get_existing_result() {
 
-		if ( ! isset( $_GET['quizID'] ) ) {
+		if ( ! isset( $_GET['quizID'] ) ) { // phpcs:ignore
 
-			wp_send_json_error( 'Missing Quiz ID.', 400 );
+			wp_send_json_error( __( 'Missing Quiz ID.', 'quiz-blocks' ), 400 );
 
 		}
 
