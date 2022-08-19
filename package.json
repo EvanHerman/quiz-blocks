@@ -1,6 +1,8 @@
 {
 	"name": "quiz-blocks",
 	"version": "0.1.0",
+	"jquery_modal_version": "0.9.1",
+	"tested_up_to": "6.0",
 	"description": "Example static block scaffolded with Create Block tool.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
@@ -14,11 +16,14 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
-		"phpcs": "./vendor/bin/phpcs ."
+		"phpcs": "./vendor/bin/phpcs .",
+		"version": "grunt version && yarn generate-pot && git add -A .",
+		"postversion": "git push && git push -f --tags"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^23.6.0",
 		"eslint": "^8.17.0",
+		"grunt": "^1.5.3",
 		"stylelint": "^14.9.1",
 		"stylelint-config-standard": "^26.0.0"
 	}
