@@ -5,7 +5,8 @@
  * Requires at least: 5.9
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            Evan Herman
+ * Author:            Code Parrots
+ * Author URI:        https://www.codeparrots.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       quiz-blocks
@@ -36,6 +37,8 @@ class Quiz_Blocks {
 
 		register_activation_hook( __FILE__, array( $this, 'activation_hook' ) );
 
+		add_action( 'activated_plugin', array( $this, 'activation_redirect' ) );
+
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-helpers.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-blocks.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-cpt.php';
@@ -46,6 +49,7 @@ class Quiz_Blocks {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-submissions-table.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-view-submissions.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-view-submission.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/welcome-guide/class-welcome-guide.php';
 
 	}
 
@@ -83,6 +87,17 @@ class Quiz_Blocks {
 		);
 
 		update_user_meta( get_current_user_id(), 'manageedit-quizcolumnshidden', $hidden_columns );
+
+	}
+
+	/**
+	 * Redirect the user to our welcome guide on activation.
+	 */
+	public function activation_redirect() {
+
+		wp_safe_redirect( add_query_arg( 'page', 'quiz-blocks-welcome-guide', admin_url() ), 301, 'Quiz Blocks' );
+
+		exit;
 
 	}
 
