@@ -2,7 +2,8 @@
 	padding-right: 20px;
 }
 .about-wrap.about-wrap .wp-badge {
-	background-image: url(../images/meta-box.svg);
+	/* background-image: url(../images/meta-box.svg); */
+	background-image: url(../images/forms-icon.svg);
 	background-color: #fff;
 	color: #222;
 	text-transform: uppercase;

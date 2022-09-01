@@ -97,7 +97,6 @@ class Quiz_Blocks_Welcome {
 							include __DIR__ . '/sections/welcome.php';
 							include __DIR__ . '/sections/tabs.php';
 							include __DIR__ . '/sections/getting-started.php';
-							include __DIR__ . '/sections/extensions.php';
 							include __DIR__ . '/sections/support.php';
 							do_action( 'rwmb_about_tabs_content' );
 							?>
@@ -106,7 +105,7 @@ class Quiz_Blocks_Welcome {
 					<div id="postbox-container-1" class="postbox-container">
 						<?php
 						include __DIR__ . '/sections/products.php';
-						include __DIR__ . '/sections/upgrade.php';
+						// include __DIR__ . '/sections/upgrade.php';
 						?>
 					</div>
 				</div>
