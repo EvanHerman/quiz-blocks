@@ -5,9 +5,8 @@
  * @package Quiz_Blocks
  */
 
-$create_quiz_url = admin_url( 'post-new.php?post_type=quiz' );
-
 ?>
+
 <div id="getting-started" class="gt-tab-pane gt-is-active">
 	<div class="two">
 		<div class="col">
@@ -18,13 +17,14 @@ $create_quiz_url = admin_url( 'post-new.php?post_type=quiz' );
 			printf(
 				'<p>%s</p>',
 				sprintf(
+					/* translators: %s is an anchor tag linking to the an admin page to create a quiz. */
 					esc_html__(
 						"To get started, you'll first want to create a quiz to display on your site. You can do this by navigating to %s in the left hand menu.",
 						'quiz-blocks'
 					),
 					sprintf(
 						'<a href="%1$s">%2$s</a>',
-						esc_url( $create_quiz_url ),
+						esc_url( admin_url( 'post-new.php?post_type=quiz' ) ),
 						esc_html__( 'Quizzes > Add New Quiz', 'quiz-blocks' )
 					)
 				)
@@ -35,7 +35,7 @@ $create_quiz_url = admin_url( 'post-new.php?post_type=quiz' );
 			<img src="<?php echo esc_url( plugin_dir_url( __FILE__ ) . '../images/create-quiz.png' ); ?>" alt="<?php esc_attr_e( 'Quiz Blocks - Create a New Quiz', 'quiz-blocks' ); ?>">
 			<br />
 			<p>
-				<a class="button" target="_blank" href="<?php echo esc_url( $create_quiz_url ); ?>"><?php esc_html_e( 'Create a Quiz', 'quiz-blocks' ); ?></a>
+				<a class="button" target="_blank" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=quiz' ) ); ?>"><?php esc_html_e( 'Create a Quiz', 'quiz-blocks' ); ?></a>
 			</p>
 		</div>
 

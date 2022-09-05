@@ -105,7 +105,7 @@ class Quiz_Blocks_Welcome {
 					<div id="postbox-container-1" class="postbox-container">
 						<?php
 						include __DIR__ . '/sections/products.php';
-						// include __DIR__ . '/sections/upgrade.php';
+						// include __DIR__ . '/sections/upgrade.php'; phpcs:ignore.
 						?>
 					</div>
 				</div>

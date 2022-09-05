@@ -25,6 +25,9 @@ class Quiz_Blocks_Quiz_Shortcode {
 	 */
 	private $helpers;
 
+	/**
+	 * Quiz Blocks Quiz Shortcode Class Constructor
+	 */
 	public function __construct() {
 
 		$this->helpers = new Quiz_Blocks_Helpers();
@@ -63,7 +66,7 @@ class Quiz_Blocks_Quiz_Shortcode {
 
 		wp_enqueue_style(
 			'quiz-blocks-styles',
-			plugin_dir_url( dirname( __FILE__ ) ) . basename( __DIR__ ) . '/../../build/' . 'quiz/style-index.css',
+			plugin_dir_url( dirname( __FILE__ ) ) . basename( __DIR__ ) . '/../../build/quiz/style-index.css',
 			array(),
 			true,
 			'all'

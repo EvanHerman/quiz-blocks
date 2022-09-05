@@ -4,10 +4,12 @@
  *
  * @package Quiz_Blocks
  */
+
 ?>
+
 <h1>
 	<?php
-	$plugin_data = get_plugin_data( dirname( __FILE__) . '../../../../quiz-blocks.php', false, false );
+	$plugin_data = get_plugin_data( dirname( __FILE__ ) . '../../../../quiz-blocks.php', false, false );
 
 	// Translators: %s - Plugin name.
 	echo esc_html( sprintf( __( 'Welcome to %s', 'quiz-blocks' ), $plugin_data['Name'] ) );

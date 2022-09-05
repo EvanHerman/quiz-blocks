@@ -7,6 +7,7 @@
 	<file>./</file>
 
 	<exclude-pattern>build/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>node_modules/*</exclude-pattern>
 
 	<arg name="colors"/>
@@ -30,6 +31,8 @@
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound"/>
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound"/>
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.InvalidPrefixPassed"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
 	</rule>
 
 	<!-- Let's also check that everything is properly documented. -->
@@ -40,7 +43,7 @@
 	<rule ref="Generic.Commenting.Todo"/>
 
 	<!-- Check for PHP cross-version compatibility. -->
-	<config name="testVersion" value="5.6-"/>
+	<config name="testVersion" value="7.0-"/>
 
 	<!--
 	To get the optimal benefits of using WPCS, we should add a couple of
