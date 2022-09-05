@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -35,17 +35,17 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	const answerCountArray = Array.apply(null, Array(attributes.answerCount));
 
 	const correctAnswerValues = () => {
-		const correctAnswerValues = [];
-		for (var i = 0; i < attributes.answerCount; i++) {
-			const label = !attributes.answers[i] ? sprintf(__('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
-			correctAnswerValues.push(
+		const correctAnswers = [];
+		for (let i = 0; i < attributes.answerCount; i++) {
+			const label = !attributes.answers[i] ? sprintf(/* translators: %s is an integer value, the index in the loop. */ __('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
+			correctAnswers.push(
 				{
 					label: label,
 					value: i
 				}
 			);
 		}
-		return correctAnswerValues;
+		return correctAnswers;
 	};
 
 	return (
@@ -81,7 +81,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				<strong>
 					<RichText
 						tagName="p"
-						placeholder={__('Type your question...', 'quiz-blocks')}
+						placeholder={__('Type your question&hellip;', 'quiz-blocks')}
 						value={attributes.question}
 						onChange={(question) => setAttributes({ question: question })}
 						className="quiz-block-question"
@@ -91,8 +91,9 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 					{answerCountArray.map((emptyValue, i) => {
 						return (
 							<RichText
+								key={i}
 								tagName="p"
-								placeholder={sprintf(__('Answer %s', 'quiz-block'), i + 1)}
+								placeholder={sprintf(/* translators: %s is an integer value, the index in the loop. */ __('Answer %s', 'quiz-block'), i + 1)}
 								value={!!attributes.answers[i] ? attributes.answers[i] : ''}
 								onChange={(newAnswer) => {
 									const newAnswers = [...attributes.answers];

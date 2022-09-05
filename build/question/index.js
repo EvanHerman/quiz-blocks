@@ -65,17 +65,19 @@ function Edit(_ref) {
   const answerCountArray = Array.apply(null, Array(attributes.answerCount));
 
   const correctAnswerValues = () => {
-    const correctAnswerValues = [];
+    const correctAnswers = [];
 
-    for (var i = 0; i < attributes.answerCount; i++) {
-      const label = !attributes.answers[i] ? sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
-      correctAnswerValues.push({
+    for (let i = 0; i < attributes.answerCount; i++) {
+      const label = !attributes.answers[i] ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
+      /* translators: %s is an integer value, the index in the loop. */
+      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-blocks'), i + 1) : attributes.answers[i].replace(/<[^>]*>?/gm, '');
+      correctAnswers.push({
         label: label,
         value: i
       });
     }
 
-    return correctAnswerValues;
+    return correctAnswers;
   };
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -109,7 +111,7 @@ function Edit(_ref) {
     })
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
     tagName: "p",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type your question...', 'quiz-blocks'),
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type your question&hellip;', 'quiz-blocks'),
     value: attributes.question,
     onChange: question => setAttributes({
       question: question
@@ -119,8 +121,11 @@ function Edit(_ref) {
     className: "quiz-block-answers"
   }, answerCountArray.map((emptyValue, i) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      key: i,
       tagName: "p",
-      placeholder: sprintf((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-block'), i + 1),
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)(
+      /* translators: %s is an integer value, the index in the loop. */
+      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Answer %s', 'quiz-block'), i + 1),
       value: !!attributes.answers[i] ? attributes.answers[i] : '',
       onChange: newAnswer => {
         const newAnswers = [...attributes.answers];
@@ -204,24 +209,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-
-
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
 
 
 /**
@@ -233,26 +220,26 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {WPElement} Element to render.
  */
-
 function save(_ref) {
   let {
     attributes
   } = _ref;
   const answerCountArray = Array.apply(null, Array(attributes.answerCount));
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "question"
+    className: "question"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, attributes.question)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "answers"
   }, answerCountArray.map((emptyValue, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "answer"
+      className: "answer",
+      key: index
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
       type: "radio",
       id: `answer-${index}`,
       value: index,
       required: true
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-      for: `answer-${index}`
+      htmlFor: `answer-${index}`
     }, attributes.answers[index]));
   })));
 }

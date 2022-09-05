@@ -21,6 +21,7 @@
 		"postversion": "git push && git push -f --tags"
 	},
 	"devDependencies": {
+		"@wordpress/eslint-plugin": "^13.0.0",
 		"@wordpress/scripts": "^23.6.0",
 		"eslint": "^8.17.0",
 		"grunt": "^1.5.3",

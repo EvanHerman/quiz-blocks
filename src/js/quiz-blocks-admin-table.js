@@ -1,6 +1,6 @@
 ( function( $ ) {
 
-	var submissions = {
+	const submissions = {
 
 		show: function( event ) {
 			event.preventDefault();

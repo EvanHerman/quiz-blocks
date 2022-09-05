@@ -1,17 +1,17 @@
-(function( $ ) {
+( function( $ ) {
 
 	/**
 	 * Quiz Specific Functionality
 	 *
-	 * @var {object}
+	 * @member {Object}
 	 */
-	var quiz = {
+	const quiz = {
 
 		addNames: function() {
 			$( 'form#quiz-blocks-quiz .question' ).each( function( questionIndex ) {
-				var questionName = `question-${questionIndex}`;
+				const questionName = `question-${questionIndex}`;
 				$( this ).find( '.answers .answer' ).each( function( answerIndex ) {
-					var answerName = `${questionName}-answer-${answerIndex}`;
+					const answerName = `${questionName}-answer-${answerIndex}`;
 					$( this ).find( 'input[type="radio"]' ).attr( 'id', answerName ).attr( 'name', `question-${questionIndex}` );
 					$( this ).find( 'label' ).attr( 'for', answerName );
 				} );
@@ -47,9 +47,6 @@
 
 		submitQuiz: function( event ) {
 			event.preventDefault();
-			const form = $( event.target );
-			const answers = form.serialize();
-			const quizID = form.data( 'quizid' );
 
 			if (
 				form.hasClass( 'not-logged-in' ) ||
@@ -57,6 +54,10 @@
 			) {
 				return false; 
 			}
+
+			const form = $(event.target);
+			const answers = form.serialize();
+			const quizID = form.data('quizid');
 
 			timer.stop();
 
@@ -87,6 +88,7 @@
 
 					}
 
+					// eslint-disable-next-line no-console
 					console.error( response );
 
 					form.before(`<div class="quiz-blocks-alert error">${quizBlocks.errorText}</div>`);
@@ -104,8 +106,8 @@
 
 			const results = quizResults.results;
 
-			for (var i = 0; i < results.length; i++) {
-				let nthChild = i+1;
+			for (let i = 0; i < results.length; i++) {
+				const nthChild = i+1;
 				form.find( '.question:nth-child(' + nthChild + ') .answers' ).addClass( results[i] );
 			}
 
@@ -116,9 +118,9 @@
 	/**
 	 * Rankings Modal
 	 *
-	 * @var {object}
+	 * @member {Object}
 	 */
-	var rankings = {
+	const rankings = {
 
 		show: function( event ) {
 			const button = $( event.target );
@@ -139,6 +141,7 @@
 
 					}
 
+					// eslint-disable-next-line no-console
 					console.error( response );
 				}
 			);
@@ -154,9 +157,9 @@
 	/**
 	 * Quiz Results.
 	 *
-	 * @var {object}
+	 * @member {Object}
 	 */
-	var results = {
+	const results = {
 
 		show: function( quizID, response ) {
 			// Do not show the user the results modal.
@@ -206,6 +209,7 @@
 
 					}
 
+					// eslint-disable-next-line no-console
 					console.error(response);
 				}
 			);
@@ -217,13 +221,13 @@
 	/**
 	 * Confetti
 	 *
-	 * @var {object}
+	 * @member {Object}
 	 */
-	var confetti = {
+	const confetti = {
 
 		start: function() {
 
-			var end = Date.now() + (2 * 1000);
+			const end = Date.now() + (2 * 1000);
 
 			(function frame() {
 				window.confetti({
@@ -255,7 +259,7 @@
 	let end = 0;
 	let msTimeTaken = 0;
 
-	var timer = {
+	const timer = {
 
 		start: function() {
 

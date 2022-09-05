@@ -24,8 +24,8 @@ registerBlockType(
 	metadata,
 	{
 		edit: Edit,
-		save: function(props) {
-			return null // See register_serverside_render_blocks(). This block is rendered via PHP.
+		save() {
+			return null; // See register_serverside_render_blocks(). This block is rendered via PHP.
 		},
 	}
 );

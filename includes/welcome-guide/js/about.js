@@ -2,9 +2,9 @@
 	'use strict';
 
 	function tabs() {
-		var $container = $( '.nav-tab-wrapper' ),
-			$tabs      = $container.find( '.nav-tab' ),
-			$panes     = $( '.gt-tab-pane' );
+		const $container = $( '.nav-tab-wrapper' );
+		const $tabs = $container.find( '.nav-tab' );
+		const $panes = $( '.gt-tab-pane' );
 
 		$container.on(
 			'click',

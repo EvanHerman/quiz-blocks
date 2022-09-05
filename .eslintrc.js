@@ -1,18 +1,37 @@
 module.exports = {
-  "extends": "eslint:recommended",
+  "extends": "plugin:@wordpress/eslint-plugin/recommended",
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
-  "ignorePatterns": ["src/js/*.min.js"],
+  "ignorePatterns": [
+    "Gruntfile.js",
+    "src/js/*.min.js",
+    "src/thirdparty/*"
+  ],
+  "plugins": [
+    'react'
+  ],
   "globals": {
-    "lityScriptData": true,
+    "wp": true,
+    "quizBlocks": true,
+    "quizBlocksQuiz": true,
     "jQuery": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
-    "no-extra-boolean-cast": "off"
+    "prettier/prettier": "off",
+    "jsdoc/require-param": "off",
+    "valid-jsdoc": "off",
+    "jsdoc/check-line-alignment": "off",
+    "jsdoc/check-alignment": "off",
+    "no-extra-boolean-cast": "off",
+    "no-unused-vars": "off",
+    "object-shorthand": "off",
+    "@wordpress/no-unsafe-wp-apis": "off"
   }
 }

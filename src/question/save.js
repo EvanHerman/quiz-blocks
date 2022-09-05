@@ -1,19 +1,4 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
  * The save function defines the way in which the different attributes should
  * be combined into the final markup, which is then serialized by the block
  * editor into `post_content`.
@@ -26,14 +11,14 @@ export default function save({ attributes }) {
 	const answerCountArray = Array.apply(null, Array(attributes.answerCount));
 
 	return (
-		<div class="question">
+		<div className="question">
 			<p><strong>{ attributes.question }</strong></p>
 			<div className="answers">
 				{answerCountArray.map((emptyValue, index) => {
 					return (
-						<div class="answer">
+						<div className="answer" key={index}>
 							<input type="radio" id={`answer-${index}`} value={index} required />
-							<label for={`answer-${index}`}>{attributes.answers[index]}</label>
+							<label htmlFor={`answer-${index}`}>{attributes.answers[index]}</label>
 						</div>
 					)
 				})}

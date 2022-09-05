@@ -143,7 +143,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -162,7 +161,6 @@ const Edit = _ref => {
   const quizzes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     return select('core').getEntityRecords('postType', 'quiz');
   }, []);
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
 
   const quizIDs = () => {
     if (!quizzes) {
@@ -177,7 +175,7 @@ const Edit = _ref => {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No Quiz', 'quiz-blocks'),
       value: 0
     }];
-    quizzes.map(quiz => {
+    quizzes.forEach(quiz => {
       var _quiz$title$raw;
 
       ids.push({
@@ -193,15 +191,15 @@ const Edit = _ref => {
   };
 
   const quizFields = () => {
-    const quizFields = quizzes.find(x => x.id === attributes.quizID);
+    const fields = quizzes.find(x => x.id === attributes.quizID);
 
-    if (!quizFields) {
+    if (!fields) {
       return;
     }
 
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       dangerouslySetInnerHTML: {
-        __html: unescapeHTML(quizFields.content.rendered)
+        __html: unescapeHTML(fields.content.rendered)
       }
     });
   };
@@ -228,7 +226,7 @@ const Edit = _ref => {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.showTitle ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Quiz Title Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Quiz Title Disabled', 'quiz-blocks'),
     checked: attributes.showTitle,
-    onChange: showTitle => setAttributes({
+    onChange: () => setAttributes({
       showTitle: !attributes.showTitle
     })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -237,7 +235,7 @@ const Edit = _ref => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.requireLogin ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Require Login', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Do Not Require Login', 'quiz-blocks'),
     checked: attributes.requireLogin,
-    onChange: requireLogin => {
+    onChange: () => {
       setAttributes({
         requireLogin: !attributes.requireLogin
       });
@@ -254,7 +252,7 @@ const Edit = _ref => {
     label: attributes.useRankings ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings Disabled', 'quiz-blocks'),
     checked: attributes.requireLogin && attributes.useRankings,
     disabled: !attributes.requireLogin,
-    onChange: useRankings => setAttributes({
+    onChange: () => setAttributes({
       useRankings: !attributes.useRankings
     }),
     help: attributes.useRankings ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The rankings are enabled. It is required that users are logged in for rankings to work.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rankings are disabled.', 'quiz-blocks')
@@ -262,26 +260,27 @@ const Edit = _ref => {
     label: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multiple Submissions Disabled', 'quiz-blocks'),
     checked: attributes.requireLogin && attributes.multipleSubmissions,
     disabled: !attributes.requireLogin,
-    onChange: multipleSubmissions => setAttributes({
+    onChange: () => setAttributes({
       multipleSubmissions: !attributes.multipleSubmissions
     }),
     help: attributes.multipleSubmissions ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can submit the quiz multiple times, but only the latest submission will be saved.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Users can only submit this quiz one time.', 'quiz-blocks')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.showResults ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Results Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Results Disabled', 'quiz-blocks'),
     checked: attributes.showResults,
-    onChange: showResults => setAttributes({
+    onChange: () => setAttributes({
       showResults: !attributes.showResults
     }),
     help: attributes.showResults ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Results will be shown to the user after the quiz is submitted. Users will see how many questions they got right, and the percent correct.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Results will not be shown to the user after the quiz is submitted.', 'quiz-blocks')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: attributes.showAnswers ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Answers Enabled', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Answers Disabled', 'quiz-blocks'),
     checked: attributes.showAnswers,
-    onChange: showAnswers => setAttributes({
+    onChange: () => setAttributes({
       showAnswers: !attributes.showAnswers
     }),
     help: attributes.showAnswers ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('After the quiz is submitted, the correct answers will be shown to the user.', 'quiz-blocks') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('After the quiz is submitted, the answers will not be shown to the user.', 'quiz-blocks')
   }))), !quizzes && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: _img_preloader_svg__WEBPACK_IMPORTED_MODULE_6__["default"],
+    alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Preloader', 'quiz-blocks'),
     className: "preloader"
   }), quizzes && !quizzes.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: "quiz-blocks-quiz",
@@ -351,9 +350,11 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__, {
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
-  save: function (props) {
+
+  save() {
     return null; // See register_serverside_render_blocks(). This block is rendered via PHP.
   }
+
 });
 
 /***/ }),
