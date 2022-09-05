@@ -1,6 +1,9 @@
-@import './animations';
-@import './table';
-@import './alerts';
+/* stylelint-disable no-descending-specificity */
+
+@import "./animations";
+@import "./table";
+@import "./alerts";
+@import "./answers";
 
 #confetti-canvas {
 	position: fixed;
@@ -18,8 +21,7 @@
 	.login-notice,
 	.multiple-submissions-disabled-notice {
 		position: absolute;
-		top: 0;
-		background: white;
+		background: #fff;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -31,7 +33,7 @@
 		z-index: 2;
 		border: 1px solid #21749b50;
 		border-radius: 5px;
-		box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
 
 		h4 {
 			margin: 1em auto;
@@ -90,7 +92,7 @@
 			width: 75%;
 			margin: 0 auto;
 			padding: 1em;
-			background: #ffffff;
+			background: #fff;
 		}
 	}
 
@@ -101,15 +103,13 @@
 			margin-top: 0;
 		}
 
-		strong+.answers {
+		strong + .answers {
 			margin-top: 0.75em;
 		}
 
 		p.description {
 			margin: 0 0 0.75em 0;
 		}
-
-		@import './answers';
 
 		.answer-explination {
 			color: #0c5460;
@@ -164,9 +164,9 @@
 	button.button {
 		background-color: #21759b;
 		border: none;
-		color: #ffffff;
+		color: #fff;
 		cursor: pointer;
-		font-weight: bold;
+		font-weight: 700;
 		margin: 2.5em 0 2em 0;
 		padding: 2em 0;
 		text-decoration: none;
@@ -195,13 +195,13 @@
 
 	.button_sliding_bg {
 		color: #27759a;
-		background: #ffffff;
+		background: #fff;
 		padding: 12px 17px;
 		margin: 25px;
-		font-family: 'OpenSansBold', sans-serif;
-		border: 3px solid #31302B;
+		font-family: OpenSansBold, sans-serif;
+		border: 3px solid #31302b;
 		font-size: 14px;
-		font-weight: bold;
+		font-weight: 700;
 		letter-spacing: 1px;
 		text-transform: uppercase;
 		border-radius: 2px;
@@ -216,8 +216,8 @@
 
 		&:hover {
 			background-size: 200% 200%;
-			background-position: 0px 0px;
-			color: #ffffff;
+			background-position: 0 0;
+			color: #fff;
 		}
 	}
 }

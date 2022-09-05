@@ -3,13 +3,18 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-@import '../scss/quiz';
-@import '../scss/animations';
+
+/* stylelint-disable no-descending-specificity */
+
+@import "../scss/quiz";
+@import "../scss/animations";
 
 div[data-type="quizblocks/quiz"] {
+
 	&.is-selected {
+
 		#quiz-blocks-quiz {
-		
+
 			&.create-quiz,
 			&.select-quiz {
 				opacity: 1;
@@ -32,11 +37,11 @@ div[data-type="quizblocks/quiz"] {
 
 		&.create-quiz,
 		&.select-quiz {
-			background-color: #FEF8EE;
+			background-color: #fef8ee;
 			border: 1px dashed #21759b;
 			padding: 1.5em;
 			text-align: center;
-			opacity: 0.50;
+			opacity: 0.5;
 
 			.components-select-control__input {
 				max-width: 100%;

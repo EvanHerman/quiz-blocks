@@ -6,10 +6,10 @@
 	min-width: 400px;
 	width: 100%;
 	text-align: center;
-	
+
 	thead tr {
 		background-color: #21759b;
-		color: #ffffff;
+		color: #fff;
 	}
 
 	th,
@@ -18,13 +18,13 @@
 	}
 
 	tbody tr {
-		border-bottom: thing solid #dddddd;
+		border-bottom: thing solid #ddd;
 
 		&.active-row {
-			font-weight: bold;
+			font-weight: 700;
 			color: #21759b;
 		}
-	
+
 		&:nth-of-type(even) {
 			background-color: #f3f3f3;
 		}

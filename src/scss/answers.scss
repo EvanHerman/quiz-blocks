@@ -1,11 +1,13 @@
-.answers {
+/* stylelint-disable no-descending-specificity */
+
+.question .answers {
 	display: inline-flex;
 	flex-wrap: wrap;
 	width: 100%;
 
 	&.correct {
 
-		& input:checked+label {
+		input:checked + label {
 			color: #155724 !important;
 			background-color: #d4edda !important;
 			border-color: #c3e6cb !important;
@@ -13,7 +15,8 @@
 	}
 
 	&.incorrect {
-		& input:checked+label {
+
+		input:checked + label {
 			// background: #c94e4e !important;
 			color: #721c24 !important;
 			background: #f8d7da !important;
@@ -49,7 +52,7 @@
 		}
 
 		label {
-			border: 1px solid skyblue;
+			border: 1px solid #87ceeb;
 			border-radius: 10px;
 			cursor: pointer;
 			display: block;
@@ -64,12 +67,12 @@
 			-ms-user-select: none;
 		}
 
-		input:checked+label {
-			background: skyblue;
+		input:checked + label {
+			background: #87ceeb;
 		}
 
-		input:not(:checked):disabled+label {
-			opacity: 0.50;
+		input:not(:checked):disabled + label {
+			opacity: 0.5;
 		}
 	}
 }
