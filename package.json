@@ -16,7 +16,7 @@
 		"min": "npm run min:js",
 		"min:js": "minify ./src/js/quiz-blocks-frontend.js > ./src/js/quiz-blocks-frontend.min.js && minify ./src/js/quiz-blocks-editor.js > ./src/js/quiz-blocks-editor.min.js",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
+		"plugin-zip": "wp-scripts plugin-zip && zip -d quiz-blocks.zip 'README.md' && zip -d quiz-blocks.zip 'package.json'",
 		"start": "wp-scripts start",
 		"watch": "npm-watch min",
 		"phpcs": "./vendor/bin/phpcs .",
@@ -24,6 +24,17 @@
 		"version": "grunt version && npm run generate-pot && git add -A .",
 		"postversion": "git push && git push -f --tags"
 	},
+	"files": [
+		"build",
+		"includes",
+		"languages",
+		"src/img",
+		"src/js",
+		"src/thirdparty",
+		"changelog.txt",
+		"quiz-blocks.php",
+		"readme.txt"
+	],
 	"watch": {
 		"min": {
 			"patterns": [

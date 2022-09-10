@@ -83,6 +83,19 @@ class Quiz_Blocks_Rankings {
 
 		ob_start();
 
+		if ( empty( $rankings ) ) {
+
+			?>
+
+			<h4 style="text-align: center;"><?php esc_html_e( 'No one has submitted this quiz yet.', 'quiz-blocks' ); ?></h4>
+			<h5 style="text-align: center;"><?php esc_html_e( 'You could be the first!', 'quiz-blocks' ); ?></h5>
+
+			<?php
+
+			return ob_get_clean();
+
+		}
+
 		?>
 
 		<table class="styled-table">
