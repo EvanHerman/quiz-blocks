@@ -183,7 +183,7 @@ class Quiz_Blocks_Submissions_Table {
 									<a class="button button-secondary" href="<?php echo esc_url( sprintf( admin_url( 'post.php?post=%s&action=edit' ), $this->quiz_id ) ); ?>" >
 										<?php esc_html_e( 'Edit Quiz', 'quiz-blocks' ); ?>
 									</a>
-									<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $this->quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" >
+									<a class="button button-secondary delete" <?php if ( empty( $this->submissions ) ) { ?> disabled="disabled" <?php } ?> onclick="<?php if ( empty( $this->submissions ) ) { ?>return false;<?php } else { ?>return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $this->quiz_id ) ) ); ?>' )<?php } ?>" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" >
 										<?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?>
 									</a>
 								</div>
