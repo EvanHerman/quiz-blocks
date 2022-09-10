@@ -43,7 +43,7 @@ body.post-type-quiz .edit-post-visual-editor__post-title-wrapper {
 		&.correct-answer::before {
 			content: "\f147";
 			color: #a5d7a5;
-			font-family: 'Dashicons';
+			font-family: Dashicons; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
 		}
 	}
 }
