@@ -97,7 +97,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 							<RichText
 								key={i}
 								tagName="p"
-								placeholder={sprintf(/* translators: %s is an integer value, the index in the loop. */ __('Answer %s', 'quiz-block'), i + 1)}
+								placeholder={sprintf(/* translators: %s is an integer value, the index in the loop. */ __('Answer %s', 'quiz-blocks'), i + 1)}
 								value={!!attributes.answers[i] ? attributes.answers[i] : ''}
 								onChange={(newAnswer) => {
 									const newAnswers = [...attributes.answers];
