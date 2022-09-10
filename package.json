@@ -13,19 +13,35 @@
 		"lint": "npm run lint:css && npm run lint:js",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"min": "npm run min:js",
+		"min:js": "minify ./src/js/quiz-blocks-frontend.js > ./src/js/quiz-blocks-frontend.min.js && minify ./src/js/quiz-blocks-editor.js > ./src/js/quiz-blocks-editor.min.js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
+		"watch": "npm-watch min",
 		"phpcs": "./vendor/bin/phpcs .",
 		"generate-pot": "wp i18n make-pot . languages/quiz-blocks.pot --domain=quiz-blocks --include=quiz-blocks.php,includes/*.php,src/*.js,!src/thirdparty/ --subtract-and-merge",
 		"version": "grunt version && npm run generate-pot && git add -A .",
 		"postversion": "git push && git push -f --tags"
+	},
+	"watch": {
+		"min": {
+			"patterns": [
+				"src/js"
+			],
+			"extensions": "js",
+			"quiet": true,
+			"runOnChangeOnly": true,
+			"ignore": "*.min.*"
+		}
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^13.0.0",
 		"@wordpress/scripts": "^23.6.0",
 		"eslint": "^8.17.0",
 		"grunt": "^1.5.3",
+		"minify": "^9.1.0",
+		"npm-watch": "^0.11.0",
 		"stylelint": "^14.9.1",
 		"stylelint-config-standard": "^26.0.0"
 	}

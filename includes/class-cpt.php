@@ -134,15 +134,6 @@ class Quiz_Blocks_CPT {
 
 		}
 
-		// View submissions script.
-		wp_enqueue_script(
-			'quiz-blocks-admin-table',
-			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/quiz-blocks-admin-table.js',
-			array( 'jquerymodal' ),
-			QUIZ_BLOCKS_VERSION,
-			true
-		);
-
 		$submissions = get_post_meta( $post_id, 'results', true );
 		$submissions = ! $submissions ? array() : $submissions;
 

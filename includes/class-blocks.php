@@ -110,7 +110,9 @@ class Quiz_Blocks_Blocks {
 
 		}
 
-		wp_enqueue_script( 'quiz-blocks-editor', plugin_dir_url( __FILE__ ) . '../src/js/quiz-blocks-editor.js', array( 'jquery' ), QUIZ_BLOCKS_VERSION, true );
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
+
+		wp_enqueue_script( 'quiz-blocks-editor', plugin_dir_url( __FILE__ ) . "../src/js/quiz-blocks-editor{$suffix}.js", array( 'jquery' ), QUIZ_BLOCKS_VERSION, true );
 
 	}
 
@@ -229,9 +231,11 @@ class Quiz_Blocks_Blocks {
 			true
 		);
 
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
+
 		wp_enqueue_script(
 			'quiz-blocks-frontend',
-			plugin_dir_url( dirname( __FILE__ ) ) . 'src/js/quiz-blocks-frontend.js',
+			plugin_dir_url( dirname( __FILE__ ) ) . "src/js/quiz-blocks-frontend{$suffix}.js",
 			array( 'jquerymodal', 'canvas-confetti' ),
 			QUIZ_BLOCKS_VERSION,
 			true
