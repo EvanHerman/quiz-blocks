@@ -10,46 +10,38 @@ Quickly and easily create beautiful quizzes for your WordPress website. Log user
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Quiz Blocks is a WordPress plugin that allows you to quickly and easily create beautiful tests and quizzes for your users to take on your website. Quiz Blocks includes many features, such as storing quiz submissions, showing results back to the user, displaying all user submissions on a leaderboard, and so much more.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/quiz-blocks` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-
+1. Upload the Quiz Blocks files to the `/wp-content/plugins/quiz-blocks` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the "Quiz Blocks" plugin.
+3. Navigate to "Quizzes" to create a new quiz.
+4. Inside the post or page edit screen you can use the 'Quiz' block to display the quiz anywhere on your site. (Note: If you are using the classic editor, you will have to use the `[quiz id="#"]` shortcode displayed on the 'Quizzes' page)
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Are user submissions stored? =
 
-An answer to that question.
+Yes, they can be. There is a setting toggle for each quiz to allow for submissions to be stored in the database. This can be turned off to not store user test submissions.
 
-= What about foo bar? =
+= How do I create a quiz? =
 
-Answer to foo bar dilemma.
+From the dashboard you can navigate to 'Quizzes > Add New Quiz' in the left hand navigation. You can add as many questions and answers as needed, there is no limit.
+
+= How do I show the quiz on my website? =
+
+On any post or page edit screen you can use the 'Quiz' block to display any quiz you have created on any page or post. Once you have added the quiz to the page you can toggle the quiz settings in the right hand sidebar, when the quiz block is selected.
+
+= Can I export the quiz results? =
+
+At this time, no. Quiz results cannot be exported.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. 
 
 == Changelog ==
 
-= 0.1.0 =
-* Release
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+= 1.0.0 =
+* Initial release of the Quiz Blocks WordPress plugin.
