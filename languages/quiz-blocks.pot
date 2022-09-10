@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-10T15:15:17+00:00\n"
+"POT-Creation-Date: 2022-09-10T16:15:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: quiz-blocks\n"
@@ -31,16 +31,16 @@ msgstr ""
 msgid "https://www.codeparrots.com"
 msgstr ""
 
-#: includes/class-blocks.php:192
+#: includes/class-blocks.php:194
 #: includes/class-cpt.php:81
 msgid "Quiz"
 msgstr ""
 
-#: includes/class-blocks.php:245
+#: includes/class-blocks.php:249
 msgid "Success!"
 msgstr ""
 
-#: includes/class-blocks.php:246
+#: includes/class-blocks.php:250
 msgid "Error!"
 msgstr ""
 
@@ -162,43 +162,43 @@ msgid "Quiz Shortcode"
 msgstr ""
 
 #. translators: %s is an integer value for the number of submission.
-#: includes/class-cpt.php:151
+#: includes/class-cpt.php:142
 msgid "%s submission"
 msgid_plural "%s submissions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-cpt.php:175
+#: includes/class-cpt.php:166
 #: includes/class-submissions-table.php:62
 msgid "(no name)"
 msgstr ""
 
-#: includes/class-cpt.php:180
+#: includes/class-cpt.php:171
 msgid "View Submissions"
 msgstr ""
 
 #. translators: %s is the name of the quiz.
-#: includes/class-cpt.php:187
+#: includes/class-cpt.php:178
 msgid "Are you sure you want to delete the %s submissions?"
 msgstr ""
 
 #. translators: %s is the name of the quiz.
-#: includes/class-cpt.php:188
+#: includes/class-cpt.php:179
 msgid "Clear All User Submissions"
 msgstr ""
 
 #. translators: %s is the users display name.
-#: includes/class-cpt.php:190
+#: includes/class-cpt.php:181
 #: includes/class-submissions-table.php:187
 msgid "Delete Submissions"
 msgstr ""
 
 #. translators: %s is the quiz name.
-#: includes/class-cpt.php:282
+#: includes/class-cpt.php:273
 msgid "%s submissions deleted."
 msgstr ""
 
-#: includes/class-cpt.php:317
+#: includes/class-cpt.php:308
 msgid "Quiz Name"
 msgstr ""
 
@@ -253,37 +253,45 @@ msgstr ""
 msgid "Number Correct: %s"
 msgstr ""
 
+#: includes/class-rankings.php:90
+msgid "No one has submitted this quiz yet."
+msgstr ""
+
 #: includes/class-rankings.php:91
+msgid "You could be the first!"
+msgstr ""
+
+#: includes/class-rankings.php:104
 #: includes/class-submissions-table.php:129
 #: includes/class-submissions-table.php:143
 msgid "Name"
 msgstr ""
 
-#: includes/class-rankings.php:92
+#: includes/class-rankings.php:105
 #: includes/class-submissions-table.php:133
 #: includes/class-submissions-table.php:147
 msgid "Percent Correct"
 msgstr ""
 
-#: includes/class-rankings.php:93
+#: includes/class-rankings.php:106
 msgid "Number Correct"
 msgstr ""
 
-#: includes/class-rankings.php:94
+#: includes/class-rankings.php:107
 #: includes/class-submissions-table.php:134
 #: includes/class-submissions-table.php:148
 msgid "Date"
 msgstr ""
 
-#: includes/class-rankings.php:142
+#: includes/class-rankings.php:155
 msgid "First Place"
 msgstr ""
 
-#: includes/class-rankings.php:147
+#: includes/class-rankings.php:160
 msgid "Second Place"
 msgstr ""
 
-#: includes/class-rankings.php:152
+#: includes/class-rankings.php:165
 msgid "Third Place"
 msgstr ""
 
@@ -593,7 +601,7 @@ msgid "What is the correct answer?"
 msgstr ""
 
 #: src/question/edit.js:84
-msgid "Type your question&hellip;"
+msgid "Type your question..."
 msgstr ""
 
 #: src/quiz/edit.js:50
