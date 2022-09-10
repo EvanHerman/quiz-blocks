@@ -81,7 +81,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				<strong>
 					<RichText
 						tagName="p"
-						placeholder={__('Type your question&hellip;', 'quiz-blocks')}
+						placeholder={__('Type your question...', 'quiz-blocks')} // eslint-disable-line @wordpress/i18n-ellipsis
 						value={attributes.question}
 						onChange={(question) => setAttributes({ question: question })}
 						className="quiz-block-question"
