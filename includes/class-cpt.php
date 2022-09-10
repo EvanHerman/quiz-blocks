@@ -181,7 +181,14 @@ class Quiz_Blocks_CPT {
 			</span>
 			|
 			<span class="trash">
-				<a href="<?php echo esc_url( $delete_url ); ?>" class="submitdelete" onclick="return confirm('<?php printf( /* translators: %s is the name of the quiz. */ esc_attr__( 'Are you sure you want to delete the %s submissions?', 'quiz-blocks' ), esc_attr( $quiz_name ) ); ?>')" aria-label="<?php esc_attr_e( 'Clear All User Submissions', 'quiz-blocks' ); ?>"><?php esc_attr_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
+				<a
+					href="<?php echo esc_url( $delete_url ); ?>"
+					class="submitdelete"
+					onclick="return confirm('<?php printf( /* translators: %s is the name of the quiz. */ __( 'Are you sure you want to delete the %s submissions?', 'quiz-blocks' ), esc_attr( $quiz_name ) ); ?>')"
+					aria-label="<?php esc_attr_e( 'Clear All User Submissions', 'quiz-blocks' ); ?>"
+				>
+					<?php esc_attr_e( 'Delete Submissions', 'quiz-blocks' ); ?>
+				</a>
 			</span>
 		</div>
 		<?php

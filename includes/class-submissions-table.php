@@ -125,8 +125,8 @@ class Quiz_Blocks_Submissions_Table {
 								<thead>
 									<tr>
 										<th scope="col" id="title" class="manage-column column-name column-primary sortable desc">
-											<a href="<?php echo esc_url( sprintf( admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s&orderby=name&order=asc' ), esc_attr( $quiz_id ) ) ); ?>">
-												<span>Name</span>
+											<a href="<?php echo esc_url( sprintf( admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s&orderby=name&order=asc' ), esc_attr( $this->quiz_id ) ) ); ?>">
+												<span><?php esc_html_e( 'Name', 'quiz-blocks' ); ?></span>
 												<span class="sorting-indicator"></span>
 											</a>
 										</th>
@@ -139,8 +139,8 @@ class Quiz_Blocks_Submissions_Table {
 								<tfoot>
 									<tr>
 										<th scope="col" id="title" class="manage-column column-name column-primary sortable desc">
-											<a href="<?php echo esc_url( sprintf( admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s&orderby=name&order=asc' ), esc_attr( $quiz_id ) ) ); ?>">
-												<span>Name</span>
+											<a href="<?php echo esc_url( sprintf( admin_url( 'edit.php?post_type=quiz&page=view-submissions&quiz=%s&orderby=name&order=asc' ), esc_attr( $this->quiz_id ) ) ); ?>">
+												<span><?php esc_html_e( 'Name', 'quiz-blocks' ); ?></span>
 												<span class="sorting-indicator"></span>
 											</a>
 										</th>
@@ -180,8 +180,12 @@ class Quiz_Blocks_Submissions_Table {
 										<li><?php printf( /* translators: %s is the average time to complete the quiz for all submissions. */ esc_html__( 'Average Completion Time: %s', 'quiz-blocks' ), esc_html( $average_completion_time ) ); ?></li>
 									</ul>
 
-									<a class="button button-secondary" href="<?php echo esc_url( sprintf( admin_url( 'post.php?post=%s&action=edit' ), $quiz_id ) ); ?>" ><?php esc_html_e( 'Edit Quiz', 'quiz-blocks' ); ?></a>
-									<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $this->quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" ><?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
+									<a class="button button-secondary" href="<?php echo esc_url( sprintf( admin_url( 'post.php?post=%s&action=edit' ), $this->quiz_id ) ); ?>" >
+										<?php esc_html_e( 'Edit Quiz', 'quiz-blocks' ); ?>
+									</a>
+									<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $this->quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" >
+										<?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?>
+									</a>
 								</div>
 								<!-- .inside -->
 

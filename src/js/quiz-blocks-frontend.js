@@ -42,11 +42,13 @@
 		},
 
 		enableForm: function( form ) {
-			form.find('input').removeAttr('disabled');
+			form.find( 'input' ).removeAttr( 'disabled' );
 		},
 
 		submitQuiz: function( event ) {
 			event.preventDefault();
+
+			const form = $(event.target);
 
 			if (
 				form.hasClass( 'not-logged-in' ) ||
@@ -55,9 +57,8 @@
 				return false; 
 			}
 
-			const form = $(event.target);
 			const answers = form.serialize();
-			const quizID = form.data('quizid');
+			const quizID = form.data( 'quizid' );
 
 			timer.stop();
 
