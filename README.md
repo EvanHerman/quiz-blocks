@@ -22,7 +22,7 @@
 </p>
 
 ## Installation
-- Download the .zip from this Github repository.
+- Download the latest release from <a href="#">WordPress.org</a> or this <a href="https://github.com/EvanHerman/quiz-blocks/releases/latest/">Github repository</a>.
 - Head to your WordPress admin dashboard and navigate to "Plugins > Add New".
 - Upload the .zip file you downloaded in step 1.
 - Activate the "Quiz Blocks" plugin.

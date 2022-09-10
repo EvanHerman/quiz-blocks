@@ -11,7 +11,7 @@
 	<?php
 	$plugin_data = get_plugin_data( dirname( __FILE__ ) . '../../../../quiz-blocks.php', false, false );
 
-	// Translators: %s - Plugin name.
+	// Translators: %s - Plugin name (Quiz Blocks).
 	echo esc_html( sprintf( __( 'Welcome to %s', 'quiz-blocks' ), $plugin_data['Name'] ) );
 	?>
 </h1>

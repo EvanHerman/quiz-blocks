@@ -1,0 +1,29 @@
+---
+name: Tagged Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  tagged-release:
+    name: Tagged Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: GuillaumeFalourd/setup-rsync@v1
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: ZIP the plugin
+        run: npm run plugin-zip
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: ./quiz-blocks.zip

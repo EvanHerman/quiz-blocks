@@ -10,14 +10,15 @@
 	"scripts": {
 		"build": "wp-scripts build",
 		"format": "wp-scripts format",
-		"lint": "yarn lint:css && yarn lint:js",
+		"lint": "npm run lint:css && npm run lint:js",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
 		"phpcs": "./vendor/bin/phpcs .",
-		"version": "grunt version && yarn generate-pot && git add -A .",
+		"generate-pot": "wp i18n make-pot . languages/quiz-blocks.pot --domain=quiz-blocks --include=quiz-blocks.php,includes/*.php,src/*.js,!src/thirdparty/ --subtract-and-merge",
+		"version": "grunt version && npm run generate-pot && git add -A .",
 		"postversion": "git push && git push -f --tags"
 	},
 	"devDependencies": {
