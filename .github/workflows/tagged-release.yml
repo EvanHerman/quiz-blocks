@@ -19,6 +19,9 @@ jobs:
       - name: Install npm dependencies
         run: sudo npm install
 
+      - name: Build the plugin
+        run: npm run build
+
       - name: ZIP the plugin
         run: npm run plugin-zip
 
