@@ -89,6 +89,10 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				</strong>
 				<div className="quiz-block-answers">
 					{answerCountArray.map((emptyValue, i) => {
+						let richTextClassNames = 'answer';
+						if ( attributes.correctAnswer === i ) {
+							richTextClassNames = 'answer correct-answer';
+						}
 						return (
 							<RichText
 								key={i}
@@ -100,7 +104,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 									newAnswers[i] = newAnswer;
 									setAttributes({ answers: newAnswers })
 								}}
-								className="answer"
+								className={richTextClassNames}
 								tabIndex={i}
 							/>
 						)

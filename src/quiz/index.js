@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { getBlockType, registerBlockType } from '@wordpress/blocks';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -20,12 +20,14 @@ import './style.scss';
 import Edit from './edit';
 import metadata from './block.json';
 
-registerBlockType(
-	metadata,
-	{
-		edit: Edit,
-		save() {
-			return null; // See register_serverside_render_blocks(). This block is rendered via PHP.
-		},
-	}
-);
+if ( ! getBlockType( 'quizblocks/quiz' ) ) {
+	registerBlockType(
+		metadata,
+		{
+			edit: Edit,
+			save() {
+				return null; // See register_serverside_render_blocks(). This block is rendered via PHP.
+			},
+		}
+	);
+}

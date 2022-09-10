@@ -90,12 +90,12 @@ class Quiz_Blocks_Submissions_Table {
 		<style type="text/css">
 		a.button.button-secondary.delete {
 			color: #721c24;
-			background-color: #f8d7da;
+			background-color: #fff8f9;
 			border-color: #aa8084;
 		}
 
 			a.button.button-secondary.delete:hover {
-				background-color: #f5cace;
+				background-color: #fdf0f2;
 			}
 		</style>
 
@@ -181,7 +181,7 @@ class Quiz_Blocks_Submissions_Table {
 									</ul>
 
 									<a class="button button-secondary" href="<?php echo esc_url( sprintf( admin_url( 'post.php?post=%s&action=edit' ), $quiz_id ) ); ?>" ><?php esc_html_e( 'Edit Quiz', 'quiz-blocks' ); ?></a>
-									<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" ><?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
+									<a class="button button-secondary delete" onclick="return confirm( '<?php printf( /* translators: %s is the users display name. */ esc_attr__( 'Are you sure you want to delete all %s submissions? This cannot be undone.', 'quiz-blocks' ), esc_attr( get_the_title( $this->quiz_id ) ) ); ?>' )" href="<?php echo esc_url( $delete_all_submissions_url ); ?>" ><?php esc_html_e( 'Delete Submissions', 'quiz-blocks' ); ?></a>
 								</div>
 								<!-- .inside -->
 

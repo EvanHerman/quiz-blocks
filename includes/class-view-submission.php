@@ -300,12 +300,12 @@ class Quiz_Blocks_View_Submission {
 		<style type="text/css">
 		a.button.button-secondary.delete {
 			color: #721c24;
-			background-color: #f8d7da;
+			background-color: #fff8f9;
 			border-color: #aa8084;
 		}
 
 			a.button.button-secondary.delete:hover {
-				background-color: #f5cace;
+				background-color: #fdf0f2;
 			}
 		</style>
 

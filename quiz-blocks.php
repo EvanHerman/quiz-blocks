@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:       Quiz Blocks
- * Description:       Quiz blocks for WordPress.
+ * Description:       A WordPress plugin to easily create beautiful quizzes for your website. Log user scores, time to completion, show a leaderboard and much more!
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           0.1.0
+ * Version:           1.0.0
  * Author:            Code Parrots
  * Author URI:        https://www.codeparrots.com
  * License:           GPL-2.0-or-later
