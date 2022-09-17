@@ -1,7 +1,7 @@
 {
 	"name": "quiz-blocks",
 	"version": "0.1.0",
-	"jquery_modal_version": "0.9.1",
+	"quiz_blocks_jquery_modal_version": "0.9.1",
 	"tested_up_to": "6.0",
 	"description": "Example static block scaffolded with Create Block tool.",
 	"author": "The WordPress Contributors",
