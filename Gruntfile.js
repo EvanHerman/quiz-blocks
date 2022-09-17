@@ -27,13 +27,13 @@ module.exports = function (grunt) {
             from: /Version:(\s*?)[a-zA-Z0-9\.\-\+]+$/m,
             to: 'Version:$1' + pkg.version,
           },
-          {QUIZ_BLOCKS_VERSION
+          {
             from: /define\(\s*'QUIZ_BLOCKS_VERSION',\s*'(.*)'\s*\);/,
             to: 'define( \'QUIZ_BLOCKS_VERSION\', \'<%= pkg.version %>\' );',
           },
           {
-            from: /define\(\s*'JQUERY_MODAL_VERSION',\s*'(.*)'\s*\);/,
-            to: 'define( \'JQUERY_MODAL_VERSION\', \'<%= pkg.jquery_modal_version %>\' );',
+            from: /define\(\s*'QUIZ_BLOCKS_JQUERY_MODAL_VERSION',\s*'(.*)'\s*\);/,
+            to: 'define( \'QUIZ_BLOCKS_JQUERY_MODAL_VERSION\', \'<%= pkg.quiz_blocks_jquery_modal_version %>\' );',
           },
           {
             from: /Tested up to:(\s*?)[a-zA-Z0-9\.\-\+]+$/m,

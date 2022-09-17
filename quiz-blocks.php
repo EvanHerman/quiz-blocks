@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'QUIZ_BLOCKS_VERSION', '1.0.0' );
-define( 'JQUERY_MODAL_VERSION', '0.9.1' );
+define( 'QUIZ_BLOCKS_JQUERY_MODAL_VERSION', '0.9.1' );
 
 /**
  * Quiz Blocks main class.
